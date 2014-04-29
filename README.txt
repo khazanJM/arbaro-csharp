@@ -18,7 +18,7 @@ I will add a comment (the like of "source code ported from Arbaro") in all files
 
 2/ Purpose
 
-Arbaro is a nice software. I helped me get into what Weber described in their original paper.
+Arbaro is a nice software. It helps me get into what Weber described in their original paper.
 Though Arbaro is getting quite old and I think it deserve a new version.
 My goal here is twofold
 - Provide this new version
