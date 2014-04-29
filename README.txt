@@ -1,11 +1,8 @@
-﻿0/ License
+﻿
+This is basically a port of Arbaro to CSharp using DirectX through SharpDX
+Arbaro can be found here: http://arbaro.sourceforge.net/
 
-I'm not a legal person.
-This is basically a port of Arbaro to C# with (possibly) tons of modifications.
-To the extent that at some point nothing will be left of Arbaro.
-I don't know how Arbaro licensing is involved.
-As far as I'm concerned everything I provide here is public domain.
-I will add a comment (the like of "source code ported from Arbaro") in all files where it is the case.
+
 
 1/ Dependencies
 
