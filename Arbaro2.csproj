@@ -69,6 +69,9 @@
       <DependentUpon>ArbaroMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Arbaro\Params\CS_AbstractParam.cs" />
+    <Compile Include="Arbaro\Params\CS_FloatParam.cs" />
+    <Compile Include="Arbaro\Params\CS_IntParam.cs" />
+    <Compile Include="Arbaro\Params\CS_StringParam.cs" />
     <Compile Include="Arbaro\Transformation\Matrix.cs" />
     <Compile Include="Arbaro\Transformation\Transformation.cs" />
     <Compile Include="Arbaro\Transformation\Vector.cs" />

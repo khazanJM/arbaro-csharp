@@ -27,7 +27,7 @@ namespace Arbaro2.Arbaro.Params
     public abstract class CS_AbstractParam
     {
         public static int GENERAL = -999; // no level - general params
-        String name;
+        public String name;
         String group;
         int level;
         int order;
