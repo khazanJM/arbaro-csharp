@@ -32,7 +32,8 @@ namespace Arbaro2.Arbaro.GUI
             _groupName = group;
             _groupLevel = level;
 
-            _csparams.getParamGroup(_groupLevel, _groupName);
+            Dictionary<int, CS_AbstractParam> p = _csparams.getParamGroup(_groupLevel, _groupName);
+            
         }
     }
 
