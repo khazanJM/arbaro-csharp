@@ -73,6 +73,7 @@
     <Compile Include="Arbaro\Params\CS_IntParam.cs" />
     <Compile Include="Arbaro\Params\CS_LeafShapeParam.cs" />
     <Compile Include="Arbaro\Params\CS_LevelParams.cs" />
+    <Compile Include="Arbaro\Params\CS_Params.cs" />
     <Compile Include="Arbaro\Params\CS_Random.cs" />
     <Compile Include="Arbaro\Params\CS_ShapeParam.cs" />
     <Compile Include="Arbaro\Params\CS_StringParam.cs" />

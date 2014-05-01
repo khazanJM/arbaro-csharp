@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//
+//  Ported from original Arbaro software
+//
+
 namespace Arbaro2.Arbaro.Params
 {
     public class CS_Random

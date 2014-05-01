@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+//
+//  Ported from original Arbaro software
+//
 
 namespace Arbaro2.Arbaro.Params
 {
@@ -121,41 +126,45 @@ namespace Arbaro2.Arbaro.Params
             splitErrorValue = spliterrval;
         }
 
-        /*
-    // help methods for output of params
-    private void writeParamXml(PrintWriter w, String name, int value) {
-        String fullname = "" + level + name.substring(1);
-        w.println("    <param name='" + fullname + "' value='"+value+"'/>");
-    }
-	
-    private void writeParamXML(PrintWriter w, String name, double value) {
-        String fullname = "" + level + name.substring(1);
-        w.println("    <param name='" + fullname + "' value='"+value+"'/>");
-    }
-	
-    void toXML(PrintWriter w, boolean leafLevelOnly) {
-        w.println("    <!-- level " + level  + " -->");
-        writeParamXML(w,"nDownAngle",nDownAngle);
-        writeParamXML(w,"nDownAngleV",nDownAngleV);
-        writeParamXML(w,"nRotate",nRotate);
-        writeParamXML(w,"nRotateV",nRotateV);
-        if (! leafLevelOnly) {
-            writeParamXml(w,"nBranches",nBranches);
-            writeParamXML(w,"nBranchDist",nBranchDist);
-            //	    xml_param(w,"nBranchDistV",nBranchDistV);
-            writeParamXML(w,"nLength",nLength);
-            writeParamXML(w,"nLengthV",nLengthV);
-            writeParamXML(w,"nTaper",nTaper);
-            writeParamXML(w,"nSegSplits",nSegSplits);
-            writeParamXML(w,"nSplitAngle",nSplitAngle);
-            writeParamXML(w,"nSplitAngleV",nSplitAngleV);
-            writeParamXml(w,"nCurveRes",nCurveRes);
-            writeParamXML(w,"nCurve",nCurve);
-            writeParamXML(w,"nCurveBack",nCurveBack);
-            writeParamXML(w,"nCurveV",nCurveV);
+
+        // help methods for output of params
+        private void writeParamXml(StreamWriter w, String name, int value)
+        {
+            String fullname = "" + level + name.Substring(1);
+            w.WriteLine("    <param name='" + fullname + "' value='" + value + "'/>");
         }
-    }
-    */
+
+        private void writeParamXML(StreamWriter w, String name, double value)
+        {
+            String fullname = "" + level + name.Substring(1);
+            w.WriteLine("    <param name='" + fullname + "' value='" + value + "'/>");
+        }
+
+        public void toXML(StreamWriter w, bool leafLevelOnly)
+        {
+            w.WriteLine("    <!-- level " + level + " -->");
+            writeParamXML(w, "nDownAngle", nDownAngle);
+            writeParamXML(w, "nDownAngleV", nDownAngleV);
+            writeParamXML(w, "nRotate", nRotate);
+            writeParamXML(w, "nRotateV", nRotateV);
+            if (!leafLevelOnly)
+            {
+                writeParamXml(w, "nBranches", nBranches);
+                writeParamXML(w, "nBranchDist", nBranchDist);
+                //	    xml_param(w,"nBranchDistV",nBranchDistV);
+                writeParamXML(w, "nLength", nLength);
+                writeParamXML(w, "nLengthV", nLengthV);
+                writeParamXML(w, "nTaper", nTaper);
+                writeParamXML(w, "nSegSplits", nSegSplits);
+                writeParamXML(w, "nSplitAngle", nSplitAngle);
+                writeParamXML(w, "nSplitAngleV", nSplitAngleV);
+                writeParamXml(w, "nCurveRes", nCurveRes);
+                writeParamXML(w, "nCurve", nCurve);
+                writeParamXML(w, "nCurveBack", nCurveBack);
+                writeParamXML(w, "nCurveV", nCurveV);
+            }
+        }
+
 
         // help method for loading params
         private int intParam(String name)
@@ -182,7 +191,7 @@ namespace Arbaro2.Arbaro.Params
             throw new Exception("bug: param " + fullname + " not found!");
         }
 
-        void fromDB(bool leafLevelOnly)
+        public void fromDB(bool leafLevelOnly)
         {
             if (!leafLevelOnly)
             {
