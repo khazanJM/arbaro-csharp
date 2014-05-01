@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+//
+//  Ported from original Arbaro software
+//
+
 namespace Arbaro2.Arbaro.GUI
 {
     public class CS_GroupNode
@@ -46,6 +50,20 @@ namespace Arbaro2.Arbaro.GUI
         {
             _tv = tv;
             CreateNodes();
+            _tv.AfterSelect += _tv_AfterSelect;
+        }
+
+        void _tv_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.IsSelected)
+            {
+                CS_GroupNode gn = e.Node.Tag as CS_GroupNode;
+                //if(gn != null) Console.WriteLine(gn.getGroupLabel() + " " + gn.getGroupLevel() + " " + gn.getGroupName());
+                if (gn != null)
+                {
+                    // A group was selected -> create the matching table of values
+                }
+            }
         }
 
         private void CreateNodes()

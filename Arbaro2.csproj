@@ -69,6 +69,7 @@
       <DependentUpon>ArbaroMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Arbaro\GUI\CS_ParamGroupsView.cs" />
+    <Compile Include="Arbaro\GUI\CS_ParamValueTable.cs" />
     <Compile Include="Arbaro\Params\CS_AbstractParam.cs" />
     <Compile Include="Arbaro\Params\CS_FloatParam.cs" />
     <Compile Include="Arbaro\Params\CS_IntParam.cs" />

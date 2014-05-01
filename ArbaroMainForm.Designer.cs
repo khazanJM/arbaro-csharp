@@ -134,6 +134,7 @@
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "ArbaroMainForm";
             this.Text = "Arbaro C# V0.1";
+            this.Shown += new System.EventHandler(this.ArbaroMainForm_Shown);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
