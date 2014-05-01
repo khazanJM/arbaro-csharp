@@ -1031,17 +1031,6 @@ namespace Arbaro2.Arbaro.Params
 
         }
 
-        /*
-    public void readFromCfg(InputStream istream) {
-        CfgTreeParser parser = new CfgTreeParser();
-        try {
-            parser.parse(is,this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    */
-
         public void readFromXML(StreamReader istream)
         {
             try
@@ -1060,16 +1049,6 @@ namespace Arbaro2.Arbaro.Params
             return (CS_AbstractParam)paramDB[parname];
         }
 
-        /*
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
-    }
-	
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
-    }
-    */
-
         protected void raiseOnParamChanged(string p)
         {
             EventHandler<CS_ParamChangedArgs> handler = OnParamChanged;
@@ -1079,19 +1058,7 @@ namespace Arbaro2.Arbaro.Params
                 handler(null, new CS_ParamChangedArgs(p));
             }
         }
-        /*
-    protected void fireStateChanged() {
-        Object [] listeners = listenerList.getListenerList();
-        for (int i = listeners.length -2; i>=0; i-=2) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
-                }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
-            }
-        }
-    }
-    */
+ 
 
         /**
          * Enables or disables params depending on other
