@@ -12,22 +12,6 @@ using System.Xml;
 
 namespace Arbaro2.Arbaro.Params
 {
-    class XMLTreeParser
-    {
-
-        XmlDocument parser;
-
-        public XMLTreeParser()
-        {
-            parser = new XmlDocument();
-        }
-
-        public void parse()
-        {
-
-        }
-    }
-
     public class CS_Params
     {
 
@@ -1031,12 +1015,19 @@ namespace Arbaro2.Arbaro.Params
 
         }
 
-        public void readFromXML(StreamReader istream)
+        public void readFromXML(string filename)
         {
             try
-            {
-                XMLTreeParser parser = new XMLTreeParser();
-                parser.parse();
+            {              
+                XmlDocument doc = new XmlDocument();
+                doc.Load(filename);
+                XmlNodeList elemList = doc.GetElementsByTagName("species");
+                setParam("Species", elemList[0].Attributes.GetNamedItem("name").Value);
+
+                elemList = doc.GetElementsByTagName("param");
+                foreach (XmlNode n in elemList) {
+                    setParam(n.Attributes.GetNamedItem("name").Value, n.Attributes.GetNamedItem("value").Value);
+                }
             }
             catch (Exception e)
             {
