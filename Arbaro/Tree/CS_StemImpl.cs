@@ -349,7 +349,7 @@ namespace Arbaro2.Arbaro.Tree
 			makeSegments(0,segmentCount);
 			return true;
 		} else {
-			DBG("length "+length+" (after pruning?) to small - stem not created");
+			//DBG("length "+length+" (after pruning?) to small - stem not created");
 			return false;
 		}
 		
@@ -396,8 +396,8 @@ namespace Arbaro2.Arbaro.Tree
 			segmentLength = length/lpar.nCurveRes;
 			baseRadius = stemBaseRadius();
 			
-			if (length>MIN_STEM_LEN && baseRadius < MIN_STEM_RADIUS)
-				Console.WriteLine("WARNING: stem radius ("+baseRadius+") too small for stem "+getTreePosition());
+			//if (length>MIN_STEM_LEN && baseRadius < MIN_STEM_RADIUS)
+			//	Console.WriteLine("WARNING: stem radius ("+baseRadius+") too small for stem "+getTreePosition());
 			
 			// test once more
 			if (length > MIN_STEM_LEN) segm = makeSegments(0,segmentCount);
@@ -595,7 +595,7 @@ namespace Arbaro2.Arbaro.Tree
 			double rho = 180+lpar.var(180);
 			trf = trf.rotaxisz(delta,rho);
 		}  
-		TRF("Stem.new_direction() after curving",trf);
+		//TRF("Stem.new_direction() after curving",trf);
 		
 		// attraction up/down
 		if (par.AttractionUp != 0 && stemlevel>=2) {
@@ -700,7 +700,7 @@ namespace Arbaro2.Arbaro.Tree
 			if (par.Flare != 0) {
 				double y = Math.Max(0,1-8*Z);
 				double flare = 1 + par.Flare * (Math.Pow(100,y) - 1) / 100.0;
-				DBG("Stem.stem_radius(): Flare: "+flare+" h: "+h+" Z: "+Z);
+				//DBG("Stem.stem_radius(): Flare: "+flare+" h: "+h+" Z: "+Z);
 				radius = radius*flare;
 			}
 			// add lobes - this is done in mesh creation not here at the moment
@@ -714,7 +714,7 @@ namespace Arbaro2.Arbaro.Tree
 			radius = radius*par._0Scale;
 		}
 		
-		DBG("Stem.stem_radius("+h+") = "+radius);
+		//DBG("Stem.stem_radius("+h+") = "+radius);
 		
 		return radius;
 	}
@@ -752,8 +752,8 @@ namespace Arbaro2.Arbaro.Tree
 			substem_cnt = (int)(stems_max * 
 					(0.2 + 0.8*length/parent.length/parent.lengthChildMax));
 			substemsPerSegment = substem_cnt / (float)segmentCount;
-			DBG("Stem.prepare_substem_params(): substem_cnt: "+ substem_cnt 
-					+ " substems_per_segment: " + substemsPerSegment);
+			/*DBG("Stem.prepare_substem_params(): substem_cnt: "+ substem_cnt 
+					+ " substems_per_segment: " + substemsPerSegment);*/
 		} else {
 			substem_cnt = (int)(stems_max * (1.0 - 0.5 * offset/parent.length));
 			substemsPerSegment = substem_cnt / (float)segmentCount;
@@ -777,7 +777,7 @@ namespace Arbaro2.Arbaro.Tree
 		if (par.Leaves==0) return 0;
 		if (stemlevel == 0) {
 			// FIXME: maybe set Leaves=0 when Levels=1 in Params.prepare()
-            Console.WriteLine ("WARNING: trunk cannot have leaves, no leaves are created");
+            //Console.WriteLine ("WARNING: trunk cannot have leaves, no leaves are created");
 			return 0;
 		}
 		
@@ -833,13 +833,13 @@ namespace Arbaro2.Arbaro.Tree
 		
 		if (substems_eff <= 0) return;
 		
-		DBG("Stem.make_substems(): substems_eff: "+substems_eff);
+		//DBG("Stem.make_substems(): substems_eff: "+substems_eff);
 		
 		// what distance between the segements substems
 		double dist = (1.0-offs)/substems_eff*lpar_1.nBranchDist;
 		double distv = dist*0.25; // lpar_1.nBranchDistV/2;
 		
-		DBG("Stem.make_substems(): offs: "+offs+" dist: "+dist+" distv: "+distv);
+		//DBG("Stem.make_substems(): offs: "+offs+" dist: "+dist+" distv: "+distv);
 		
 		for (int s=0; s<substems_eff; s++) {
 			// where on the segment add the substem
@@ -858,7 +858,7 @@ namespace Arbaro2.Arbaro.Tree
 			// create new substem
 			CS_StemImpl substem = new CS_StemImpl(tree,this,stemlevel+1,trf,offset);
 			substem.index=substems.Count;
-			DBG("Stem.make_substems(): make new substem");
+			//DBG("Stem.make_substems(): make new substem");
 			if (substem.make()) {
 				substems.Add(substem);
 //			

@@ -1,5 +1,6 @@
 ﻿using Arbaro2.Arbaro.GUI;
 using Arbaro2.Arbaro.Params;
+using Arbaro2.Arbaro.Tree;
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Arbaro2
         CS_ParamGroupsView pgv;
         CS_ParamValueTable pvt;
         CS_Params csParams = new CS_Params();
+        CS_Tree tree;
 
         public ArbaroMainForm()
         {
@@ -38,8 +40,10 @@ namespace Arbaro2
 
         void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node != null) {
-                if (e.Node.Tag != null) {
+            if (e.Node != null)
+            {
+                if (e.Node.Tag != null)
+                {
                     CS_GroupNode gn = e.Node.Tag as CS_GroupNode;
                     pvt.ShowGroup(gn.getGroupName(), gn.getGroupLevel());
                 }
@@ -53,6 +57,12 @@ namespace Arbaro2
             {
                 csParams.readFromXML(mainOpenFileDialog.FileName);
                 csParams.enableDisable();
+
+                CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
+                tree = treeGenerator.makeTree(new Object());
+                Console.WriteLine("Done");
+
+                // Display the tree
             }
         }
     }
