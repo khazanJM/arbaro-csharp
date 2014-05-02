@@ -45,5 +45,15 @@ namespace Arbaro2
                 }
             }
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainOpenFileDialog.Filter = "xml files (*.xml)|*.xml";
+            if (mainOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                csParams.readFromXML(mainOpenFileDialog.FileName);
+                csParams.enableDisable();
+            }
+        }
     }
 }

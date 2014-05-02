@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,8 @@ namespace Arbaro2.Arbaro.Params
             double d;
             try
             {
+                string uiSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+                val = val.Replace(".", uiSep);
                 d = Double.Parse(val);
             }
             catch (Exception)

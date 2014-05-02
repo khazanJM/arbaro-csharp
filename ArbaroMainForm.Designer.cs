@@ -37,8 +37,9 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.paramTablePanel = new System.Windows.Forms.Panel();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.mainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +80,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -117,6 +119,15 @@
             this.panel1.Size = new System.Drawing.Size(200, 472);
             this.panel1.TabIndex = 1;
             // 
+            // paramTablePanel
+            // 
+            this.paramTablePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.paramTablePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.paramTablePanel.Location = new System.Drawing.Point(0, 253);
+            this.paramTablePanel.Name = "paramTablePanel";
+            this.paramTablePanel.Size = new System.Drawing.Size(200, 161);
+            this.paramTablePanel.TabIndex = 1;
+            // 
             // treeView1
             // 
             this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -126,14 +137,9 @@
             this.treeView1.Size = new System.Drawing.Size(200, 253);
             this.treeView1.TabIndex = 0;
             // 
-            // paramTablePanel
+            // mainOpenFileDialog
             // 
-            this.paramTablePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.paramTablePanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.paramTablePanel.Location = new System.Drawing.Point(0, 253);
-            this.paramTablePanel.Name = "paramTablePanel";
-            this.paramTablePanel.Size = new System.Drawing.Size(200, 161);
-            this.paramTablePanel.TabIndex = 1;
+            this.mainOpenFileDialog.FileName = "openFileDialog1";
             // 
             // ArbaroMainForm
             // 
@@ -167,6 +173,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.Panel paramTablePanel;
+        private System.Windows.Forms.OpenFileDialog mainOpenFileDialog;
     }
 }
 

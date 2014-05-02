@@ -479,10 +479,7 @@ namespace Arbaro2.Arbaro.Params
             if (p != null)
             {
                 p.setValue(value);
-                /*if (debug) {
-                    System.err.println("Params.setParam(): set "+name+" to "+value);
-                }*/
-
+                Console.WriteLine("Params.setParam(): set "+name+" to "+value);
             }
             else
             {
