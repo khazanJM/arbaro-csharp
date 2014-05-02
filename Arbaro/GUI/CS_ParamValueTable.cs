@@ -46,10 +46,26 @@ namespace Arbaro2.Arbaro.GUI
                 lbl.Text = p.name;
                                
                 if (p.name == "Shape")
-                { 
+                {
+                    ComboBox shp = new ComboBox();
+                    shp.Parent = _paramValuePanel;
+                    shp.Left = 90;
+                    shp.Width = 100;
+                    shp.Top = Y;
+                    shp.Items.AddRange(CS_ShapeParam.values());
+                    shp.SelectedText = (p as CS_ShapeParam).toString();
+                    shp.Enabled = (p as CS_AbstractParam).getEnabled();
                 }
                 else if (p.name == "LeafShape") 
-                { 
+                {
+                    ComboBox shp = new ComboBox();
+                    shp.Parent = _paramValuePanel;
+                    shp.Left = 90;
+                    shp.Width = 100;
+                    shp.Top = Y;
+                    shp.Items.AddRange(CS_LeafShapeParam.values());
+                    shp.SelectedText = (p as CS_LeafShapeParam).toString();
+                    shp.Enabled = (p as CS_AbstractParam).getEnabled();
                 }
                 else
                 {
@@ -60,6 +76,7 @@ namespace Arbaro2.Arbaro.GUI
                     tb.Top = Y;
                     
                     tb.Text = p.getValue().ToString();
+                    tb.Enabled = (p as CS_AbstractParam).getEnabled();
                 }
 
                 Y += lbl.Height + 3;

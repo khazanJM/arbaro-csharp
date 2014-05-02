@@ -26,6 +26,7 @@ namespace Arbaro2
             Height = 768;
 
             csParams.prepare(13);
+            csParams.enableDisable();
         }
 
         private void ArbaroMainForm_Shown(object sender, EventArgs e)
