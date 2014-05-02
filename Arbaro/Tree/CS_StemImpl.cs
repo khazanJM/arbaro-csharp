@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//  Ported from original Arbaro software
+
 namespace Arbaro2.Arbaro.Tree
 {
     public class CS_StemImpl : CS_Stem
