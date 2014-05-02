@@ -41,8 +41,28 @@ namespace Arbaro2.Arbaro.GUI
             {
                 lbl = new Label();
                 lbl.Parent = _paramValuePanel;
-                lbl.Left = 5; lbl.Top = Y; Y += lbl.Height + 3;
+                lbl.Left = 5; lbl.Top = Y+3;
+                lbl.Width = 80;
                 lbl.Text = p.name;
+                               
+                if (p.name == "Shape")
+                { 
+                }
+                else if (p.name == "LeafShape") 
+                { 
+                }
+                else
+                {
+                    TextBox tb = new TextBox();
+                    tb.Parent = _paramValuePanel;
+                    tb.Left = 90;
+                    tb.Width = 100;
+                    tb.Top = Y;
+                    
+                    tb.Text = p.getValue().ToString();
+                }
+
+                Y += lbl.Height + 3;
             }
 
             _paramValuePanel.Height = lbl.Bottom + 5;
