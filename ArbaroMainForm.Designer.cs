@@ -38,6 +38,7 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.paramTablePanel = new System.Windows.Forms.Panel();
             this.mainMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -97,7 +98,7 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
             // 
             // quitToolStripMenuItem
             // 
@@ -108,27 +109,37 @@
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.paramTablePanel);
             this.panel1.Controls.Add(this.treeView1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 426);
+            this.panel1.Size = new System.Drawing.Size(200, 472);
             this.panel1.TabIndex = 1;
             // 
             // treeView1
             // 
+            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(198, 253);
+            this.treeView1.Size = new System.Drawing.Size(200, 253);
             this.treeView1.TabIndex = 0;
+            // 
+            // paramTablePanel
+            // 
+            this.paramTablePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.paramTablePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.paramTablePanel.Location = new System.Drawing.Point(0, 253);
+            this.paramTablePanel.Name = "paramTablePanel";
+            this.paramTablePanel.Size = new System.Drawing.Size(200, 161);
+            this.paramTablePanel.TabIndex = 1;
             // 
             // ArbaroMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(799, 450);
+            this.ClientSize = new System.Drawing.Size(799, 496);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
@@ -155,6 +166,7 @@
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.Panel paramTablePanel;
     }
 }
 

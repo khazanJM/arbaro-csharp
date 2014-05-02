@@ -13,17 +13,15 @@ using System.Windows.Forms;
 namespace Arbaro2.Arbaro.GUI
 {
     public class CS_ParamValueTable
-    {
-        private TreeView _tv;
+    {     
+        private Panel _paramValuePanel;
         private CS_Params _csparams;
         private string _groupName;
         private int _groupLevel;
-
-        // tv used to grab the parent panel
-        // also to put table cells below the tree view
-        public CS_ParamValueTable(TreeView tv, CS_Params csparams) 
+       
+        public CS_ParamValueTable(Panel paramValuePanel, CS_Params csparams) 
         {
-            _tv = tv;
+            _paramValuePanel = paramValuePanel;
             _csparams = csparams;
         }
 
@@ -32,8 +30,22 @@ namespace Arbaro2.Arbaro.GUI
             _groupName = group;
             _groupLevel = level;
 
-            Dictionary<int, CS_AbstractParam> p = _csparams.getParamGroup(_groupLevel, _groupName);
-            
+            SortedList<int, CS_AbstractParam> par = _csparams.getParamGroup(_groupLevel, _groupName);
+
+            _paramValuePanel.Controls.Clear();
+
+            int Y = 5;
+            Label lbl = null;
+
+            foreach (CS_AbstractParam p in par.Values)
+            {
+                lbl = new Label();
+                lbl.Parent = _paramValuePanel;
+                lbl.Left = 5; lbl.Top = Y; Y += lbl.Height + 3;
+                lbl.Text = p.name;
+            }
+
+            _paramValuePanel.Height = lbl.Bottom + 5;
         }
     }
 

@@ -504,9 +504,9 @@ namespace Arbaro2.Arbaro.Params
             }
             return result;
         }*/
-        public Dictionary<int, CS_AbstractParam> getParamGroup(int level, String group)
+        public SortedList<int, CS_AbstractParam> getParamGroup(int level, String group)
         {
-            Dictionary<int, CS_AbstractParam> result = new Dictionary<int, CS_AbstractParam>();
+            SortedList<int, CS_AbstractParam> result = new SortedList<int, CS_AbstractParam>();
             foreach (CS_AbstractParam p in paramDB.Values)
             {
                 if (p.getLevel() == level && p.getGroup() == group)
@@ -514,6 +514,8 @@ namespace Arbaro2.Arbaro.Params
                     result.Add(p.getOrder(), p);
                 }
             }
+
+
             return result;
         }
 

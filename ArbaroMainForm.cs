@@ -29,7 +29,7 @@ namespace Arbaro2
         private void ArbaroMainForm_Shown(object sender, EventArgs e)
         {
             pgv = new CS_ParamGroupsView(treeView1);
-            pvt = new CS_ParamValueTable(treeView1, csParams);
+            pvt = new CS_ParamValueTable(paramTablePanel, csParams);
             treeView1.AfterSelect += treeView1_AfterSelect;
         }
 
