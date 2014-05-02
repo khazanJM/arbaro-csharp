@@ -63,6 +63,8 @@ namespace Arbaro2
                 Console.WriteLine("Done");
 
                 // Display the tree
+                CS_TreeTraversal traversal = new CS_DefaultTreeTraversal();
+                tree.traverseTree(traversal);
             }
         }
     }
