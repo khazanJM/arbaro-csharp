@@ -24,6 +24,8 @@ namespace Arbaro2
             InitializeComponent();
             Width = 1024;
             Height = 768;
+
+            csParams.prepare(13);
         }
 
         private void ArbaroMainForm_Shown(object sender, EventArgs e)
