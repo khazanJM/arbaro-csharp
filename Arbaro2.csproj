@@ -99,7 +99,12 @@
     <Compile Include="Arbaro\Tree\CS_TreeGeneratorImpl.cs" />
     <Compile Include="Arbaro\Tree\CS_TreeImpl.cs" />
     <Compile Include="Arbaro\Tree\CS_TreeTraversal.cs" />
-    <Compile Include="DX_Engine\DXConfig.cs" />
+    <Compile Include="DX_Engine\D3DClass.cs" />
+    <Compile Include="DX_Engine\DXConfigClass.cs" />
+    <Compile Include="DX_Engine\DXRendererClass.cs" />
+    <Compile Include="DX_Engine\DXRenderPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CS_PreciseTimer.cs" />

@@ -1,6 +1,7 @@
 ﻿using Arbaro2.Arbaro.GUI;
 using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Tree;
+using Arbaro2.DX_Engine;
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
@@ -16,16 +17,27 @@ namespace Arbaro2
 {
     public partial class ArbaroMainForm : RenderForm
     {
+        // Render control
+        private DXRenderPanel renderHwnd = new DXRenderPanel();
+        public Control renderCtrl { get { return renderHwnd; } }
+        //
+
+        // Tree params etc... should be gathered somewhere else
         CS_ParamGroupsView pgv;
         CS_ParamValueTable pvt;
         CS_Params csParams = new CS_Params();
         CS_Tree tree;
+        //
 
         public ArbaroMainForm()
         {
             InitializeComponent();
             Width = 1024;
             Height = 768;
+
+            renderHwnd.Parent = mainSplitContainer.Panel2;
+            renderHwnd.Dock = DockStyle.Fill;
+            renderHwnd.Select();
 
             csParams.prepare(13);
             csParams.enableDisable();
@@ -66,6 +78,11 @@ namespace Arbaro2
                 CS_TreeTraversal traversal = new CS_DefaultTreeTraversal();
                 tree.traverseTree(traversal);
             }
+        }
+
+        private void ArbaroMainForm_Resize(object sender, EventArgs e)
+        {
+            mainSplitContainer.SplitterDistance = 300;
         }
     }
 }
