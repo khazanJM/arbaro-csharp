@@ -1,4 +1,5 @@
-﻿using Arbaro2.Utilities;
+﻿using Arbaro2.DX_Engine;
+using Arbaro2.Utilities;
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Arbaro2
     static class Program
     {
         public static ArbaroMainForm form;
-
+        
         /// <summary>
         /// Point d'entrée principal de l'application.
         /// </summary>
@@ -21,7 +22,7 @@ namespace Arbaro2
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            form = new ArbaroMainForm();
+            form = new ArbaroMainForm();            
 
             CS_PreciseTimer preciseTimer = new CS_PreciseTimer(10);
             DateTime tStart = preciseTimer.Now;
@@ -30,7 +31,7 @@ namespace Arbaro2
             {
                 DateTime tEnd = preciseTimer.Now;
                 float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
-                tStart = tEnd;                
+                tStart = tEnd;            
             });
          
         }
