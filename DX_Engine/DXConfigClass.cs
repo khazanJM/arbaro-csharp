@@ -22,7 +22,20 @@ namespace Arbaro2.DX_Engine
         public int MSAA_SampleCount = 4;
         public int MSAA_SampleDesc = 0;
 
-        public Color4 BackgroundColor = new Color4(new Vector4(110.0f / 255.0f, 126 / 255.0f, 142.0f / 255.0f, 1f));
+        public Color4 BackgroundColor = new Color4(new Vector4(210.0f / 255.0f, 210 / 255.0f, 210.0f / 255.0f, 1f));
+
+        public char SmartCameraKeyCode_NZ = 'z';
+        public char SmartCameraKeyCode_PZ = 'Z';
+        public char SmartCameraKeyCode_NX = 'x';
+        public char SmartCameraKeyCode_PX = 'x';
+        public char SmartCameraKeyCode_NY = 'y';
+        public char SmartCameraKeyCode_PY = 'Y';
+
+        public bool NonLinearCameraZoom = false;
+        public float CameraZoomFactor = 100.0f;
+        public float CameraPanFactor = 100.0f;
+        public float CameraRotateFactor = 100.0f;
+        public float AxisLength = 20;
 
         // Create config from config file
         public DXConfigClass(string configFilePath)

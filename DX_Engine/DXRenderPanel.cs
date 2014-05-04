@@ -48,5 +48,37 @@ namespace Arbaro2.DX_Engine
         {
             base.OnPaint(pe);           
         }
+
+        private void SetupMouseAndKeyboardHandlers()
+        {
+            this.MouseDown += (o, e) =>
+            {
+                Program.Renderer.MouseDown(e);
+            };
+
+            this.MouseMove += (o, e) =>
+            {
+                Program.Renderer.MouseMove(e);
+            };
+
+            this.MouseUp += (o, e) =>
+            {
+            };
+
+            (this as Control).KeyPress += (o, e) =>
+            {
+                Program.Renderer.KeyPress(e);
+            };
+
+            this.PreviewKeyDown += (o, e) =>
+            {
+                //Program.Renderer.PreviewKeyDown(e);
+            };
+
+            this.MouseWheel += (o, e) =>
+            {
+                Program.Renderer.MouseWheel(e);
+            };
+        }     
     }
 }

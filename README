@@ -32,6 +32,19 @@ and click the run button
 
 I'll try to provide a prebuilt version at some point...
 
+The installation directory should endup looking like this
+/arbaro	
+	/bin
+		arbaro.exe
+		config.xml
+		various DX dependencies
+		...
+	/trees
+		contains the tree definition files
+	/images
+		contains the images and default texture files
+	/shaders
+		all the DX shaders used
 
 Following is my notes on what I am doing and what is coming.
 

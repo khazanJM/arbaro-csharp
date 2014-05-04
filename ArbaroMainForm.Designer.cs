@@ -134,6 +134,10 @@
             this.mainSplitContainer.Panel1.Controls.Add(this.paramTablePanel);
             this.mainSplitContainer.Panel1.Controls.Add(this.treeView1);
             this.mainSplitContainer.Panel1MinSize = 300;
+            // 
+            // mainSplitContainer.Panel2
+            // 
+            this.mainSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(3);
             this.mainSplitContainer.Size = new System.Drawing.Size(799, 472);
             this.mainSplitContainer.SplitterDistance = 300;
             this.mainSplitContainer.TabIndex = 2;
