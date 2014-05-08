@@ -124,7 +124,7 @@ namespace Arbaro2.Arbaro.Tree
 		setStemCount(stemCounter.getStemCount());
 		
 		// making finished
-        Console.WriteLine("making " + csparams.Species + " Done.");
+        Console.WriteLine("making " + csparams.Species + " Done.   ");
 
         // TODO
 		//progress.endPhase();
