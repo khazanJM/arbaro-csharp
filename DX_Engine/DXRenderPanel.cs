@@ -53,12 +53,12 @@ namespace Arbaro2.DX_Engine
         {
             this.MouseDown += (o, e) =>
             {
-                Program.Renderer.MouseDown(e);
+                //Program.Renderer.MouseDown(e);
             };
 
             this.MouseMove += (o, e) =>
             {
-                Program.Renderer.MouseMove(e);
+                //Program.Renderer.MouseMove(e);
             };
 
             this.MouseUp += (o, e) =>
@@ -77,7 +77,7 @@ namespace Arbaro2.DX_Engine
 
             this.MouseWheel += (o, e) =>
             {
-                Program.Renderer.MouseWheel(e);
+                //Program.Renderer.MouseWheel(e);
             };
         }     
     }
