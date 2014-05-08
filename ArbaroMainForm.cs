@@ -2,6 +2,7 @@
 using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Tree;
 using Arbaro2.DX_Engine;
+using Arbaro2.DX_Engine.TreeClasses;
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
@@ -41,9 +42,7 @@ namespace Arbaro2
             renderHwnd.Select();
 
             csParams.prepare(13);
-            csParams.enableDisable();
-
-            //Text = Directory.GetCurrentDirectory();
+            csParams.enableDisable();           
         }
 
         private void ArbaroMainForm_Shown(object sender, EventArgs e)
@@ -74,12 +73,10 @@ namespace Arbaro2
                 csParams.enableDisable();
 
                 CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
-                tree = treeGenerator.makeTree(new Object());
-                Console.WriteLine("Done");
-
-                // Display the tree
-                CS_TreeTraversal traversal = new CS_DefaultTreeTraversal();
-                tree.traverseTree(traversal);
+                tree = treeGenerator.makeTree(new Object()); 
+              
+                // make 3D Tree
+                DXTreeSkeleton sk = new DXTreeSkeleton(Program.Renderer.DXDevice, tree);
             }
         }
 

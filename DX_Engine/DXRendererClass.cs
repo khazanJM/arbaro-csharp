@@ -14,10 +14,17 @@ namespace Arbaro2.DX_Engine
         private D3DClass _D3D = null;
         private DXCamera _camera= null;
 
+        public List<DXRenderable> RenderableList = new List<DXRenderable>();
+
+        public Device DXDevice { get { return _D3D.DXDevice; } }
+
         public DXRendererClass(DXConfigClass config) { _config = config; }
        
         public void RenderScene() 
         {
+            _D3D.SetBackBufferRenderTarget();
+            foreach (DXRenderable r in RenderableList)
+                r.Render();
         }
 
         public void Initialize(int viewWidth, int viewHeight, IntPtr handle, Form form, DXConfigClass DXConfig)

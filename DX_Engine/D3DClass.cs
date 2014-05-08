@@ -60,26 +60,8 @@ namespace Arbaro2.DX_Engine
         }
 
         //
-        //  State management (helpers)
-        //
-        public void TurnAlphaBlendOn()
-        {
-            _device.ImmediateContext.OutputMerger.BlendState = _alphaEnableBlendingState;
-            _device.ImmediateContext.OutputMerger.BlendFactor = new Color4(0, 0, 0, 0);
-            _device.ImmediateContext.OutputMerger.BlendSampleMask = -1;
-        }
-        public void TurnAlphaBlendOff()
-        {
-            _device.ImmediateContext.OutputMerger.BlendState = _alphaDisabledBlendingState;
-            _device.ImmediateContext.OutputMerger.BlendFactor = new Color4(0, 0, 0, 0);
-            _device.ImmediateContext.OutputMerger.BlendSampleMask = -1;
-        }
-
-        //
-        //  Initialize
-        //  Actual constructor :-(
+        //  Initialize        
         //  
-        //
         public void Initialize(int viewWidth, int viewHeight, IntPtr handle, Form form, DXConfigClass DXConfig)
         {
             _DXConfig = DXConfig;
@@ -106,61 +88,11 @@ namespace Arbaro2.DX_Engine
 #endif
             _context = _device.ImmediateContext;
 
-            CreateDepthStencilStates();
-            CreateAlphaBlendingStates();
-
             // Ignore all windows events
             Factory factory = _swapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(handle, WindowAssociationFlags.IgnoreAll);
 
             HandleResize(viewWidth, viewHeight, DXConfig);
-        }
-
-        private void CreateAlphaBlendingStates()
-        {
-            BlendStateDescription blendDesc = new BlendStateDescription();
-            blendDesc.RenderTarget[0].IsBlendEnabled = true;
-            blendDesc.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
-            blendDesc.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
-            blendDesc.RenderTarget[0].BlendOperation = BlendOperation.Add;
-            blendDesc.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
-            blendDesc.RenderTarget[0].DestinationAlphaBlend = BlendOption.Zero;
-            blendDesc.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
-            blendDesc.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
-
-            _alphaEnableBlendingState = new BlendState(_device, blendDesc);
-
-            blendDesc.RenderTarget[0].IsBlendEnabled = false;
-            _alphaDisabledBlendingState = new BlendState(_device, blendDesc);
-        }
-
-        private void CreateDepthStencilStates()
-        {
-            DepthStencilStateDescription depthStencilDesc = new DepthStencilStateDescription()
-            {
-                IsDepthEnabled = true,
-                DepthWriteMask = DepthWriteMask.All,
-                DepthComparison = Comparison.Less,
-                IsStencilEnabled = false,
-                StencilReadMask = 0xFF,
-                StencilWriteMask = 0xFF,
-                FrontFace = new DepthStencilOperationDescription()
-                {
-                    FailOperation = StencilOperation.Keep,
-                    DepthFailOperation = StencilOperation.Increment,
-                    PassOperation = StencilOperation.Keep,
-                    Comparison = Comparison.Always,
-                },
-                BackFace = new DepthStencilOperationDescription()
-                {
-                    FailOperation = StencilOperation.Keep,
-                    DepthFailOperation = StencilOperation.Decrement,
-                    PassOperation = StencilOperation.Keep,
-                    Comparison = Comparison.Always,
-                }
-            };
-
-            _depthStencilState = new DepthStencilState(_device, depthStencilDesc);
         }
 
         public void SetBackBufferRenderTarget()
@@ -225,7 +157,6 @@ namespace Arbaro2.DX_Engine
             _worldMatrix = Matrix.Identity;
             _orthoMatrix = Matrix.OrthoLH(viewWidth, viewHeight, _DXConfig.ScreenNear, _DXConfig.ScreenDepth);
         }
-
 
         public void BeginScene()
         {

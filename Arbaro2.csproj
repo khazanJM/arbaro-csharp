@@ -130,10 +130,12 @@
     <Compile Include="DX_Engine\D3DClass.cs" />
     <Compile Include="DX_Engine\DXCamera.cs" />
     <Compile Include="DX_Engine\DXConfigClass.cs" />
+    <Compile Include="DX_Engine\DXRenderable.cs" />
     <Compile Include="DX_Engine\DXRendererClass.cs" />
     <Compile Include="DX_Engine\DXRenderPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DX_Engine\TreeClasses\DXTreeSkeleton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CS_PreciseTimer.cs" />

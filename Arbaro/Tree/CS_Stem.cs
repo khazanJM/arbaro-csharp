@@ -15,8 +15,7 @@ namespace Arbaro2.Arbaro.Tree
          * 
          * @return an enumeration of the stems sections
          */
-        // TODO !
-        //public abstract List<Object> sections();
+        public abstract List<CS_SegmentImpl> getSections();
 
         /**
          * 

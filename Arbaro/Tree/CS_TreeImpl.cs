@@ -124,7 +124,7 @@ namespace Arbaro2.Arbaro.Tree
 		setStemCount(stemCounter.getStemCount());
 		
 		// making finished
-		//Console.progressChar();
+        Console.WriteLine("making " + csparams.Species + " Done.");
 
         // TODO
 		//progress.endPhase();
@@ -159,14 +159,9 @@ namespace Arbaro2.Arbaro.Tree
 	public override bool traverseTree(CS_TreeTraversal traversal) {
 	    if (traversal.enterTree(this))  // enter this tree?
         {
-            //TODO
-
-            /*
-             Enumeration stems = trunks.elements();
-             while (stems.hasMoreElements())
-                if (! ((CS_Stem)stems.nextElement()).traverseTree(traversal))
-                        break;
-             */
+            foreach (CS_Stem stem in trunks) {
+                stem.traverseTree(traversal);
+            }                       
         }
 
         return traversal.leaveTree(this);
@@ -176,15 +171,7 @@ namespace Arbaro2.Arbaro.Tree
 		maxPoint.setMaxCoord(pt);
 		minPoint.setMinCoord(pt);
 	}
-	
-	/*
-	 void Tree::dump() const {
-	 cout << "TREE:\n";
-	 // trunk.dump();
-	  }
-	  */
-	
-	
+		
 	/**
 	 * Writes out the parameters to an XML definition file
 	 * 
