@@ -1,0 +1,4 @@
+name: Arbaro C# Blog
+markdown: redcarpet
+pygments: true
+baseurl: /blog-site
