@@ -15,7 +15,7 @@ namespace Arbaro2.DX_Engine
         
         public DXCamera Camera= null;
 
-        public List<DXRenderable> RenderableList = new List<DXRenderable>();
+        public Dictionary<string, DXRenderable> RenderableList = new Dictionary<string, DXRenderable>();
 
         public Device DXDevice { get { return _D3D.DXDevice; } }
 
@@ -27,7 +27,7 @@ namespace Arbaro2.DX_Engine
         public void RenderScene() 
         {
             _D3D.SetBackBufferRenderTarget();
-            foreach (DXRenderable r in RenderableList)
+            foreach (DXRenderable r in RenderableList.Values)
                 r.Render(Camera);
         }
 

@@ -76,8 +76,13 @@ namespace Arbaro2
                 tree = treeGenerator.makeTree(new Object()); 
               
                 // make 3D Tree
+                if (Program.Renderer.RenderableList.ContainsKey("Skeleton")) {
+                    DXRenderable s = Program.Renderer.RenderableList["Skeleton"];
+                    Program.Renderer.RenderableList.Remove("Skeleton");
+                    s.Dispose();
+                }
                 DXTreeSkeleton sk = new DXTreeSkeleton(tree);
-                Program.Renderer.RenderableList.Add(sk);
+                Program.Renderer.RenderableList.Add("Skeleton", sk);
                 Program.Renderer.Camera.LookAt(sk.BBox);
             }
         }
