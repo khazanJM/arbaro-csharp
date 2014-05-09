@@ -1,0 +1,24 @@
+# Dependencies
+markdown:         redcarpet
+pygments:         true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Arbaro C#
+tagline:          'Arbaro C#'
+description:      'A port of Arbaro to C#'
+url:              http://khazanjm.github.io/arbaro-csharp/
+
+author:
+  name:           'KhazanJM'
+  url:            http://khazanjm.github.io/arbaro-csharp/
+
+paginate:         5
+
+# Custom vars
+version:          0.0.1
+
+github:
+  repo:           https://github.com/khazanJM/arbaro-csharp
