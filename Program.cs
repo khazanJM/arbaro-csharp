@@ -15,6 +15,7 @@ namespace Arbaro2
     {
         public static ArbaroMainForm form;
         public static DXRendererClass Renderer;
+        public static DXConfigClass DXConfig;
 
         /// <summary>
         /// Point d'entrée principal de l'application.
@@ -28,7 +29,7 @@ namespace Arbaro2
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            DXConfigClass DXConfig = new DXConfigClass("");
+            DXConfig = new DXConfigClass("");
             Renderer = new DXRendererClass(DXConfig);
 
             form = new ArbaroMainForm();

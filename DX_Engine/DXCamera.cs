@@ -58,6 +58,8 @@ namespace Arbaro2.DX_Engine
                 _zfar = d;
                 _height = b;
             }
+
+            UpdateMatrices();
         }
 
         // Create a perspective camera
@@ -73,9 +75,19 @@ namespace Arbaro2.DX_Engine
         }
 
         // Makes it such the Bounding box is "fully" within the camera frustrum.
+        // basically the camera is placed in sucha a way that the bounding box 
+        // will stay in the camera frustrum wherever the camera orbit to
         public void LookAt(BoundingBox BBox) 
         { 
+            Vector3 lengths = BBox.Maximum - BBox.Minimum;
+            float maxLen = Math.Max(lengths.Z, Math.Max(lengths.X, lengths.Y));
+            maxLen = Math.Max(2 * _znear, maxLen);
 
+            Vector3 p = (BBox.Maximum + BBox.Minimum) / 2.0f;
+            float distance = (maxLen / 2.0f) / (float)Math.Tan(_fov*Math.PI/180.0);
+            
+            _position = p; _position.Z -= distance;
+            LookAt(p);
         }
     }
 }

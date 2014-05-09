@@ -1,6 +1,7 @@
 ﻿using Arbaro2.Arbaro.Transformation;
 using Arbaro2.Arbaro.Tree;
 using SharpDX;
+using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -27,14 +28,18 @@ namespace Arbaro2.DX_Engine.TreeClasses
     //  and subsegments of the tree
     //
 
-    public class DXTreeSkeleton
+    public class DXTreeSkeleton : DXRenderable
     {
         private Buffer _vertexBuffer;
+        private InputElement[] _inputElements;
 
-        public DXTreeSkeleton(Device DXDevice, CS_Tree tree) {
+        public DXTreeSkeleton(CS_Tree tree) {
+
+            InitShaders();
 
             DXTreeSkeleton_TreeTraversal traversal = new DXTreeSkeleton_TreeTraversal();
             tree.traverseTree(traversal);
+            BBox = traversal.BBox;
 
             // Build vertex buffer
             var stream = new DataStream(traversal.Vertices.Count * Marshal.SizeOf(typeof(DXSKV)), true, true);
@@ -49,7 +54,24 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 SizeInBytes = traversal.Vertices.Count * Marshal.SizeOf(typeof(DXSKV)),
                 Usage = ResourceUsage.Default
             });            
-            stream.Dispose();      
+            stream.Dispose();              
+        }
+
+        protected override void _Render()
+        {
+            //_shader.Setup();
+            //_shader.SetParameter();
+            //_shader.SetParameter();
+
+            DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXSKV)), 0));
+            DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
+
+            //_shader.Draw();
+        }
+
+        private void InitShaders()
+        {
+            _shader = new DXShader("TreeSkeleton");
         }
     }
 
@@ -66,6 +88,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
                              new Vector3(2f/255f, 73f/255f,17f/255f), 
                              new Vector3(239f/255f, 104f/255f,0)};
         public List<DXSKV> Vertices = new List<DXSKV>();
+        public BoundingBox BBox = new BoundingBox(new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), 
+                                                  new Vector3(float.MinValue, float.MinValue, float.MinValue));
 
         public override bool enterStem(CS_Stem stem)
         {
@@ -73,12 +97,17 @@ namespace Arbaro2.DX_Engine.TreeClasses
             foreach (CS_SegmentImpl seg in stem.getSections()) {
                 DXSKV v0, v1;             
                 CS_Vector cv0 = seg.getLowerPosition();
-                CS_Vector cv1 = seg.getUpperPosition();
+                CS_Vector cv1 = seg.getUpperPosition();              
 
                 v0.P = new Vector3((float)cv0.getX(), (float)cv0.getY(), (float)cv0.getZ());
                 v1.P = new Vector3((float)cv1.getX(), (float)cv1.getY(), (float)cv1.getZ());
                 v0.C = colors[stem.getLevel()];
                 v1.C = colors[stem.getLevel()];
+
+                BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
+                BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
+                BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
+                BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
 
                 Vertices.Add(v0);
                 Vertices.Add(v1);

@@ -37,6 +37,8 @@ namespace Arbaro2.DX_Engine
         public float CameraRotateFactor = 100.0f;
         public float AxisLength = 20;
 
+        public string[] ShadersIncludePath = {"../../Shaders/"};
+
         // Create config from config file
         public DXConfigClass(string configFilePath)
         {              
