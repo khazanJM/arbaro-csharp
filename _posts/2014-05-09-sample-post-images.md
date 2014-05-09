@@ -9,7 +9,7 @@ comments: true
 Arbaro C# is a project to port Arbaro to C#.
 Arbaro is a cool, though pretty old, tree generator developed using Java.
 It implements ideas developed by Weber & Penn in a somewhat famous paper.
-The original Arbaro implementation can be found [here](http://arbaro.sourceforge.net). The Weber & Penn paper: Creation and rendering of realistic tree can be found [here](https://www.cs.duke.edu/courses/fall02/cps124/resources/p119-weber.pdf)
+The original Arbaro implementation can be found [here](http://arbaro.sourceforge.net). The Weber & Penn paper: *Creation and rendering of realistic tree* can be found [here](https://www.cs.duke.edu/courses/fall02/cps124/resources/p119-weber.pdf)
 
 
 ### Status as of May 9, 2014
