@@ -35,7 +35,7 @@ float4 PS(PixelInputType input) : SV_TARGET
 RasterizerState rsStandard { FillMode = Solid; CullMode = Back; AntialiasedLineEnable = true; MultisampleEnable = true; };
 
 
-technique10 Shader_Std
+technique10 ShaderStd
 {
 	pass P0
 	{
