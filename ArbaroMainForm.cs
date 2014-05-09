@@ -78,6 +78,7 @@ namespace Arbaro2
                 // make 3D Tree
                 DXTreeSkeleton sk = new DXTreeSkeleton(tree);
                 Program.Renderer.RenderableList.Add(sk);
+                Program.Renderer.Camera.LookAt(sk.BBox);
             }
         }
 

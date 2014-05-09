@@ -146,8 +146,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 CS_Vector cv0 = seg.getLowerPosition();
                 CS_Vector cv1 = seg.getUpperPosition();              
 
-                v0.P = new Vector3((float)cv0.getX(), (float)cv0.getY(), (float)cv0.getZ());
-                v1.P = new Vector3((float)cv1.getX(), (float)cv1.getY(), (float)cv1.getZ());
+                v0.P = new Vector3((float)cv0.getX(), (float)cv0.getZ(), (float)cv0.getY());
+                v1.P = new Vector3((float)cv1.getX(), (float)cv1.getZ(), (float)cv1.getY());
                 v0.C = colors[stem.getLevel()];
                 v1.C = colors[stem.getLevel()];
 

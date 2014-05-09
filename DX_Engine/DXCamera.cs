@@ -13,7 +13,7 @@ namespace Arbaro2.DX_Engine
 {
     public class DXCamera
     {
-        private float _fov = 50, _aspectRatio = 1, _znear = 0.1f, _zfar = 2000;
+        private float _fov = (float)(45*Math.PI/180.0), _aspectRatio = 1, _znear = 0.1f, _zfar = 2000;
         private float _width = 1, _height = 1;
         private Matrix _viewMatrix, _projMatrix;
 
@@ -84,7 +84,7 @@ namespace Arbaro2.DX_Engine
             maxLen = Math.Max(2 * _znear, maxLen);
 
             Vector3 p = (BBox.Maximum + BBox.Minimum) / 2.0f;
-            float distance = (maxLen / 2.0f) / (float)Math.Tan(_fov*Math.PI/180.0);
+            float distance = (maxLen) / (float)Math.Tan(_fov);
             
             _position = p; _position.Z -= distance;
             LookAt(p);
