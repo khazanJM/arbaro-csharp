@@ -130,6 +130,7 @@
     <Compile Include="DX_Engine\D3DClass.cs" />
     <Compile Include="DX_Engine\DXCamera.cs" />
     <Compile Include="DX_Engine\DXConfigClass.cs" />
+    <Compile Include="DX_Engine\DXOrbitControls.cs" />
     <Compile Include="DX_Engine\DXRenderable.cs" />
     <Compile Include="DX_Engine\DXRendererClass.cs" />
     <Compile Include="DX_Engine\DXRenderPanel.cs">

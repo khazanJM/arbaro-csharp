@@ -14,6 +14,7 @@ namespace Arbaro2.DX_Engine
         private D3DClass _D3D = null;
         
         public DXCamera Camera= null;
+        public DXOrbitControls CameraControler = null;
 
         public Dictionary<string, DXRenderable> RenderableList = new Dictionary<string, DXRenderable>();
 
@@ -38,6 +39,7 @@ namespace Arbaro2.DX_Engine
             _D3D = new D3DClass();
             _D3D.Initialize(viewWidth, viewHeight, handle, form, DXConfig);
             Camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
+            CameraControler = new DXOrbitControls(Camera, (form as ArbaroMainForm).renderCtrl);
         }
 
         public void Resize(int viewWidth, int viewHeight, DXConfigClass DXConfig)
