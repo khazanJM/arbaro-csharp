@@ -80,15 +80,17 @@ namespace Arbaro2.DX_Engine.TreeClasses
             IndexCount = indices.Count;
         }
 
-        protected override void _Render()
+        protected override void _Render(DXCamera camera)
         {                      
             DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXSKV)), 0));
             DXContext.InputAssembler.SetIndexBuffer(_indexBuffer, Format.R32_UInt, 0);
             DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
             DXContext.InputAssembler.InputLayout = _inputLayout;
-            
-            //_shader.SetParameter();
-            //_shader.SetParameter();
+
+            _shader.SetParameter("worldMatrix", Matrix.Identity);
+            _shader.SetParameter("viewMatrix", camera.ViewMatrix);
+            _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
+            _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
 
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
             EffectPass usePass = technique.GetPassByIndex(0);

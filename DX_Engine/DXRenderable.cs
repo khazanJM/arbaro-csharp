@@ -15,13 +15,13 @@ namespace Arbaro2.DX_Engine
 
         protected DXShader _shader;
 
-        protected abstract void _Render();
+        protected abstract void _Render(DXCamera camera);
 
         public Device DXDevice { get { return Program.Renderer.DXDevice; } }
         public DeviceContext DXContext { get { return Program.Renderer.DXDevice.ImmediateContext; } }
 
-        public void Render() {
-            if(Visible) _Render();
+        public void Render(DXCamera camera) {
+            if(Visible) _Render(camera);
         }
     }
 }

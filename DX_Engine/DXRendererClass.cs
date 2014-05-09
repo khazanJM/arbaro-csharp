@@ -12,7 +12,8 @@ namespace Arbaro2.DX_Engine
     {
         private DXConfigClass _config;
         private D3DClass _D3D = null;
-        private DXCamera _camera= null;
+        
+        public DXCamera Camera= null;
 
         public List<DXRenderable> RenderableList = new List<DXRenderable>();
 
@@ -27,7 +28,7 @@ namespace Arbaro2.DX_Engine
         {
             _D3D.SetBackBufferRenderTarget();
             foreach (DXRenderable r in RenderableList)
-                r.Render();
+                r.Render(Camera);
         }
 
         public void Initialize(int viewWidth, int viewHeight, IntPtr handle, Form form, DXConfigClass DXConfig)
@@ -36,7 +37,7 @@ namespace Arbaro2.DX_Engine
 
             _D3D = new D3DClass();
             _D3D.Initialize(viewWidth, viewHeight, handle, form, DXConfig);
-            _camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
+            Camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
         }
 
         public void Resize(int viewWidth, int viewHeight, DXConfigClass DXConfig)
@@ -44,7 +45,7 @@ namespace Arbaro2.DX_Engine
             if (_D3D != null)
             {
                 float aspect = (float)viewHeight / (float)viewWidth;
-                _camera.AspectRatio = aspect;
+                Camera.AspectRatio = aspect;
 
                 // notify everyone that size changed              
                 _D3D.HandleResize(viewWidth, viewHeight, DXConfig);
