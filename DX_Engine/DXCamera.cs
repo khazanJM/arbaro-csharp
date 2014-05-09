@@ -84,7 +84,7 @@ namespace Arbaro2.DX_Engine
             maxLen = Math.Max(2 * _znear, maxLen);
 
             Vector3 p = (BBox.Maximum + BBox.Minimum) / 2.0f;
-            float distance = (maxLen) / (float)Math.Tan(_fov);
+            float distance = (1.05f*maxLen/2.0f) / (float)Math.Tan(_fov/2.0);
             
             _position = p; _position.Z -= distance;
             LookAt(p);

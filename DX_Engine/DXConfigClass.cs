@@ -17,7 +17,7 @@ namespace Arbaro2.DX_Engine
 
         public float ScreenDepth = 1000.0f;
         public float ScreenNear = 0.1f;
-        public float FOV = (float)(45 * Math.PI / 180);
+        public float FOV = (float)(45 * Math.PI / 180.0);
 
         public int MSAA_SampleCount = 4;
         public int MSAA_SampleDesc = 0;

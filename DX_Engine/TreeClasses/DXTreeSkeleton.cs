@@ -120,6 +120,36 @@ namespace Arbaro2.DX_Engine.TreeClasses
             technique.Dispose();
             usePass.Dispose();
         }
+
+        //
+        // IDisposable
+        //
+        private bool disposed = false;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // cleanup managed stuff
+                }
+
+                // cleanup unmanaged stuff
+                if(_vertexBuffer != null) _vertexBuffer.Dispose();
+                if(_indexBuffer != null) _indexBuffer.Dispose();
+                if(_inputLayout != null) _inputLayout.Dispose();               
+
+                disposed = true;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        ~DXTreeSkeleton()
+        {
+            Dispose(false);
+        }
     }
 
 
@@ -130,10 +160,10 @@ namespace Arbaro2.DX_Engine.TreeClasses
     public class DXTreeSkeleton_TreeTraversal : CS_TreeTraversal
     {
         Vector3[] colors = { new Vector3(0,0,0), 
-                             new Vector3(102.0f/255.0f, 196.0f/255.0f, 0), 
-                             new Vector3(150.0f/255.0f, 156.0f/255.0f, 4.0f/255.0f), 
-                             new Vector3(2f/255f, 73f/255f,17f/255f), 
-                             new Vector3(239f/255f, 104f/255f,0)};
+                             new Vector3(63/255.0f, 29.0f/255.0f, 11.0f/255.0f), 
+                             new Vector3(133.0f/255.0f, 84.0f/255.0f, 57.0f/255.0f), 
+                             new Vector3(176f/255f, 167f/255f,110f/255f), 
+                             new Vector3(207f/255f, 104f/255f,0)};
         public List<DXSKV> Vertices = new List<DXSKV>();
         public BoundingBox BBox = new BoundingBox(new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), 
                                                   new Vector3(float.MinValue, float.MinValue, float.MinValue));
@@ -146,10 +176,11 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 CS_Vector cv0 = seg.getLowerPosition();
                 CS_Vector cv1 = seg.getUpperPosition();              
 
+                // the tree is caculated in openGL coordinates with Z "up" so...
                 v0.P = new Vector3((float)cv0.getX(), (float)cv0.getZ(), (float)cv0.getY());
                 v1.P = new Vector3((float)cv1.getX(), (float)cv1.getZ(), (float)cv1.getY());
-                v0.C = colors[stem.getLevel()];
-                v1.C = colors[stem.getLevel()];
+                v0.C = colors[Math.Min(3, stem.getLevel())];
+                v1.C = colors[Math.Min(3, stem.getLevel())];
 
                 BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
                 BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);

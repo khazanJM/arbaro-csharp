@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Arbaro2.DX_Engine
 {
-    public class DXShader
+    public class DXShader : IDisposable
     {
         public Effect DXEffect = null;
         public string ShaderFullFilename = "";
@@ -84,6 +84,38 @@ namespace Arbaro2.DX_Engine
                     Init();
                 }
             }
+        }
+
+        //
+        // IDisposable
+        //
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // cleanup managed stuff
+                }
+
+                // cleanup unmanaged stuff    
+                if(DXEffect != null) DXEffect.Dispose();
+
+                disposed = true;
+            }
+        }
+
+        ~DXShader()
+        {
+            Dispose(false);
         }
     }
 

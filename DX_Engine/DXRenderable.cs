@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Arbaro2.DX_Engine
 {
-    public abstract class DXRenderable
+    public abstract class DXRenderable : IDisposable
     {
         public BoundingBox BBox = new BoundingBox(Vector3.Zero, Vector3.Zero);
         public bool Visible = true;
@@ -22,6 +22,37 @@ namespace Arbaro2.DX_Engine
 
         public void Render(DXCamera camera) {
             if(Visible) _Render(camera);
+        }
+
+        //
+        // IDisposable
+        //
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // cleanup managed stuff
+                }
+
+                // cleanup unmanaged stuff    
+
+                disposed = true;
+            }
+        }
+
+        ~DXRenderable()
+        {
+            Dispose(false);
         }
     }
 }
