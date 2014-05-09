@@ -1,7 +1,8 @@
 title:            Arbaro C#
 description:      About porting Arbaro to C#.
 # Your site's domain goes here. Leave localhost server or blank when working locally.
-url:              http://localhost:4000
+#url:              http://localhost:4000
+url:              http://khazanjm.github.io/arbaro-csharp/
 disqus_shortname: 
 
 # Owner/author information
