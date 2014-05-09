@@ -18,7 +18,10 @@ namespace Arbaro2.DX_Engine
 
         public Device DXDevice { get { return _D3D.DXDevice; } }
 
-        public DXRendererClass(DXConfigClass config) { _config = config; }
+        public DXRendererClass(DXConfigClass config)
+        { 
+            _config = config;           
+        }
        
         public void RenderScene() 
         {
@@ -33,12 +36,16 @@ namespace Arbaro2.DX_Engine
 
             _D3D = new D3DClass();
             _D3D.Initialize(viewWidth, viewHeight, handle, form, DXConfig);
+            _camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
         }
 
         public void Resize(int viewWidth, int viewHeight, DXConfigClass DXConfig)
         {
             if (_D3D != null)
             {
+                float aspect = (float)viewHeight / (float)viewWidth;
+                _camera.AspectRatio = aspect;
+
                 // notify everyone that size changed              
                 _D3D.HandleResize(viewWidth, viewHeight, DXConfig);
             }

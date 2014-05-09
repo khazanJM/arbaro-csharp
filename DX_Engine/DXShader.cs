@@ -36,6 +36,28 @@ namespace Arbaro2.DX_Engine
             }
         }
 
+        public void SetParameter(string varName, object varValue)
+        {
+            EffectVariable ev = DXEffect.GetVariableByName(varName);
+            if (ev.IsValid)
+            {
+                if (varValue is bool) ev.AsScalar().Set((bool)varValue);
+                else if (varValue is int) ev.AsScalar().Set((int)varValue);
+                else if (varValue is uint) ev.AsScalar().Set((uint)varValue);
+                else if (varValue is float) ev.AsScalar().Set((float)varValue);
+                else if (varValue is double) ev.AsScalar().Set((float)(double)varValue);
+                else if (varValue is Vector2) ev.AsVector().Set((Vector2)varValue);
+                else if (varValue is Vector3) ev.AsVector().Set((Vector3)varValue);
+                else if (varValue is Vector4[]) ev.AsVector().Set((Vector4[])varValue);
+                else if (varValue is Vector4) ev.AsVector().Set((Vector4)varValue);
+                else if (varValue is Matrix) ev.AsMatrix().SetMatrix((Matrix)varValue);
+                //else if (varValue is DXTexture2DClass) ev.AsShaderResource().SetResource((varValue as DXTexture2DClass).TextureResourceView);
+                else if (varValue is ShaderResourceView) ev.AsShaderResource().SetResource(varValue as ShaderResourceView);
+                else if (varValue == null) { ev.AsShaderResource().SetResource(null); }
+                else { /* ... */ }
+            }
+        }
+
         private void Init()
         {
             CompilationResult cr = null;

@@ -61,4 +61,7 @@ The first steps are
 - Release this first version to GIT
 
 
+// TODO
+-> don't forget all the IDisposable implementations
+
 

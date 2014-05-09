@@ -3,6 +3,7 @@ using Arbaro2.Arbaro.Tree;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
+using SharpDX.DXGI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,10 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
     public class DXTreeSkeleton : DXRenderable
     {
-        private Buffer _vertexBuffer;
+        private Buffer _vertexBuffer, _indexBuffer;
+        private int IndexCount = 0;
         private InputElement[] _inputElements;
+        private InputLayout _inputLayout;
 
         public DXTreeSkeleton(CS_Tree tree) {
 
@@ -54,24 +57,66 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 SizeInBytes = traversal.Vertices.Count * Marshal.SizeOf(typeof(DXSKV)),
                 Usage = ResourceUsage.Default
             });            
-            stream.Dispose();              
+            stream.Dispose();
+
+            List<UInt32> indices = new List<UInt32>();
+            for (int i = 0; i < traversal.Vertices.Count; i++) { indices.Add((UInt32)i); }
+
+            stream = new DataStream(indices.Count * sizeof(UInt32), true, true);
+            stream.WriteRange(indices.ToArray());
+
+            stream.Position = 0;
+
+            _indexBuffer = new Buffer(DXDevice, stream, new BufferDescription()
+            {
+                BindFlags = BindFlags.IndexBuffer,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None,
+                SizeInBytes = indices.Count * sizeof(UInt32),
+                Usage = ResourceUsage.Default
+            });
+            stream.Dispose();
+
+            IndexCount = indices.Count;
         }
 
         protected override void _Render()
-        {
-            //_shader.Setup();
-            //_shader.SetParameter();
-            //_shader.SetParameter();
-
+        {                      
             DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXSKV)), 0));
+            DXContext.InputAssembler.SetIndexBuffer(_indexBuffer, Format.R32_UInt, 0);
             DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
+            DXContext.InputAssembler.InputLayout = _inputLayout;
+            
+            //_shader.SetParameter();
+            //_shader.SetParameter();
 
-            //_shader.Draw();
+            EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
+            EffectPass usePass = technique.GetPassByIndex(0);
+            usePass.Apply(DXContext);
+
+            DXContext.DrawIndexed(IndexCount, 0, 0);
+
+            technique.Dispose();
+            usePass.Dispose();
         }
 
         private void InitShaders()
         {
             _shader = new DXShader("TreeSkeleton");
+
+            // Create the InputElement
+            _inputElements = new InputElement[]
+					{
+						new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0),
+                        new InputElement("COLOR", 0, SharpDX.DXGI.Format.R32G32B32_Float, 12, 0)
+					};
+
+            // Create the InputLayout
+            EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
+            EffectPass usePass = technique.GetPassByIndex(0);
+            _inputLayout = new InputLayout(DXDevice, usePass.Description.Signature, _inputElements);
+            technique.Dispose();
+            usePass.Dispose();
         }
     }
 
