@@ -44,7 +44,7 @@ namespace Arbaro2.DX_Engine
         {
             if (_D3D != null)
             {
-                float aspect = (float)viewHeight / (float)viewWidth;
+                float aspect = (float)viewWidth / (float)viewHeight;
                 Camera.AspectRatio = aspect;
 
                 // notify everyone that size changed              

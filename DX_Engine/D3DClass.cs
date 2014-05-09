@@ -34,15 +34,6 @@ namespace Arbaro2.DX_Engine
         private int _viewHeight;
         public int ViewHeight { get { return _viewHeight; } }
 
-        private Matrix _projectionMatrix;
-        public Matrix ProjectionMatrix { get { return _projectionMatrix; } }
-
-        private Matrix _worldMatrix;
-        public Matrix WorldMatrix { get { return _worldMatrix; } }
-
-        private Matrix _orthoMatrix;
-        public Matrix OrthoMatrix { get { return _orthoMatrix; } }
-
         private SwapChain _swapChain = null;
         private DeviceContext _context = null;
         private RenderTargetView _renderTargetView = null;
@@ -147,15 +138,7 @@ namespace Arbaro2.DX_Engine
             _depthStencilView = new DepthStencilView(_device, _depthStencilBuffer);
 
             _context.OutputMerger.SetTargets(_depthStencilView, _renderTargetView);
-            _context.Rasterizer.SetViewport(new Viewport(0, 0, viewWidth, viewHeight, 0.0f, 1.0f));
-
-            // Setup the projection matrix.           
-            float screenAspect = (float)viewWidth / (float)viewHeight;
-
-            // Create the projection matrix for 3D rendering.
-            _projectionMatrix = Matrix.PerspectiveFovLH(_DXConfig.FOV, screenAspect, _DXConfig.ScreenNear, _DXConfig.ScreenDepth);
-            _worldMatrix = Matrix.Identity;
-            _orthoMatrix = Matrix.OrthoLH(viewWidth, viewHeight, _DXConfig.ScreenNear, _DXConfig.ScreenDepth);
+            _context.Rasterizer.SetViewport(new Viewport(0, 0, viewWidth, viewHeight, 0.0f, 1.0f));     
         }
 
         public void BeginScene()

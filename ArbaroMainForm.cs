@@ -69,6 +69,8 @@ namespace Arbaro2
             mainOpenFileDialog.Filter = "xml files (*.xml)|*.xml";
             if (mainOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
+                Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);
+
                 csParams.readFromXML(mainOpenFileDialog.FileName);
                 csParams.enableDisable();
 

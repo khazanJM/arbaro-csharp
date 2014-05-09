@@ -87,6 +87,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
             DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
             DXContext.InputAssembler.InputLayout = _inputLayout;
 
+            Console.WriteLine(camera.AspectRatio);
+
             _shader.SetParameter("worldMatrix", Matrix.Identity);
             _shader.SetParameter("viewMatrix", camera.ViewMatrix);
             _shader.SetParameter("projectionMatrix", camera.ProjMatrix);

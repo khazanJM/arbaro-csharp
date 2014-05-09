@@ -30,7 +30,10 @@ namespace Arbaro2.DX_Engine
         public Vector3 Position { get { return _position; } set { _position = value; UpdateMatrices(); } }
 
         public float Fov { get { return _fov; } set { _fov = value; UpdateMatrices(); } }
-        public float AspectRatio { get { return _aspectRatio; } set { _aspectRatio = value; UpdateMatrices(); } }
+        public float AspectRatio { get { return _aspectRatio; } set { 
+            _aspectRatio = value; 
+            UpdateMatrices(); } 
+        }
         public float ZNear { get { return _znear; } set { _znear = value; UpdateMatrices(); } }
         public float ZFar { get { return _zfar; } set { _zfar = value; UpdateMatrices(); } }
         public float Width { get { return _width; } set { _width = value; UpdateMatrices(); } }
