@@ -8,11 +8,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 //
-//  This works because the initial camera is such that
-//  It look along the positive Z axis
-//  It is placed on the negative Z axis
-//  it does not initially contains any rotation (yaw, pitch)
-//  The camera controler does not handle roll moves
+//  The controler should be provided with "something" to control
+//  the speed of the zoom and pan... TODO
+//
+
+//
+//  As the camera position & (mainly) look at can be changed
+//  without going through the controler...
+//  We need to add the yaw & pitch etc... based on the actual 
+//  camera position & yaw/pitch
 //
 
 namespace Arbaro2.DX_Engine
@@ -22,7 +26,7 @@ namespace Arbaro2.DX_Engine
         private float _MouseX, _MouseY;
         private bool _MouseDown = false;
         private Control _Ctrl;
-        private float _rx, _ry;
+        private float _rx, _ry; 
         private DXCamera _camera;
    
         // ctrl is the control hooked for events (mouse & keyboard)
@@ -54,6 +58,9 @@ namespace Arbaro2.DX_Engine
 
         void ctrl_MouseWheel(object sender, MouseEventArgs e)
         {
+            float zoom = e.Delta;
+            Vector3 rail = _camera.Target - _camera.Position;            
+            UpdateCamera(0, 0, Math.Sign(zoom)*0.1f*rail, Vector3.Zero);
         }
 
         void ctrl_MouseUp(object sender, MouseEventArgs e)
@@ -78,7 +85,17 @@ namespace Arbaro2.DX_Engine
                 DY = (float)Math.PI * DY;               
                 _rx += DX;
                 _ry -= DY;
-                UpdateCamera();
+                UpdateCamera(_rx, _ry, Vector3.Zero, Vector3.Zero);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                // Pan
+                //  The camera and the target are translated with the same
+                //  translation. The translation vector is in the tangent plane
+                //  to the orbit (translation along left & up vector)
+
+                Vector3 translation = 100*(-DX*_camera.Left+DY*_camera.Up);
+                UpdateCamera(_rx, _ry, translation, translation);
             }
         }
 
@@ -87,18 +104,6 @@ namespace Arbaro2.DX_Engine
             _MouseX = e.X;
             _MouseY = e.Y;
             _MouseDown = true;
-        }
-
-        void UpdateCamera() 
-        {
-            Vector3 translation = _camera.Target;
-
-            
-            Matrix M = Matrix.RotationYawPitchRoll(_rx, _ry, 0);
-            Vector4 up = new Vector4(0, 1, 0,0); up = Vector4.Transform(up, M);
-            Vector4 lookAt = new Vector4(0, 0, 1, 0); lookAt = Vector4.Transform(lookAt, M);
-            Vector4 pos = new Vector4(0, 0, _camera.Position.Length(), 0); pos = Vector4.Transform(pos, M);
-            _camera.ETU(new Vector3(pos.X, pos.Y, pos.Z), _camera.Target, new Vector3(up.X, up.Y, up.Z));
         }
 
         public void LookAt(BoundingBox BBox)
@@ -113,7 +118,15 @@ namespace Arbaro2.DX_Engine
             float distance = (1.05f * maxLen / 2.0f) / (float)Math.Tan(_camera.Fov / 2.0);
 
             Vector3 position = p; position.Z -= distance;
-            _camera.ETU(position, p, new Vector3(0, 1, 0));
+
+            _camera.Position = position;
+            _camera.Target = p;            
+        }
+
+        void UpdateCamera(float dYaw, float dPitch, Vector3 dPosition, Vector3 dTarget)
+        {
+            _camera.Position += dPosition;
+            _camera.Target += dTarget;
         }
     }
 }

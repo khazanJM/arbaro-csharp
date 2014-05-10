@@ -12,7 +12,11 @@ using System.Threading.Tasks;
 //      it's fov (camera opening)
 //      its position in space
 //      its target (the actual point in 3D space the camera is focused on)
-//      The look_at normalized vector is basical Target - Position
+//      The look_at normalized vector is basical (Target - Position).normalize
+//      Up and left vectors are initialized using (0,1,0) for "initial" up
+// 
+//  The camera can be controled by changing its position or target point
+//  To do more than that, you need a CameraControler (like the OrbitControler)
 //
 
 namespace Arbaro2.DX_Engine
@@ -29,17 +33,40 @@ namespace Arbaro2.DX_Engine
 
         private void UpdateMatrices() {
             if (_ortho) _projMatrix = Matrix.OrthoLH(_width, _height, _znear, _zfar);
-            else _projMatrix = Matrix.PerspectiveFovLH(_fov, _aspectRatio, _znear, _zfar);    
+            else _projMatrix = Matrix.PerspectiveFovLH(_fov, _aspectRatio, _znear, _zfar);
+            _viewMatrix = Matrix.LookAtLH(_position, _target, _up);
         }
 
         private Vector3 _position = new Vector3(0,0,0);
-        public Vector3 Position { get { return _position; } }
+        public Vector3 Position { get { return _position; } set { _position = value; UpdateMatrices(); } }
 
         private Vector3 _target = new Vector3(0,0,float.MaxValue);
-        public Vector3 Target { get { return _target; } }
+        public Vector3 Target { 
+            get { return _target; } 
+            set { 
+                _target = value;
+                UpdateMatrices();
+            } 
+        }
 
-        private Vector3 _up = new Vector3(0, 0, float.MaxValue);
-        public Vector3 Up { get { return _up; } }
+        private Vector3 _up = new Vector3(0, 1, 0);
+        public Vector3 Up { 
+            get { 
+                Vector4 u = new Vector4(0, 1, 0, 0); 
+                u = Vector4.Transform(u, _viewMatrix);
+                return new Vector3(u.X, u.Y, u.Z);
+            }
+        }
+
+        public Vector3 Left
+        {
+            get
+            {
+                Vector4 l = new Vector4(1, 0, 0, 0);
+                l = Vector4.Transform(l, _viewMatrix);
+                return new Vector3(l.X, l.Y, l.Z);
+            }
+        }
 
         public float Fov { get { return _fov; } set { _fov = value; UpdateMatrices(); } }
         public float AspectRatio { get { return _aspectRatio; } set { 
@@ -55,13 +82,6 @@ namespace Arbaro2.DX_Engine
         // and in fact is not that easy... todo
         public void LookAt(Vector3 lookAt) {
             throw new Exception("DXCamera.LookAt not implemented");
-        }
-
-        public void ETU(Vector3 eye, Vector3 target, Vector3 up) {
-
-            _position = eye;
-            _target = target;
-            _viewMatrix = Matrix.LookAtLH(_position, target, up);
         }
 
         public Matrix ViewMatrix { get { return _viewMatrix; } }
