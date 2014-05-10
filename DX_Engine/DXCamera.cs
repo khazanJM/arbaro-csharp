@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 //
 //  Loosely based on ThreeJS camera
+//  The camera has to handle a "focal point"
+//  So it is defined by 
+//      it's fov (camera opening)
+//      its position in space
+//      its target (the actual point in 3D space the camera is focused on)
+//      The look_at normalized vector is basical Target - Position
 //
 
 namespace Arbaro2.DX_Engine
@@ -26,8 +32,14 @@ namespace Arbaro2.DX_Engine
             else _projMatrix = Matrix.PerspectiveFovLH(_fov, _aspectRatio, _znear, _zfar);    
         }
 
-        private Vector3 _position;
-        public Vector3 Position { get { return _position; } set { _position = value; UpdateMatrices(); } }
+        private Vector3 _position = new Vector3(0,0,0);
+        public Vector3 Position { get { return _position; } }
+
+        private Vector3 _target = new Vector3(0,0,float.MaxValue);
+        public Vector3 Target { get { return _target; } }
+
+        private Vector3 _up = new Vector3(0, 0, float.MaxValue);
+        public Vector3 Up { get { return _up; } }
 
         public float Fov { get { return _fov; } set { _fov = value; UpdateMatrices(); } }
         public float AspectRatio { get { return _aspectRatio; } set { 
@@ -39,8 +51,17 @@ namespace Arbaro2.DX_Engine
         public float Width { get { return _width; } set { _width = value; UpdateMatrices(); } }
         public float Height { get { return _height; } set { _height = value; UpdateMatrices(); } }
 
+        // Look at changes the focal point
+        // and in fact is not that easy... todo
         public void LookAt(Vector3 lookAt) {
-            _viewMatrix = Matrix.LookAtLH(_position, lookAt, new Vector3(0,1,0));
+            throw new Exception("DXCamera.LookAt not implemented");
+        }
+
+        public void ETU(Vector3 eye, Vector3 target, Vector3 up) {
+
+            _position = eye;
+            _target = target;
+            _viewMatrix = Matrix.LookAtLH(_position, target, up);
         }
 
         public Matrix ViewMatrix { get { return _viewMatrix; } }
@@ -75,22 +96,6 @@ namespace Arbaro2.DX_Engine
         public static DXCamera DXCameraOrtho(float width, float height, float near, float far)
         {
             return new DXCamera(width, height, near, far, false);           
-        }
-
-        // Makes it such the Bounding box is "fully" within the camera frustrum.
-        // basically the camera is placed in sucha a way that the bounding box 
-        // will stay in the camera frustrum wherever the camera orbit to
-        public void LookAt(BoundingBox BBox) 
-        { 
-            Vector3 lengths = BBox.Maximum - BBox.Minimum;
-            float maxLen = Math.Max(lengths.Z, Math.Max(lengths.X, lengths.Y));
-            maxLen = Math.Max(2 * _znear, maxLen);
-
-            Vector3 p = (BBox.Maximum + BBox.Minimum) / 2.0f;
-            float distance = (1.05f*maxLen/2.0f) / (float)Math.Tan(_fov/2.0);
-            
-            _position = p; _position.Z -= distance;
-            LookAt(p);
         }
     }
 }
