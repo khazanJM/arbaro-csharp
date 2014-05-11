@@ -12,7 +12,7 @@ It implements ideas developed by Weber & Penn in a somewhat famous paper.
 The original Arbaro implementation can be found [here](http://arbaro.sourceforge.net). The Weber & Penn paper: *Creation and rendering of realistic tree* can be found [here](https://www.cs.duke.edu/courses/fall02/cps124/resources/p119-weber.pdf)
 
 
-### Status as of May 9, 2014
+### Status as of May 11, 2014
 
 #### A screen-shot
 
@@ -23,4 +23,13 @@ The original Arbaro implementation can be found [here](http://arbaro.sourceforge
 
 The current implementation is able to calculate a tree and display its skeleton (skipping subsegments).
 Basically it is still extremely early stages... A lot of work still needed to have something even remotely useful.
+
+All loaded tree parameters are displayed in the tree view on the left. Though it's not obvious when looking at the screenshot.
+
+A basic Orbite controler is implemented on the 3D view. 
+It allows Zoom (whith mouse wheel), Pan (Right mouse button) and rotation around the tree (Left mouse button).
+
+Currently it takes quite long to calculate any of the sample trees (around 500ms to 1s). Which can possibly be due to all linear algebra calculation being done without any acceleration. My current goal is to remove the CS_Vector, CS_Matrix and CS_Transformation classes and remplace them with the DirectX Vector & Matrix implementations. I guess it can help a bit as Arbaro is doing some intensive linear algebra calculations.
+
+
 

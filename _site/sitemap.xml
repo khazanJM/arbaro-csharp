@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp/</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp</loc>
     </url>
     
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//404.html</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/404.html</loc>
     </url>
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//about/</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/about/</loc>
     </url>
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//feed.xml</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/feed.xml</loc>
     </url>
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//index.html</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/index.html</loc>
     </url>
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//posts/</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/posts/</loc>
     </url>
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//sitemap.xml</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/sitemap.xml</loc>
     </url>
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//theme-setup/</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/theme-setup/</loc>
     </url>
     
 
     
     <url>
-        <loc>http://khazanjm.github.io/arbaro-csharp//sample-post-images/</loc>
+        <loc>http://khazanjm.github.io/arbaro-csharp/sample-post-images/</loc>
     </url>
     
 </urlset>
