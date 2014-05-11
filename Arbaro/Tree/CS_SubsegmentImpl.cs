@@ -14,8 +14,8 @@ namespace Arbaro2.Arbaro.Tree
     {
         // a Segment can have one or more Subsegments
         public CS_Vector pos;
-        public double dist; // distance from segment's base 
-        public double rad;
+        public float dist; // distance from segment's base 
+        public float rad;
         CS_SegmentImpl segment;
         public CS_SubsegmentImpl prev = null;
         public CS_SubsegmentImpl next = null;
@@ -45,7 +45,7 @@ namespace Arbaro2.Arbaro.Tree
             return segment.index * segment.length + dist;
         }
 
-        public CS_SubsegmentImpl(CS_Vector p, double r, double h, CS_SegmentImpl segment)
+        public CS_SubsegmentImpl(CS_Vector p, float r, float h, CS_SegmentImpl segment)
         {
             pos = p;
             rad = r;
@@ -75,23 +75,23 @@ namespace Arbaro2.Arbaro.Tree
 
                 for (int i = 0; i < pt_cnt; i++)
                 {
-                    double angle = i * 360.0 / pt_cnt;
+                    float angle = i * 360.0f / pt_cnt;
                     // for Lobes ensure that points are near lobes extrema, but not exactly there
                     // otherwise there are to sharp corners at the extrema
                     if (lpar.level == 0 && par.Lobes != 0)
                     {
-                        angle -= 10.0 / par.Lobes;
+                        angle -= 10.0f / par.Lobes;
                     }
 
                     // create some point on the unit circle
-                    CS_Vector pt = new CS_Vector(Math.Cos(angle * Math.PI / 180), Math.Sin(angle * Math.PI / 180), 0);
+                    CS_Vector pt = new CS_Vector((float)Math.Cos(angle * Math.PI / 180), (float)Math.Sin(angle * Math.PI / 180), 0);
                     // scale it to stem radius
                     if (lpar.level == 0 && (par.Lobes != 0 || par._0ScaleV != 0))
                     {
-                        double rad1 = rad * (1 +
+                        float rad1 = rad * (1 +
                                 par.random.uniform(-par._0ScaleV, par._0ScaleV) /
                                 segment.getSubsegmentCount());
-                        pt = pt.mul(rad1 * (1.0 + par.LobeDepth * Math.Cos(par.Lobes * angle * Math.PI / 180.0)));
+                        pt = pt.mul(rad1 * (1.0f + par.LobeDepth * (float)Math.Cos(par.Lobes * angle * Math.PI / 180.0)));
                     }
                     else
                     {

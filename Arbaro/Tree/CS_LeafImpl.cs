@@ -51,8 +51,7 @@ namespace Arbaro2.Arbaro.Tree
 
             // rotation up
             norm = transf.getY();
-            double fbend = CS_Vector.atan2(Math.Sqrt(norm.getX() * norm.getX() + norm.getY() * norm.getY()),
-                    norm.getZ());
+            float fbend = CS_Vector.atan2((float)Math.Sqrt(norm.getX() * norm.getX() + norm.getY() * norm.getY()), norm.getZ());
 
             bend_angle = par.LeafBend * fbend;
 

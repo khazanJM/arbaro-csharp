@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,31 +22,30 @@ namespace Arbaro2.Arbaro.Transformation
         public static CS_Vector Y_AXIS = new CS_Vector(0, 1, 0);
         public static CS_Vector Z_AXIS = new CS_Vector(0, 0, 1);
 
-        private double[] coord = { 0, 0, 0 };
+        private float[] coord = { 0, 0, 0 };
 
         public CS_Vector()
         {
-            coord = new double[Z + 1];
-            //coord = {0,0,0};
+            coord = new float[Z + 1];           
         }
 
-        public CS_Vector(double x, double y, double z)
+        public CS_Vector(float x, float y, float z)
         {
-            coord = new double[Z + 1];
+            coord = new float[Z + 1];
             coord[X] = x;
             coord[Y] = y;
-            coord[Z] = z;
+            coord[Z] = z;            
         }
 
         public bool equals(CS_Vector v)
         {
-            return this.sub(v).abs() < 0.0000001;
+            return this.sub(v).abs() < 0.0000001;        
         }
 
-        public double abs()
+        public float abs()
         {
             //returns the length of the vector
-            return Math.Sqrt(coord[X] * coord[X] + coord[Y] * coord[Y] + coord[Z] * coord[Z]);
+            return (float)Math.Sqrt(coord[X] * coord[X] + coord[Y] * coord[Y] + coord[Z] * coord[Z]);
         }
 
         // I'm too lazy to port the string format of Arbaro
@@ -56,38 +56,38 @@ namespace Arbaro2.Arbaro.Transformation
 
         public CS_Vector normalize()
         {
-            double abs = this.abs();
+            float abs = this.abs();
             return new CS_Vector(coord[X] / abs, coord[Y] / abs, coord[Z] / abs);
         }
 
-        public double getX()
+        public float getX()
         {
             return coord[X];
         }
 
-        public double getY()
+        public float getY()
         {
             return coord[Y];
         }
 
-        public double getZ()
+        public float getZ()
         {
             return coord[Z];
         }
 
-        public CS_Vector mul(double factor)
+        public CS_Vector mul(float factor)
         {
             // scales the vector
             return new CS_Vector(coord[X] * factor, coord[Y] * factor, coord[Z] * factor);
         }
 
-        public double prod(CS_Vector v)
+        public float prod(CS_Vector v)
         {
             // inner product of two vectors
             return coord[X] * v.getX() + coord[Y] * v.getY() + coord[Z] * v.getZ();
         }
 
-        public CS_Vector div(double factor)
+        public CS_Vector div(float factor)
         {
             return this.mul(1 / factor);
         }
@@ -109,16 +109,9 @@ namespace Arbaro2.Arbaro.Transformation
          * @param u u-coordinate of the vector
          * @return a value from (-180..180)
          */
-        static public double atan2(double v, double u)
+        static public float atan2(float v, float u)
         {
-            if (u == 0)
-            {
-                if (v >= 0) return 90;
-                else return -90;
-            }
-            if (u > 0) return Math.Atan(v / u) * 180 / Math.PI;
-            if (v >= 0) return 180 + Math.Atan(v / u) * 180 / Math.PI;
-            return Math.Atan(v / u) * 180 / Math.PI - 180;
+            return (float)(Math.Atan2(v, u) * 180 / Math.PI);
         }
 
         public void setMaxCoord(CS_Vector v)

@@ -16,14 +16,14 @@ namespace Arbaro2.Arbaro.Tree
 	public CS_LevelParams lpar;
 	public int index;
 	public CS_Transformation transf;
-	public double rad1;
-	public double rad2;
-	public double length;
+    public float rad1;
+    public float rad2;
+    public float length;
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.arbaro.tree.TraversableSegment#getLength()
 	 */
-	public double getLength() { return length; }
+    public float getLength() { return length; }
 	/* (non-Javadoc)
 	 * @see net.sourceforge.arbaro.tree.TraversableSegment#getTransformation()
 	 */
@@ -35,8 +35,9 @@ namespace Arbaro2.Arbaro.Tree
 	public List<CS_SubsegmentImpl> subsegments;
 
     public CS_SegmentImpl(/*Params params, LevelParams lparams,*/
-            CS_StemImpl stm, int inx, CS_Transformation trf, 
-			double r1, double r2) {
+            CS_StemImpl stm, int inx, CS_Transformation trf,
+            float r1, float r2)
+    {
 		index = inx;
 		transf = trf; 
 		rad1 = r1;
@@ -119,9 +120,9 @@ namespace Arbaro2.Arbaro.Tree
 	private void makeSubsegments(int cnt) {
 		CS_Vector dir = getUpperPosition().sub(getLowerPosition());
 		for (int i=1; i<cnt+1; i++) {
-			double pos = i*length/cnt;
+            float pos = i * length / cnt;
 			// System.err.println("SUBSEG:stem_radius");
-			double rad = stem.stemRadius(index*length + pos);
+            float rad = stem.stemRadius(index * length + pos);
 			// System.err.println("SUBSEG: pos: "+ pos+" rad: "+rad+" inx: "+index+" len: "+length);
 			
 			addSubsegment(new CS_SubsegmentImpl(getLowerPosition().add(dir.mul(pos/length)),rad, pos, this));
@@ -139,8 +140,8 @@ namespace Arbaro2.Arbaro.Tree
 	private void makeSphericalEnd(int cnt) {
 		CS_Vector dir = getUpperPosition().sub(getLowerPosition());
 		for (int i=1; i<cnt; i++) {
-			double pos = length-length/Math.Pow(2,i);
-			double rad = stem.stemRadius(index*length + pos);
+            float pos = (float)(length - length / Math.Pow(2, i));
+            float rad = stem.stemRadius(index * length + pos);
 			//stem.DBG("FLARE: pos: %f, rad: %f\n"%(pos,rad))
 			addSubsegment(new CS_SubsegmentImpl(getLowerPosition().add(dir.mul(pos/length)),rad, pos, this));
 		}
@@ -159,8 +160,8 @@ namespace Arbaro2.Arbaro.Tree
 		CS_Vector dir = getUpperPosition().sub(getLowerPosition());
 		//addSubsegment(new SubsegmentImpl(getLowerPosition(),rad1,0,this));
 		for (int i=cnt-1; i>=0; i--) {
-			double pos = length/Math.Pow(2,i);
-			double rad = stem.stemRadius(index*length+pos);
+            float pos = (float)(length / Math.Pow(2, i));
+            float rad = stem.stemRadius(index * length + pos);
 			//self.stem.DBG("FLARE: pos: %f, rad: %f\n"%(pos,rad))
 			addSubsegment(new CS_SubsegmentImpl(getLowerPosition().add(dir.mul(pos/length)),rad, pos,this));
 		}
@@ -176,9 +177,9 @@ namespace Arbaro2.Arbaro.Tree
 	 */
 	
 	private void makeHelix(int cnt) {
-		double angle = Math.Abs(lpar.nCurveV)/180*Math.PI;
+        float angle = (float)(Math.Abs(lpar.nCurveV) / 180 * Math.PI);
 		// this is the radius of the helix
-		double rad = Math.Sqrt(1.0/(Math.Cos(angle)*Math.Cos(angle)) - 1)*length/Math.PI/2.0;
+        float rad = (float)(Math.Sqrt(1.0 / (Math.Cos(angle) * Math.Cos(angle)) - 1) * length / Math.PI / 2.0);
 		
         /*
 		if (Console.debug())
@@ -187,12 +188,10 @@ namespace Arbaro2.Arbaro.Tree
 
 		//self.stem.DBG("HELIX: rad: %f, len: %f\n" % (rad,len))
 		for (int i=1; i<cnt+1; i++) {
-			CS_Vector pos = new CS_Vector(rad*Math.Cos(2*Math.PI*i/cnt)-rad,
-					rad*Math.Sin(2*Math.PI*i/cnt),
-					i*length/cnt);
+			CS_Vector pos = new CS_Vector(rad*(float)Math.Cos(2*Math.PI*i/cnt)-rad, rad*(float)Math.Sin(2*Math.PI*i/cnt), i*length/cnt);
 			//self.stem.DBG("HELIX: pos: %s\n" % (str(pos)))
 			// this is the stem radius
-			double srad = stem.stemRadius(index*length + i*length/cnt);
+            float srad = stem.stemRadius(index * length + i * length / cnt);
 			addSubsegment(new CS_SubsegmentImpl(transf.apply(pos), srad, i*length/cnt,this));
 		}
 	}
@@ -208,7 +207,7 @@ namespace Arbaro2.Arbaro.Tree
 	 *        the axis of the segment to the axis of the subsegment)
 	 */
 
-    public CS_Transformation substemPosition(CS_Transformation trf, double where)
+    public CS_Transformation substemPosition(CS_Transformation trf, float where)
     {
 		if (lpar.nCurveV>=0) { // normal segment 
 			return trf.translate(transf.getZ().mul(where*length));
@@ -299,7 +298,7 @@ namespace Arbaro2.Arbaro.Tree
 		int pt_cnt = lpar.mesh_points;
         CS_Vector[] points;
         CS_Transformation trf = getTransformation(); //segment.getTransformation().translate(pos.sub(segment.getLowerPosition()));
-		double rad = this.rad1;
+        float rad = this.rad1;
 		
 		// if radius = 0 create only one point
 		if (rad<0.000001) {
@@ -310,22 +309,22 @@ namespace Arbaro2.Arbaro.Tree
 			//stem.DBG("MESH+LOBES: lobes: %d, depth: %f\n"%(self.tree.Lobes, self.tree.LobeDepth))
 			
 			for (int i=0; i<pt_cnt; i++) {
-				double angle = i*360.0/pt_cnt;
+                float angle = i * 360.0f / pt_cnt;
 				// for Lobes ensure that points are near lobes extrema, but not exactly there
 				// otherwise there are to sharp corners at the extrema
 				if (lpar.level==0 && par.Lobes != 0) {
-					angle -= 10.0/par.Lobes;
+					angle -= 10.0f/par.Lobes;
 				}
 				
 				// create some point on the unit circle
-                CS_Vector pt = new CS_Vector(Math.Cos(angle * Math.PI / 180), Math.Sin(angle * Math.PI / 180), 0);
+                CS_Vector pt = new CS_Vector((float)Math.Cos(angle * Math.PI / 180), (float)Math.Sin(angle * Math.PI / 180), 0);
 
 				// scale it to stem radius
 				if (lpar.level==0 && (par.Lobes != 0 || par._0ScaleV !=0)) {
 					double rad1 = rad * (1 + 
 							par.random.uniform(-par._0ScaleV,par._0ScaleV)/
 							getSubsegmentCount());
-					pt = pt.mul(rad1*(1.0+par.LobeDepth*Math.Cos(par.Lobes*angle*Math.PI/180.0))); 
+					pt = pt.mul((float)(rad1*(1.0+par.LobeDepth*Math.Cos(par.Lobes*angle*Math.PI/180.0)))); 
 				} else {
 					pt = pt.mul(rad); // faster - no radius calculations
 				}

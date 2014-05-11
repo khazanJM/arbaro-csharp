@@ -3,6 +3,7 @@ using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Tree;
 using Arbaro2.DX_Engine;
 using Arbaro2.DX_Engine.TreeClasses;
+using Arbaro2.Utilities;
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
@@ -73,10 +74,14 @@ namespace Arbaro2
 
                 csParams.readFromXML(mainOpenFileDialog.FileName);
                 csParams.enableDisable();
-
+                CS_PreciseTimer t0 = new CS_PreciseTimer(10);
+                DateTime tStart = t0.Now;
                 CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
-                tree = treeGenerator.makeTree(new Object()); 
-              
+                tree = treeGenerator.makeTree(new Object());
+                DateTime tEnd = t0.Now;
+                float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
+                Console.WriteLine(elapsed);
+
                 // make 3D Tree
                 if (Program.Renderer.RenderableList.ContainsKey("Skeleton")) {
                     DXRenderable s = Program.Renderer.RenderableList["Skeleton"];
@@ -92,6 +97,11 @@ namespace Arbaro2
         private void ArbaroMainForm_Resize(object sender, EventArgs e)
         {
             mainSplitContainer.SplitterDistance = 300;
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

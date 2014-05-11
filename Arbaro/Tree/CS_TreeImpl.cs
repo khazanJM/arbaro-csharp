@@ -87,8 +87,8 @@ namespace Arbaro2.Arbaro.Tree
 		
 		setupGenProgress();
 		csparams.prepare(seed);
-		maxPoint = new CS_Vector(-Double.MaxValue,-Double.MaxValue,-Double.MaxValue);
-		minPoint = new CS_Vector(Double.MaxValue,Double.MaxValue,Double.MaxValue);
+        maxPoint = new CS_Vector(-float.MaxValue, -float.MaxValue, -float.MaxValue);
+        minPoint = new CS_Vector(float.MaxValue, float.MaxValue, float.MaxValue);
 		
 		Console.WriteLine("Tree species: " + csparams.Species + ", Seed: " + seed);
 		Console.WriteLine("making " + csparams.Species + "(" + seed + ") ");
@@ -96,15 +96,14 @@ namespace Arbaro2.Arbaro.Tree
 		// create the trunk and all its stems and leaves
 		CS_Transformation transf = new CS_Transformation();
 		CS_Transformation trf;
-		double angle;
-		double dist;
+        float angle;
+        float dist;
 		CS_LevelParams lpar = csparams.getLevelParams(0);
 		for (int i=0; i<lpar.nBranches; i++) {
 			trf = trunkDirection(transf,lpar);
 			angle = lpar.var(360);
 			dist = lpar.var(lpar.nBranchDist);
-			trf = trf.translate(new CS_Vector(dist*Math.Sin(angle),
-					dist*Math.Cos(angle),0));
+			trf = trf.translate(new CS_Vector(dist*(float)Math.Sin(angle), dist*(float)Math.Cos(angle),0));
 			CS_StemImpl trunk = new CS_StemImpl(this,null,0,trf,0);
 			trunks.Add(trunk);
 			trunk.index=0;

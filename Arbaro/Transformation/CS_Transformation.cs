@@ -142,12 +142,12 @@ namespace Arbaro2.Arbaro.Transformation
         //	    + fmt.format(vector.getY()) + ">";
         //    }
 
-        public CS_Transformation rotz(double angle)
+        public CS_Transformation rotz(float angle)
         {
             // local rotation about z-axis
-            double radAngle = angle * Math.PI / 180;
-            CS_Matrix rm = new CS_Matrix(Math.Cos(radAngle), -Math.Sin(radAngle), 0,
-                    Math.Sin(radAngle), Math.Cos(radAngle), 0,
+            float radAngle = (float)(angle * Math.PI / 180);
+            CS_Matrix rm = new CS_Matrix((float)Math.Cos(radAngle), -(float)Math.Sin(radAngle), 0,
+                    (float)Math.Sin(radAngle), (float)Math.Cos(radAngle), 0,
                     0, 0, 1);
             return new CS_Transformation(_matrix.prod(rm), _vector);
         }
@@ -155,32 +155,32 @@ namespace Arbaro2.Arbaro.Transformation
         public CS_Transformation roty(double angle)
         {
             // local rotation about z-axis
-            double radAngle = angle * Math.PI / 180;
-            CS_Matrix rm = new CS_Matrix(Math.Cos(radAngle), 0, -Math.Sin(radAngle),
+            float radAngle = (float)(angle * Math.PI / 180);
+            CS_Matrix rm = new CS_Matrix((float)Math.Cos(radAngle), 0, -(float)Math.Sin(radAngle),
                     0, 1, 0,
-                    Math.Sin(radAngle), 0, Math.Cos(radAngle));
+                    (float)Math.Sin(radAngle), 0, (float)Math.Cos(radAngle));
             return new CS_Transformation(_matrix.prod(rm), _vector);
         }
 
         public CS_Transformation rotx(double angle)
         {
             // local rotation about the x axis
-            double radAngle = angle * Math.PI / 180;
+            float radAngle = (float)(angle * Math.PI / 180);
             CS_Matrix rm = new CS_Matrix(1, 0, 0,
-                    0, Math.Cos(radAngle), -Math.Sin(radAngle),
-                    0, Math.Sin(radAngle), Math.Cos(radAngle));
+                    0, (float)Math.Cos(radAngle), -(float)Math.Sin(radAngle),
+                    0, (float)Math.Sin(radAngle), (float)Math.Cos(radAngle));
             return new CS_Transformation(_matrix.prod(rm), _vector);
         }
 
         public CS_Transformation rotxz(double delta, double rho)
         {
             // local rotation about the x and z axees - for the substems
-            double radDelta = delta * Math.PI / 180;
-            double radRho = rho * Math.PI / 180;
-            double sir = Math.Sin(radRho);
-            double cor = Math.Cos(radRho);
-            double sid = Math.Sin(radDelta);
-            double cod = Math.Cos(radDelta);
+            float radDelta = (float)(delta * Math.PI / 180);
+            float radRho = (float)(rho * Math.PI / 180);
+            float sir = (float)Math.Sin(radRho);
+            float cor = (float)Math.Cos(radRho);
+            float sid = (float)Math.Sin(radDelta);
+            float cod = (float)Math.Cos(radDelta);
 
             CS_Matrix rm = new CS_Matrix(cor, -sir * cod, sir * sid,
                     sir, cor * cod, -cor * sid,
@@ -193,13 +193,13 @@ namespace Arbaro2.Arbaro.Transformation
             // local rotation away from the local z-axis 
             // about an angle delta using an axis given by rho 
             // - used for splitting and random rotations
-            double radDelta = delta * Math.PI / 180;
-            double radRho = rho * Math.PI / 180;
+            float radDelta = (float)(delta * Math.PI / 180);
+            float radRho = (float)(rho * Math.PI / 180);
 
-            double a = Math.Cos(radRho);
-            double b = Math.Sin(radRho);
-            double si = Math.Sin(radDelta);
-            double co = Math.Cos(radDelta);
+            float a = (float)Math.Cos(radRho);
+            float b = (float)Math.Sin(radRho);
+            float si = (float)Math.Sin(radDelta);
+            float co = (float)Math.Cos(radDelta);
 
             CS_Matrix rm = new CS_Matrix((co + a * a * (1 - co)), (b * a * (1 - co)), (b * si),
                     (a * b * (1 - co)), (co + b * b * (1 - co)), (-a * si),
@@ -215,13 +215,13 @@ namespace Arbaro2.Arbaro.Transformation
         public CS_Transformation rotaxis(double angle, CS_Vector axis)
         {
             // rotation about an axis
-            double radAngle = angle * Math.PI / 180;
+            float radAngle = (float)(angle * Math.PI / 180);
             CS_Vector normAxis = axis.normalize();
-            double a = normAxis.getX();
-            double b = normAxis.getY();
-            double c = normAxis.getZ();
-            double si = Math.Sin(radAngle);
-            double co = Math.Cos(radAngle);
+            float a = normAxis.getX();
+            float b = normAxis.getY();
+            float c = normAxis.getZ();
+            float si = (float)Math.Sin(radAngle);
+            float co = (float)Math.Cos(radAngle);
 
             CS_Matrix rm = new CS_Matrix(
                     (co + a * a * (1 - co)), (-c * si + b * a * (1 - co)), (b * si + c * a * (1 - co)),

@@ -13,40 +13,40 @@ namespace Arbaro2.Arbaro.Params
 {
     public class CS_FloatParam : CS_AbstractParam
     {
-        private double min;
-        private double max;
-        private double deflt;
-        private double value;
+        private float min;
+        private float max;
+        private float deflt;
+        private float value;
 
-        public CS_FloatParam(String nam, double mn, double mx, double def, String grp, int lev, int ord, String sh, String lng) :
+        public CS_FloatParam(String nam, float mn, float mx, float def, String grp, int lev, int ord, String sh, String lng) :
             base(nam, grp, lev, ord, sh, lng)
         {
             min = mn;
             max = mx;
             deflt = def;
-            value = Double.NaN;
+            value = float.NaN;
         }
 
         public override String getDefaultValue()
         {
-            Double d = deflt;
+            float d = deflt;
             return d.ToString();
         }
 
         public override void clear()
         {
-            value = Double.NaN;
+            value = float.NaN;
             raiseOnParamChanged("");
         }
 
         public override void setValue(String val)
         {
-            double d;
+            float d;
             try
             {
                 string uiSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
                 val = val.Replace(".", uiSep);
-                d = Double.Parse(val);
+                d = float.Parse(val);
             }
             catch (Exception)
             {
@@ -67,16 +67,16 @@ namespace Arbaro2.Arbaro.Params
 
         public override String getValue()
         {
-            Double d = value;
+            float d = value;
             return d.ToString();
         }
 
         public override bool empty()
         {
-            return Double.IsNaN(value);
+            return float.IsNaN(value);
         }
 
-        public double doubleValue()
+        public float doubleValue()
         {
             if (empty())
             {

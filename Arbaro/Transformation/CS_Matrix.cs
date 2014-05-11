@@ -17,11 +17,11 @@ namespace Arbaro2.Arbaro.Transformation
         static int Y = 1;
         static int Z = 2;
 
-        private double[] data;
+        private float[] data;
 
         public CS_Matrix()
         {
-            data = new double[(Z + 1) * (Z + 1)];
+            data = new float[(Z + 1) * (Z + 1)];
             for (int r = X; r <= Z; r++)
             {
                 for (int c = X; c <= Z; c++)
@@ -31,11 +31,11 @@ namespace Arbaro2.Arbaro.Transformation
             }
         }
 
-        public CS_Matrix(double xx, double xy, double xz,
-                double yx, double yy, double yz,
-                double zx, double zy, double zz)
+        public CS_Matrix(float xx, float xy, float xz,
+                float yx, float yy, float yz,
+                float zx, float zy, float zz)
         {
-            data = new double[(Z + 1) * (Z + 1)];
+            data = new float[(Z + 1) * (Z + 1)];
 
             data[X * 3 + X] = xx;
             data[X * 3 + Y] = xy;
@@ -63,12 +63,12 @@ namespace Arbaro2.Arbaro.Transformation
             return new CS_Vector(data[X * 3 + c], data[Y * 3 + c], data[Z * 3 + c]);
         }
 
-        public double get(int r, int c)
+        public float get(int r, int c)
         {
             return data[r * 3 + c];
         }
 
-        public void set(int r, int c, double value)
+        public void set(int r, int c, float value)
         {
             data[r * 3 + c] = value;
         }
@@ -86,7 +86,7 @@ namespace Arbaro2.Arbaro.Transformation
             return T;
         }
 
-        public CS_Matrix mul(double factor)
+        public CS_Matrix mul(float factor)
         {
             // scales the matrix with a factor
             CS_Matrix R = new CS_Matrix();
@@ -154,7 +154,7 @@ namespace Arbaro2.Arbaro.Transformation
          * @param factor the divisor
          * @return The matrix divided by the value
          */
-        public CS_Matrix div(double factor)
+        public CS_Matrix div(float factor)
         {
             return mul(1 / factor);
         }

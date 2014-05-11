@@ -26,7 +26,7 @@ namespace Arbaro2.Arbaro.Params
         public const int TEND_FLAME = 7;
         public const int ENVELOPE = 8;
 
-        public double leavesErrorValue;
+        public float leavesErrorValue;
 
         protected CS_LevelParams[] levelParams;
         public CS_Random random;
@@ -43,12 +43,12 @@ namespace Arbaro2.Arbaro.Params
         // general params
         public String Species;
 
-        public double LeafQuality;
+        public float LeafQuality;
 
         // this mesh parameters are influenced by Smooth, 
         // this are only defaults here
-        public double Smooth;
-        public double mesh_quality;  // 0..1 - factor for mesh point number 
+        public float Smooth;
+        public float mesh_quality;  // 0..1 - factor for mesh point number 
         // (1+mesh_quality)
         public int smooth_mesh_level; // -1..Levels - add average normals 
         // to mesh points of all levels below
@@ -61,47 +61,47 @@ namespace Arbaro2.Arbaro.Params
         public int Levels;
 
         // trunk&radius parameters
-        public double Ratio;
-        public double RatioPower;
+        public float Ratio;
+        public float RatioPower;
         public int Shape;
-        public double BaseSize;
-        public double Flare;
+        public float BaseSize;
+        public float Flare;
 
         public int Lobes;
-        public double LobeDepth;
+        public float LobeDepth;
 
         // leave parameters
         public int Leaves;
         public String LeafShape;
-        public double LeafScale;
-        public double LeafScaleX;
+        public float LeafScale;
+        public float LeafScaleX;
 
         // new introduced - not in the paper
-        public double LeafStemLen;
-        public double LeafBend;
+        public float LeafStemLen;
+        public float LeafBend;
         public int LeafDistrib;
 
         // tree scale
-        public double Scale;
-        public double ScaleV;
+        public float Scale;
+        public float ScaleV;
 
         // additional trunk scaling
-        public double _0Scale; // only 0SCale used
-        public double _0ScaleV; // only 0ScaleV used
+        public float _0Scale; // only 0SCale used
+        public float _0ScaleV; // only 0ScaleV used
 
         // attraction and pruning/envelope
-        public double AttractionUp;
-        public double PruneRatio;
-        public double PrunePowerLow;
-        public double PrunePowerHigh;
-        public double PruneWidth;
-        public double PruneWidthPeak;
+        public float AttractionUp;
+        public float PruneRatio;
+        public float PrunePowerLow;
+        public float PrunePowerHigh;
+        public float PruneWidth;
+        public float PruneWidthPeak;
 
         // base splits
         public int _0BaseSplits;
 
         // variables need for stem creation
-        public double scale_tree;
+        public float scale_tree;
 
         // change events
         public event EventHandler<CS_ParamChangedArgs> OnParamChanged;
@@ -123,7 +123,7 @@ namespace Arbaro2.Arbaro.Params
 
             LeafQuality = 1;
 
-            Smooth = 0.5;
+            Smooth = 0.5f;
 
             // the default seed
             //		Seed = 13;
@@ -279,7 +279,7 @@ namespace Arbaro2.Arbaro.Params
             }
         }
 
-        private double getDblParam(String name)
+        private float getDblParam(String name)
         {
             CS_FloatParam par = (CS_FloatParam)paramDB[name];
             if (par != null)
@@ -429,12 +429,12 @@ namespace Arbaro2.Arbaro.Params
             scale_tree = Scale + levelParams[0].random.uniform(-ScaleV, ScaleV);
         }
 
-        public double getShapeRatio(double ratio)
+        public float getShapeRatio(float ratio)
         {
             return getShapeRatio(ratio, Shape);
         }
 
-        public double getShapeRatio(double ratio, int shape)
+        public float getShapeRatio(float ratio, int shape)
         {
 
             switch (shape)
@@ -442,19 +442,19 @@ namespace Arbaro2.Arbaro.Params
                 //case CONICAL: return 0.2+0.8*ratio;
                 // need real conical shape for lark, fir, etc.
                 case CONICAL: return ratio; // FIXME: this would be better: 0.05+0.95*ratio; ?
-                case SPHERICAL: return 0.2 + 0.8 * Math.Sin(Math.PI * ratio);
-                case HEMISPHERICAL: return 0.2 + 0.8 * Math.Sin(0.5 * Math.PI * ratio);
-                case CYLINDRICAL: return 1.0;
-                case TAPERED_CYLINDRICAL: return 0.5 + 0.5 * ratio;
+                case SPHERICAL: return (float)(0.2 + 0.8 * Math.Sin(Math.PI * ratio));
+                case HEMISPHERICAL: return (float)(0.2 + 0.8 * Math.Sin(0.5 * Math.PI * ratio));
+                case CYLINDRICAL: return 1.0f;
+                case TAPERED_CYLINDRICAL: return (float)(0.5 + 0.5 * ratio);
                 case FLAME:
-                    return ratio <= 0.7 ?
-                            ratio / 0.7 :
-                                (1 - ratio) / 0.3;
-                case INVERSE_CONICAL: return 1 - 0.8 * ratio;
+                    return ratio <= 0.7f ?
+                            ratio / 0.7f :
+                                (1 - ratio) / 0.3f;
+                case INVERSE_CONICAL: return 1 - 0.8f * ratio;
                 case TEND_FLAME:
-                    return ratio <= 0.7 ?
-                            0.5 + 0.5 * ratio / 0.7 :
-                                0.5 + 0.5 * (1 - ratio) / 0.3;
+                    return ratio <= 0.7f ?
+                            0.5f + 0.5f * ratio / 0.7f :
+                                0.5f + 0.5f * (1 - ratio) / 0.3f;
                 case ENVELOPE:
                     if (ratio < 0 || ratio > 1)
                     {
@@ -462,11 +462,11 @@ namespace Arbaro2.Arbaro.Params
                     }
                     else if (ratio < (1 - PruneWidthPeak))
                     {
-                        return Math.Pow(ratio / (1 - PruneWidthPeak), PrunePowerHigh);
+                        return (float)Math.Pow(ratio / (1 - PruneWidthPeak), PrunePowerHigh);
                     }
                     else
                     {
-                        return Math.Pow((1 - ratio) / (1 - PruneWidthPeak), PrunePowerLow);
+                        return (float)Math.Pow((1 - ratio) / (1 - PruneWidthPeak), PrunePowerLow);
                     }
                 // tested in prepare() default: throw new ErrorParam("Shape must be between 0 and 8");
             }
@@ -545,18 +545,18 @@ namespace Arbaro2.Arbaro.Params
             }
         }
 
-        private void dblParam(String name, double min, double max, double deflt,
+        private void dblParam(String name, float min, float max, float deflt,
                 String group, String short_desc, String long_desc)
         {
             paramDB.Add(name, new CS_FloatParam(name, min, max, deflt, group, CS_AbstractParam.GENERAL,
                     order++, short_desc, long_desc));
         }
 
-        private void dbl4Param(String name, double min, double max,
-                double deflt0, double deflt1, double deflt2, double deflt3,
+        private void dbl4Param(String name, float min, float max,
+                float deflt0, float deflt1, float deflt2, float deflt3,
                 String group, String short_desc, String long_desc)
         {
-            double[] deflt = { deflt0, deflt1, deflt2, deflt3 };
+            float[] deflt = { deflt0, deflt1, deflt2, deflt3 };
             order++;
             for (int i = 0; i < 4; i++)
             {
@@ -614,7 +614,7 @@ namespace Arbaro2.Arbaro.Params
                     "and uses it's down and rotation angles.\n"
             );
 
-            dblParam("Scale", 0.000001, Double.PositiveInfinity, 10.0, "SHAPE", "average tree size in meters",
+            dblParam("Scale", 0.000001f, float.PositiveInfinity, 10.0f, "SHAPE", "average tree size in meters",
                     "<strong>Scale</strong> is the average tree size in meters.<br>\n" +
                     "With Scale = 10.0 and ScaleV = 2.0 trees of this species\n" +
                     "reach from 8.0 to 12.0 meters.<br>\n" +
@@ -622,14 +622,14 @@ namespace Arbaro2.Arbaro.Params
                     "(See 0Length and 0LengthV)\n"
             );
 
-            dblParam("ScaleV", 0.0, Double.PositiveInfinity, 0.0, "SHAPE", "variation of tree size in meters",
+            dblParam("ScaleV", 0.0f, float.PositiveInfinity, 0.0f, "SHAPE", "variation of tree size in meters",
                     "<strong>ScaleV</strong> is the variation range of the tree size in meters.<br>\n" +
                     "Scale = 10.0, ScaleV = 2.0 means trees of this species\n" +
                     "reach from 8.0 to 12.0 meters.\n" +
                     "(See Scale)\n"
             );
 
-            dblParam("BaseSize", 0.0, 1.0, 0.25, "SHAPE", "fractional branchless area at tree base",
+            dblParam("BaseSize", 0.0f, 1.0f, 0.25f, "SHAPE", "fractional branchless area at tree base",
                     "<strong>BaseSize</strong> is the fractional branchless part of the trunk. E.g.\n<ul>" +
                     "<li>BaseSize=&nbsp;&nbsp;0</code> means branches begin on the bottom of the tree,</li>\n" +
                     "<li>BaseSize=0.5</code> means half of the trunk is branchless,</li>\n" +
@@ -658,7 +658,7 @@ namespace Arbaro2.Arbaro.Params
             //				"so theire meaning is unclear and they aren't used at the moment\n"
             //		);
 
-            dblParam("Ratio", 0.000001, Double.PositiveInfinity, 0.05, "TRUNK",
+            dblParam("Ratio", 0.000001f, float.PositiveInfinity, 0.05f, "TRUNK",
                     "trunk radius/length ratio",
                     "<strong>Ratio</strong> is the radius/length ratio of the trunk.<br>\n" +
                     "Ratio=0.05 means the trunk is 1/20 as thick as it is long,<br>\n" +
@@ -667,7 +667,7 @@ namespace Arbaro2.Arbaro.Params
                     "and/or Lobes are used. (See Flare, Lobes, LobesDepth, RatioPower)\n"
             );
 
-            dblParam("RatioPower", Double.NegativeInfinity, Double.PositiveInfinity, 1.0,
+            dblParam("RatioPower", float.NegativeInfinity, float.PositiveInfinity, 1.0f,
                     "SHAPE", "radius reduction",
                     "<strong>RatioPower</strong> is a reduction value for the radius of the\n" +
                     "substems.\n<ul>" +
@@ -684,7 +684,7 @@ namespace Arbaro2.Arbaro.Params
                     "(See Ratio)\n"
             );
 
-            dblParam("Flare", -1.0, Double.PositiveInfinity, 0.5,
+            dblParam("Flare", -1.0f, float.PositiveInfinity, 0.5f,
                     "TRUNK", "exponential expansion at base of tree",
                     "<strong>Flare</strong> makes the trunk base thicker.<ul>\n" +
                     "<li>Flare = 0.0 means base radius is used at trunk base</li>\n" +
@@ -702,7 +702,7 @@ namespace Arbaro2.Arbaro.Params
                     "(See LobeDepth too)\n"
             );
 
-            dblParam("LobeDepth", 0, Double.PositiveInfinity, 0,
+            dblParam("LobeDepth", 0, float.PositiveInfinity, 0,
                     "TRUNK", "amplitude of cross-section variation",
                     "<strong>LobeDepth</strong> defines, how deep the lobes of the trunk will be.<br>\n" +
                     "This is the amplitude of the sinusoidal cross-section variations.<br>\n" +
@@ -747,14 +747,14 @@ namespace Arbaro2.Arbaro.Params
                     "<li>any other - add your own leaf shape to the file arbaro.inc</li></ul>\n"
             );
 
-            dblParam("LeafScale", 0.000001, Double.PositiveInfinity, 0.2,
+            dblParam("LeafScale", 0.000001f, float.PositiveInfinity, 0.2f,
                     "LEAVES", "leaf length",
                     "<strong>LeafScale</strong> is the length of the leaf in meters.<br>\n" +
                     "The unit leaf is scaled in z-direction (y-direction in Povray)\n" +
                     "by this factor. (See LeafShape, LeafScaleX)\n"
             );
 
-            dblParam("LeafScaleX", 0.000001, Double.PositiveInfinity, 0.5, "LEAVES",
+            dblParam("LeafScaleX", 0.000001f, float.PositiveInfinity, 0.5f, "LEAVES",
                     "fractional leaf width",
                     "<strong>LeafScaleX</strong> is the fractional width of the leaf relativly to it's length. So<ul>\n" +
                     "<li>LeafScaleX=0.5 means the leaf is half as wide as long</li>\n" +
@@ -765,14 +765,14 @@ namespace Arbaro2.Arbaro.Params
                     "1mm wide by LeafScale=0.05 and LeafScaleX=0.02.\n"
             );
 
-            dblParam("LeafBend", 0, 1, 0.3, "LEAVES", "leaf orientation toward light",
+            dblParam("LeafBend", 0, 1, 0.3f, "LEAVES", "leaf orientation toward light",
                     "With <strong>LeafBend</strong> you can influence, how much leaves are oriented<br>\n" +
                     "outside and upwards.<br>Values near 0.5 are good. For low values the leaves<br>\n" +
                     "are oriented to the stem, for high value to the light.<br>\n" +
                     "For trees with long leaves like palms you should use lower values.\n"
             );
 
-            dblParam("LeafStemLen", Double.NegativeInfinity, Double.PositiveInfinity, 0.5,
+            dblParam("LeafStemLen", float.NegativeInfinity, float.PositiveInfinity, 0.5f,
                     "LEAVES", "fractional leaf stem length",
                     "<strong>LeafStemLen</strong is the length of the (virtual) leaf stem.<br>\n" +
                     "It's not drawn, so this is the distance between the stem<br>\n" +
@@ -790,7 +790,7 @@ namespace Arbaro2.Arbaro.Params
                     "outside. Default is 4 (some inside, more outside)."
             );
 
-            dblParam("LeafQuality", 0.000001, 1.0, 1.0, "QUALITY", "leaf quality/leaf count reduction",
+            dblParam("LeafQuality", 0.000001f, 1.0f, 1.0f, "QUALITY", "leaf quality/leaf count reduction",
                     "With a <strong>LeafQuality</strong> less then 1.0 you can reduce the number of leaves<br>\n" +
                     "to improve rendering speed and memory usage. The leaves are scaled<br>\n" +
                     "with the same amount to get the same coverage.<br>\n" +
@@ -799,7 +799,7 @@ namespace Arbaro2.Arbaro.Params
                     "(See LeafScale)"
             );
 
-            dblParam("Smooth", 0.0, 1.0, 0.5, "QUALITY", "smooth value for mesh creation",
+            dblParam("Smooth", 0.0f, 1.0f, 0.5f, "QUALITY", "smooth value for mesh creation",
                     "Higher <strong>Smooth</strong> values creates meshes with more vertices and<br>\n" +
                     "adds normal vectors to them for some or all branching levels.<br>\n" +
                     "Normally you would specify this value on the command line or in<br>\n" +
@@ -808,7 +808,7 @@ namespace Arbaro2.Arbaro.Params
                     "is preferable, because this herb has angular stems."
             );
 
-            dblParam("AttractionUp", Double.NegativeInfinity, Double.PositiveInfinity, 0.0,
+            dblParam("AttractionUp", float.NegativeInfinity, float.PositiveInfinity, 0.0f,
                     "SHAPE", "upward/downward growth tendency",
                     "<strong>AttractionUp</strong> is the tendency of stems with level>=2 to grow upwards<br>\n" +
                     "(downwards for negative values).<br>\n" +
@@ -818,25 +818,25 @@ namespace Arbaro2.Arbaro.Params
                     "As an example see the weeping willow, which has a negative AttractionUp value.\n"
             );
 
-            dblParam("PruneRatio", 0.0, 1.0, 0.0, "PRUNING",
+            dblParam("PruneRatio", 0.0f, 1.0f, 0.0f, "PRUNING",
                     "fractional effect of pruning",
                     "A <strong>PruneRatio</strong> of 1.0 means all branches are inside<br>\n" +
                     "the envelope. 0.0 means no pruning.\n"
             );
 
-            dblParam("PruneWidth", 0.0, 1.0, 0.5, "PRUNING", "width of envelope peak",
+            dblParam("PruneWidth", 0.0f, 1.0f, 0.5f, "PRUNING", "width of envelope peak",
                     "<strong>PruneWidth</strong> is the fractional width of the pruning envelope at the<br>\n" +
                     "peak. A value of 0.5 means the tree is half as wide as high.<br>\n" +
                     "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
             );
 
-            dblParam("PruneWidthPeak", 0.0, 1.0, 0.5, "PRUNING", "position of envelope peak",
+            dblParam("PruneWidthPeak", 0.0f, 1.0f, 0.5f, "PRUNING", "position of envelope peak",
                     "<strong>PruneWidthPeak</strong> is the fractional height of the envelope peak.<br>\n" +
                     "A value of 0.5 means upper part and lower part of the envelope have the same height.<br>\n" +
                     "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
             );
 
-            dblParam("PrunePowerLow", 0.0, Double.PositiveInfinity, 0.5, "PRUNING",
+            dblParam("PrunePowerLow", 0.0f, float.PositiveInfinity, 0.5f, "PRUNING",
                     "curvature of envelope",
                     "<strong>PrunePowerLow</strong> describes the envelope curve below the peak.<br>\n" +
                     "A value of 1 means linear decreasing. Higher values means concave,<br>\n" +
@@ -844,7 +844,7 @@ namespace Arbaro2.Arbaro.Params
                     "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
             );
 
-            dblParam("PrunePowerHigh", 0.0, Double.PositiveInfinity, 0.5, "PRUNING",
+            dblParam("PrunePowerHigh", 0.0f, float.PositiveInfinity, 0.5f, "PRUNING",
                     "curvature of envelope",
                     "<strong>PrunePowerHigh</strong> describes the envelope curve above the peak.<br>\n" +
                     "A value of 1 means linear decreasing. Higher values means concave,<br>\n" +
@@ -852,7 +852,7 @@ namespace Arbaro2.Arbaro.Params
                     "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
             );
 
-            dblParam("0Scale", 0.000001, Double.PositiveInfinity, 1.0,
+            dblParam("0Scale", 0.000001f, float.PositiveInfinity, 1.0f,
                     "TRUNK", "extra trunk scaling",
                     "<strong>0Scale</strong> and 0ScaleV makes the trunk thicker.<br>\n" +
                     "This parameters exists for the level 0 only. From the Weber/Penn paper it is<br>\n" +
@@ -865,7 +865,7 @@ namespace Arbaro2.Arbaro.Params
                     "could be scaled, so that the sections are elongated spheres.\n"
             );
 
-            dblParam("0ScaleV", 0.0, Double.PositiveInfinity, 0.0, "TRUNK",
+            dblParam("0ScaleV", 0.0f, float.PositiveInfinity, 0.0f, "TRUNK",
                     "variation for extra trunk scaling",
                     "0Scale and <strong>0ScaleV</strong> makes the trunk thicker. This parameters<br>\n" +
                     "exists for the level 0 only. From the Weber/Penn paper it is<br>\n" +
@@ -876,7 +876,7 @@ namespace Arbaro2.Arbaro.Params
                     "could got fissures when using too big values.<br>\n"
             );
 
-            dbl4Param("nLength", 0.0000001, Double.PositiveInfinity, 1.0, 0.5, 0.5, 0.5,
+            dbl4Param("nLength", 0.0000001f, float.PositiveInfinity, 1.0f, 0.5f, 0.5f, 0.5f,
                     "LENTAPER", "fractional trunk scaling",
                     "<strong>0Length</strong> and 0LengthV give the fractional length of the<br>\n" +
                     "trunk. So with Scale=10 and 0Length=0.8 the length of the<br>\n" +
@@ -886,12 +886,12 @@ namespace Arbaro2.Arbaro.Params
                     "relating to the length of theire parent.<br>\n"
             );
 
-            dbl4Param("nLengthV", 0.0, Double.PositiveInfinity, 0.0, 0.0, 0.0, 0.0,
+            dbl4Param("nLengthV", 0.0f, float.PositiveInfinity, 0.0f, 0.0f, 0.0f, 0.0f,
                     "LENTAPER", "variation of fractional trunk scaling",
                     "<strong>nLengthV</strong> is the variation of the length given by nLength.<br>\n"
             );
 
-            dbl4Param("nTaper", 0.0, 2.99999999, 1.0, 1.0, 1.0, 1.0,
+            dbl4Param("nTaper", 0.0f, 2.99999999f, 1.0f, 1.0f, 1.0f, 1.0f,
                     "LENTAPER", "cross-section scaling",
                     "<strong>nTaper</strong> is the tapering of the stem along its length.<ul>\n" +
                     "<li>0 - non-tapering cylinder</li>\n" +
@@ -901,7 +901,7 @@ namespace Arbaro2.Arbaro.Params
                     "You can use fractional values, to get intermediate results.<br>\n"
             );
 
-            dbl4Param("nSegSplits", 0, Double.PositiveInfinity, 0, 0, 0, 0,
+            dbl4Param("nSegSplits", 0, float.PositiveInfinity, 0, 0, 0, 0,
                     "SPLITTING", "stem splits per segment",
                     "<strong>nSegSplits</strong> determines how much splits per segment occures.<br><br>\n" +
                     "Normally you would use a value between 0.0 and 1.0. A value of<br>\n" +
@@ -929,20 +929,20 @@ namespace Arbaro2.Arbaro.Params
                     "values for the higher levels.<br>\n"
             );
 
-            dbl4Param("nCurve", Double.NegativeInfinity, Double.PositiveInfinity, 0, 0, 0, 0,
+            dbl4Param("nCurve", float.NegativeInfinity, float.PositiveInfinity, 0, 0, 0, 0,
                     "CURVATURE", "curving angle",
                     "<strong>nCurve</strong> is the angle the branches are declined over theire whole length.<br>\n" +
                     "If nCurveBack is used, the curving angle is distributed only over the<br>\n" +
                     "first half of the stem.<br>\n"
             );
 
-            dbl4Param("nCurveV", -90, Double.PositiveInfinity, 0, 0, 0, 0,
+            dbl4Param("nCurveV", -90, float.PositiveInfinity, 0, 0, 0, 0,
                     "CURVATURE", "curving angle variation",
                     "<strong>nCurveV</strong> is the variation of the curving angle. See nCurve, nCurveBack.<br>\n" +
                     "A negative value means helical curvature<br>\n"
             );
 
-            dbl4Param("nCurveBack", Double.NegativeInfinity, Double.PositiveInfinity, 0, 0, 0, 0,
+            dbl4Param("nCurveBack", float.NegativeInfinity, float.PositiveInfinity, 0, 0, 0, 0,
                     "CURVATURE", "curving angle upper stem half",
                     "Using <strong>nCurveBack</strong> you can give the stem an S-like shape.<br>\n" +
                     "The first half of the stem the nCurve value is applied.<br>\n" +
@@ -951,12 +951,12 @@ namespace Arbaro2.Arbaro.Params
                     "get different curving over the stem length, instead of a S-shape<br>\n"
             );
 
-            dbl4Param("nDownAngle", -179.9999999, 179.999999, 0, 30, 30, 30,
+            dbl4Param("nDownAngle", -179.9999999f, 179.999999f, 0, 30, 30, 30,
                     "BRANCHING", "angle from parent",
                     "<strong>nDownAngle</strong> is the angle between a stem and it's parent.<br>\n"
             );
 
-            dbl4Param("nDownAngleV", -179.9999999, 179.9999999, 0, 0, 0, 0,
+            dbl4Param("nDownAngleV", -179.9999999f, 179.9999999f, 0, 0, 0, 0,
                     "BRANCHING", "down angle variation",
                     "<strong>nDownAngleV</strong> is the variation of the downangle. See nDownAngle.<br>\n" +
                     "Using a negative value, the nDownAngleV is variated over the<br>\n" +

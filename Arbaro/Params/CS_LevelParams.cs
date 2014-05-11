@@ -26,18 +26,18 @@ namespace Arbaro2.Arbaro.Params
         public int level;
 
         // stem length and appearance
-        public double nTaper; // taper to a point (cone)
+        public float nTaper; // taper to a point (cone)
         public int nCurveRes;
-        public double nCurve;
-        public double nCurveV;
-        public double nCurveBack;
-        public double nLength;
-        public double nLengthV;
+        public float nCurve;
+        public float nCurveV;
+        public float nCurveBack;
+        public float nLength;
+        public float nLengthV;
 
         // splitting
-        public double nSegSplits;
-        public double nSplitAngle;
-        public double nSplitAngleV;
+        public float nSegSplits;
+        public float nSplitAngle;
+        public float nSplitAngleV;
 
         // substems
         public int nBranches;
@@ -51,12 +51,12 @@ namespace Arbaro2.Arbaro.Params
          * </ul>
          * 
          */
-        public double nBranchDist;
+        public float nBranchDist;
 
-        public double nDownAngle;
-        public double nDownAngleV;
-        public double nRotate;
-        public double nRotateV;
+        public float nDownAngle;
+        public float nDownAngleV;
+        public float nRotate;
+        public float nRotateV;
 
         /**
          * <code>mesh_points</code> -
@@ -65,8 +65,8 @@ namespace Arbaro2.Arbaro.Params
         public int mesh_points;
 
         // Error values for splitting, substem and leaf distribution
-        public double splitErrorValue;
-        public double substemErrorValue;
+        public float splitErrorValue;
+        public float substemErrorValue;
 
         /**
          * random generators
@@ -79,7 +79,7 @@ namespace Arbaro2.Arbaro.Params
 
         // variables to store state when making prune test
         private int randstate;
-        private double spliterrval;
+        private float spliterrval;
 
         public CS_LevelParams(int l, Hashtable parDB)
         {
@@ -87,7 +87,7 @@ namespace Arbaro2.Arbaro.Params
             paramDB = parDB;
 
             randstate = Int32.MinValue;
-            spliterrval = Double.NaN;
+            spliterrval = float.NaN;
         }
 
         public int initRandom(int seed)
@@ -96,7 +96,7 @@ namespace Arbaro2.Arbaro.Params
             return random.nextInt();
         }
 
-        public double var(double variation)
+        public float var(float variation)
         {
             // return a random variation value from (-variation,+variation)
             return random.uniform(-variation, variation);
@@ -117,7 +117,7 @@ namespace Arbaro2.Arbaro.Params
 
         public void restoreState()
         {
-            if (Double.IsNaN(spliterrval))
+            if (float.IsNaN(spliterrval))
             {
                 Console.WriteLine("BUG: there is no state saved, cannot restore.");
                 Application.Exit();
@@ -179,7 +179,7 @@ namespace Arbaro2.Arbaro.Params
             throw new Exception("bug: param " + fullname + " not found!");
         }
 
-        private double dblParam(String name)
+        private float dblParam(String name)
         {
             String fullname = "" + level + name.Substring(1);
             CS_FloatParam par = (CS_FloatParam)paramDB[fullname];

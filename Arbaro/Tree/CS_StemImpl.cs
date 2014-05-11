@@ -39,29 +39,29 @@ namespace Arbaro2.Arbaro.Tree
         // the mesh will be corrupted
         // if you like smaller plants you should
         // design them using cm or mm instead of m
-        static double MIN_STEM_LEN = 0.0005;
-        static double MIN_STEM_RADIUS = MIN_STEM_LEN / 10;
+        static float MIN_STEM_LEN = 0.0005f;
+        static float MIN_STEM_RADIUS = MIN_STEM_LEN / 10;
 
         public int stemlevel; // the branch level, could be > 4
-        double offset; // how far from the parent's base
+        float offset; // how far from the parent's base
 
         public List<CS_SegmentImpl> segments;
         public List<CS_StemImpl> clones;
         public List<CS_StemImpl> substems;
         public List<CS_LeafImpl> leaves;
 
-        double length;
+        float length;
         public override double getLength() { return length; }
-        public double segmentLength;
+        public float segmentLength;
         public int segmentCount;
-        double baseRadius;
+        float baseRadius;
 
-        double lengthChildMax;
-        double substemsPerSegment;
-        double substemRotangle;
+        float lengthChildMax;
+        float substemsPerSegment;
+        float substemRotangle;
 
-        double leavesPerSegment;
-        double splitCorrection;
+        float leavesPerSegment;
+        float splitCorrection;
 
         bool pruneTest; // flag for pruning cycles
 
@@ -69,46 +69,6 @@ namespace Arbaro2.Arbaro.Tree
         List<int> cloneIndex; // clone number (Integers)
 
         public override List<CS_SegmentImpl> getSections() { return segments; }
-
-        /*  
-      private class SectionsEnumerator implements Enumeration {
-          private Enumeration segments;
-          private Enumeration subsegments;
-		
-          public SectionsEnumerator(StemImpl stem) {
-              segments = stem.segments.elements();
-          }
-		
-          public boolean hasMoreElements() {
-              return (subsegments != null && subsegments.hasMoreElements()) ||
-              (segments.hasMoreElements());
-          }
-		
-          public Object nextElement() {
-              if (subsegments == null) {
-                  // first segment, return it as base section
-                  SegmentImpl s = (SegmentImpl)segments.nextElement();
-                  subsegments = s.subsegments.elements();
-  //				subsegments.nextElement(); // ignore first subsegment,
-                                 // because it's identical with segment base
-                  return s;
-              } else {
-                  if (subsegments.hasMoreElements())
-                      return subsegments.nextElement();
-                  else if (segments.hasMoreElements()) {
-                      SegmentImpl s = (SegmentImpl)segments.nextElement();
-                      subsegments = s.subsegments.elements();
-  //					subsegments.nextElement(); // ignore first subsegment,
-                         // because it's identical with segment base
-                      return subsegments.nextElement();
-                  } else {
-                      throw new NoSuchElementException("SectionsEnumerator");
-                  }
-              }
-          }
-      }
-	
-    */
 
         /**
          * Creates a new stem
@@ -122,7 +82,7 @@ namespace Arbaro2.Arbaro.Tree
          * @param offs the offset of ste stem within the parent stem (0..1)
          */
         public CS_StemImpl(CS_TreeImpl tr, CS_StemImpl growsOutOf, int stlev,
-                CS_Transformation trf, double offs) /* offs=0 */ {
+                CS_Transformation trf, float offs) /* offs=0 */ {
                     tree = tr;
                     stemlevel = stlev;
                     transf = trf;
@@ -171,8 +131,8 @@ namespace Arbaro2.Arbaro.Tree
                     pruneTest = false; // flag used for pruning
 
                     //...
-                    maxPoint = new CS_Vector(-Double.MaxValue, -Double.MaxValue, -Double.MaxValue);
-                    minPoint = new CS_Vector(Double.MaxValue, Double.MaxValue, Double.MaxValue);
+                    maxPoint = new CS_Vector(-float.MaxValue, -float.MaxValue, -float.MaxValue);
+                    minPoint = new CS_Vector(float.MaxValue, float.MaxValue, float.MaxValue);
 
                 }
 
@@ -319,7 +279,7 @@ namespace Arbaro2.Arbaro.Tree
             baseRadius = stemBaseRadius();
             if (stemlevel == 0)
             {
-                double baseWidth = Math.Max(baseRadius, stemRadius(0));
+                float baseWidth = Math.Max(baseRadius, stemRadius(0));
                 minMaxTest(new CS_Vector(baseWidth, baseWidth, 0));
             }
 
@@ -364,8 +324,8 @@ namespace Arbaro2.Arbaro.Tree
 
             // save random state, split and len values
             lpar.saveState();
-            double splitcorr = splitCorrection;
-            double origlen = length;
+            float splitcorr = splitCorrection;
+            float origlen = length;
             //double seglen = segmentLength;
 
             // start pruning
@@ -386,8 +346,8 @@ namespace Arbaro2.Arbaro.Tree
                 segments.Clear();
 
                 // get new length
-                double minlen = length / 2; // shorten max. half of length
-                double maxlen = length - origlen / 15; // shorten min of 1/15 of orig. len
+                float minlen = length / 2; // shorten max. half of length
+                float maxlen = length - origlen / 15; // shorten min of 1/15 of orig. len
                 length = Math.Min(Math.Max(segmentLength * segm, minlen), maxlen);
 
                 // calc new values dependent from length
@@ -420,7 +380,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return the stem length
          */
 
-        double stemLength()
+        float stemLength()
         {
             if (stemlevel == 0)
             { // trunk
@@ -428,9 +388,9 @@ namespace Arbaro2.Arbaro.Tree
             }
             else if (stemlevel == 1)
             {
-                double parlen = parent.length;
-                double baselen = par.BaseSize * par.scale_tree;
-                double ratio = (parlen - offset) / (parlen - baselen);
+                float parlen = parent.length;
+                float baselen = par.BaseSize * par.scale_tree;
+                float ratio = (parlen - offset) / (parlen - baselen);
                 /*
                 if (Console.debug())
                     DBG("Stem.stem_length(): parlen: "+parlen+" offset: "+offset+" baselen: "+baselen+" ratio: "+ratio);
@@ -439,7 +399,7 @@ namespace Arbaro2.Arbaro.Tree
             }
             else
             { // higher levels
-                return parent.lengthChildMax * (parent.length - 0.6 * offset);
+                return (float)(parent.lengthChildMax * (parent.length - 0.6 * offset));
             }
         }
 
@@ -479,8 +439,8 @@ namespace Arbaro2.Arbaro.Tree
                 */
 
                 // segment radius
-                double rad1 = stemRadius(s * segmentLength);
-                double rad2 = stemRadius((s + 1) * segmentLength);
+                float rad1 = stemRadius(s * segmentLength);
+                float rad2 = stemRadius((s + 1) * segmentLength);
 
                 // create new segment
                 CS_SegmentImpl segment = new CS_SegmentImpl(this, s, trf, rad1, rad2);
@@ -539,8 +499,8 @@ namespace Arbaro2.Arbaro.Tree
 
         bool isInsideEnvelope(CS_Vector vector)
         {
-            double r = Math.Sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
-            double ratio = (par.scale_tree - vector.getZ()) / (par.scale_tree * (1 - par.BaseSize));
+            float r = (float)Math.Sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
+            float ratio = (par.scale_tree - vector.getZ()) / (par.scale_tree * (1 - par.BaseSize));
             return (r / par.scale_tree) < (par.PruneWidth * par.getShapeRatio(ratio, 8));
         }
 
@@ -651,7 +611,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return
          */
 
-        double stemBaseRadius()
+        float stemBaseRadius()
         {
 
             if (stemlevel == 0)
@@ -664,10 +624,10 @@ namespace Arbaro2.Arbaro.Tree
             else
             {
                 // max radius is the radius of the parent at offset
-                double max_radius = parent.stemRadius(offset);
+                float max_radius = parent.stemRadius(offset);
 
                 // FIXME: RatioPower=0 seems not to work here
-                double radius = parent.baseRadius * Math.Pow(length / parent.length, par.RatioPower);
+                float radius = (float)(parent.baseRadius * Math.Pow(length / parent.length, par.RatioPower));
                 return Math.Min(radius, max_radius);
             }
         }
@@ -680,20 +640,20 @@ namespace Arbaro2.Arbaro.Tree
          * @return the stem radius at this position
          */
 
-        public double stemRadius(double h)
+        public float stemRadius(float h)
         {
             /*
             if (Console.debug())
                 DBG("Stem.stem_radius("+h+") base_rad:"+baseRadius);
             */
-            double angle = 0; //FIXME: add an argument "angle" for Lobes, 
+            float angle = 0; //FIXME: add an argument "angle" for Lobes, 
             // but at the moment Lobes are calculated later in mesh creation
 
             // gets the stem width at a given position within the stem
-            double Z = Math.Min(h / length, 1.0); // min, to avoid rounding errors
-            double taper = lpar.nTaper;
+            float Z = Math.Min(h / length, 1.0f); // min, to avoid rounding errors
+            float taper = lpar.nTaper;
 
-            double unit_taper = 0;
+            float unit_taper = 0;
             if (taper <= 1)
             {
                 unit_taper = taper;
@@ -703,13 +663,13 @@ namespace Arbaro2.Arbaro.Tree
                 unit_taper = 2 - taper;
             }
 
-            double radius = baseRadius * (1 - unit_taper * Z);
+            float radius = baseRadius * (1 - unit_taper * Z);
 
             // spherical end or periodic tapering
-            double depth;
+            float depth;
             if (taper > 1)
             {
-                double Z2 = (1 - Z) * length;
+                float Z2 = (1 - Z) * length;
                 if (taper < 2 || Z2 < radius)
                 {
                     depth = 1;
@@ -718,7 +678,7 @@ namespace Arbaro2.Arbaro.Tree
                 {
                     depth = taper - 2;
                 }
-                double Z3;
+                float Z3;
                 if (taper < 2)
                 {
                     Z3 = Z2;
@@ -729,7 +689,7 @@ namespace Arbaro2.Arbaro.Tree
                 }
                 if (taper > 2 || Z3 < radius)
                 {
-                    radius = (1 - depth) * radius + depth * Math.Sqrt(radius * radius - (Z3 - radius) * (Z3 - radius));
+                    radius = (float)((1 - depth) * radius + depth * Math.Sqrt(radius * radius - (Z3 - radius) * (Z3 - radius)));
                     //  self.DBG("TAPER>2: Z2: %f, Z3: %f, depth: %f, radius %f\n"%(Z2,Z3,depth,radius))
                 }
             }
@@ -738,8 +698,8 @@ namespace Arbaro2.Arbaro.Tree
                 // add flaring (thicker stem base)
                 if (par.Flare != 0)
                 {
-                    double y = Math.Max(0, 1 - 8 * Z);
-                    double flare = 1 + par.Flare * (Math.Pow(100, y) - 1) / 100.0;
+                    float y = Math.Max(0, 1 - 8 * Z);
+                    float flare = (float)(1 + par.Flare * (Math.Pow(100, y) - 1) / 100.0);
                     //DBG("Stem.stem_radius(): Flare: "+flare+" h: "+h+" Z: "+Z);
                     radius = radius * flare;
                 }
@@ -747,7 +707,7 @@ namespace Arbaro2.Arbaro.Tree
                 if (par.Lobes > 0 && angle != 0)
                 {
                     // FIXME: use the formular from Segment.create_mesh_section() instead
-                    radius = radius * (1.0 + par.LobeDepth * Math.Sin(par.Lobes * angle * Math.PI / 180));
+                    radius = (float)(radius * (1.0 + par.LobeDepth * Math.Sin(par.Lobes * angle * Math.PI / 180)));
                 }
 
                 // multiply with 0Scale;
@@ -775,14 +735,14 @@ namespace Arbaro2.Arbaro.Tree
             lengthChildMax = lpar_1.nLength + lpar_1.var(lpar_1.nLengthV);
 
             // maximum number of substems
-            double stems_max = lpar_1.nBranches;
+            float stems_max = lpar_1.nBranches;
 
             // actual number of substems and substems per segment
-            double substem_cnt;
+            float substem_cnt;
             if (stemlevel == 0)
             {
                 substem_cnt = stems_max;
-                substemsPerSegment = substem_cnt / (float)segmentCount / (1 - par.BaseSize);
+                substemsPerSegment = (float)(substem_cnt / (float)segmentCount / (1 - par.BaseSize));
                 /*
                 if (Console.debug())
                     DBG("Stem.prepare_substem_params(): stems_max: "+ substem_cnt 
@@ -792,7 +752,7 @@ namespace Arbaro2.Arbaro.Tree
             else if (par.preview)
             {
                 substem_cnt = stems_max;
-                substemsPerSegment = substem_cnt / (float)segmentCount;
+                substemsPerSegment = (float)(substem_cnt / segmentCount);
             }
             else if (stemlevel == 1)
             {
@@ -822,7 +782,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return
          */
 
-        double leavesPerBranch()
+        float leavesPerBranch()
         {
             // calcs the number of leaves for a stem
             if (par.Leaves == 0) return 0;
@@ -854,8 +814,8 @@ namespace Arbaro2.Arbaro.Tree
             if (Console.debug())
                 DBG("Stem.make_substems(): substems_per_segment "+substemsPerSegment);
             */
-            double subst_per_segm;
-            double offs;
+            float subst_per_segm;
+            float offs;
 
             if (stemlevel > 0)
             {
@@ -898,18 +858,18 @@ namespace Arbaro2.Arbaro.Tree
             //DBG("Stem.make_substems(): substems_eff: "+substems_eff);
 
             // what distance between the segements substems
-            double dist = (1.0 - offs) / substems_eff * lpar_1.nBranchDist;
-            double distv = dist * 0.25; // lpar_1.nBranchDistV/2;
+            float dist = (1.0f - offs) / substems_eff * lpar_1.nBranchDist;
+            float distv = dist * 0.25f; // lpar_1.nBranchDistV/2;
 
             //DBG("Stem.make_substems(): offs: "+offs+" dist: "+dist+" distv: "+distv);
 
             for (int s = 0; s < substems_eff; s++)
             {
                 // where on the segment add the substem
-                double where = offs + dist / 2 + s * dist + lpar_1.var(distv);
+                float where = offs + dist / 2 + s * dist + lpar_1.var(distv);
 
                 //offset from stembase
-                double offset = (segment.index + where) * segmentLength;
+                float offset = (segment.index + where) * segmentLength;
 
                 /*
                 DBG("Stem.make_substems(): offset: "+ offset+" segminx: "+segment.index
@@ -941,13 +901,13 @@ namespace Arbaro2.Arbaro.Tree
          * @return The direction of the substem
          */
 
-        CS_Transformation substemDirection(CS_Transformation trf, double offset)
+        CS_Transformation substemDirection(CS_Transformation trf, float offset)
         {
             CS_LevelParams lpar_1 = par.getLevelParams(stemlevel + 1);
             //lev = min(level+1,3);
 
             // get rotation angle
-            double rotangle;
+            float rotangle;
             if (lpar_1.nRotate >= 0)
             { // rotating substems
                 substemRotangle = (substemRotangle + lpar_1.nRotate + lpar_1.var(lpar_1.nRotateV) + 360) % 360;
@@ -961,14 +921,14 @@ namespace Arbaro2.Arbaro.Tree
             }
 
             // get downangle
-            double downangle;
+            float downangle;
             if (lpar_1.nDownAngleV >= 0)
             {
                 downangle = lpar_1.nDownAngle + lpar_1.var(lpar_1.nDownAngleV);
             }
             else
             {
-                double len = (stemlevel == 0) ? length * (1 - par.BaseSize) : length;
+                float len = (stemlevel == 0) ? length * (1 - par.BaseSize) : length;
                 downangle = lpar_1.nDownAngle +
                 lpar_1.nDownAngleV * (1 - 2 * par.getShapeRatio((length - offset) / len, 0));
             }
@@ -993,14 +953,14 @@ namespace Arbaro2.Arbaro.Tree
             if (par.Leaves > 0)
             { // ### NORMAL MODE, leaves along the stem
                 // how many leaves in this segment
-                double leaves_eff = (int)(leavesPerSegment + par.leavesErrorValue + 0.5);
+                float leaves_eff = (int)(leavesPerSegment + par.leavesErrorValue + 0.5);
 
                 // adapt error value
                 par.leavesErrorValue -= (leaves_eff - leavesPerSegment);
 
                 if (leaves_eff <= 0) return;
 
-                double offs;
+                float offs;
                 if (segment.index == 0)
                 {
                     offs = parent.stemRadius(offset) / segmentLength;
@@ -1011,17 +971,17 @@ namespace Arbaro2.Arbaro.Tree
                 }
 
                 // what distance between the leaves
-                double dist = (1.0 - offs) / leaves_eff;
+                float dist = (1.0f - offs) / leaves_eff;
 
                 for (int s = 0; s < leaves_eff; s++)
                 {
                     // where on the segment add the leaf
 
                     // FIXME: may be use the same distribution method (BranchDist) as for substems?
-                    double where = offs + dist / 2 + s * dist + lpar.var(dist / 2);
+                    float where = offs + dist / 2 + s * dist + lpar.var(dist / 2);
 
                     // offset from stembase
-                    double loffs = (segment.index + where) * segmentLength;
+                    float loffs = (segment.index + where) * segmentLength;
                     // get a new direction for the leaf
                     CS_Transformation trf = substemDirection(segment.transf, loffs);
                     // translate it to its position on the stem
@@ -1043,11 +1003,11 @@ namespace Arbaro2.Arbaro.Tree
                 int cnt = (int)(leavesPerBranch() + 0.5);
 
                 CS_Transformation trf = segment.transf.translate(segment.transf.getZ().mul(segmentLength));
-                double distangle = lpar_1.nRotate / cnt;
-                double varangle = lpar_1.nRotateV / cnt;
-                double downangle = lpar_1.nDownAngle;
-                double vardown = lpar_1.nDownAngleV;
-                double offsetangle = 0;
+                float distangle = lpar_1.nRotate / cnt;
+                float varangle = lpar_1.nRotateV / cnt;
+                float downangle = lpar_1.nDownAngle;
+                float vardown = lpar_1.nDownAngleV;
+                float offsetangle = 0;
                 // use different method for odd and even number
                 if (cnt % 2 == 1)
                 {
@@ -1100,7 +1060,7 @@ namespace Arbaro2.Arbaro.Tree
             else
             {
                 // how many clones?
-                double seg_splits = lpar.nSegSplits;
+                float seg_splits = lpar.nSegSplits;
                 seg_splits_eff = (int)(seg_splits + lpar.splitErrorValue + 0.5);
 
                 // adapt error value
@@ -1109,7 +1069,7 @@ namespace Arbaro2.Arbaro.Tree
 
             if (seg_splits_eff < 1) return -1;
 
-            double s_angle = 360 / (seg_splits_eff + 1);
+            float s_angle = 360 / (seg_splits_eff + 1);
 
             // make clones
             // if seg_splits_eff > 0:
@@ -1163,15 +1123,15 @@ namespace Arbaro2.Arbaro.Tree
          */
 
         CS_Transformation split(CS_Transformation trf,
-                double s_angle, int nseg, int nsplits)
+                float s_angle, int nseg, int nsplits)
         {
             // applies a split angle to the stem - the Weber/Penn method
             int remaining_seg = segmentCount - nseg - 1;
 
             // the splitangle
             // FIXME: don't know if it should be nSplitAngle or nSplitAngle/2
-            double declination = Math.Acos(trf.getZ().getZ()) * 180 / Math.PI;
-            double split_angle = Math.Max(0, (lpar.nSplitAngle
+            float declination = (float)(Math.Acos(trf.getZ().getZ()) * 180 / Math.PI);
+            float split_angle = Math.Max(0, (lpar.nSplitAngle
                     + lpar.var(lpar.nSplitAngleV) - declination));
 
             // FIXME: first works better for level 0, second for further levels
@@ -1182,7 +1142,7 @@ namespace Arbaro2.Arbaro.Tree
             splitCorrection -= split_angle / remaining_seg;
             //t_corr = Transformation().rotx(-split_angle/remaining_seg)
 
-            double split_diverge;
+            float split_diverge;
             if (s_angle > 0)
             { // original stem has s_angle==0    
                 if (par._0BaseSplits > 0 && stemlevel == 0 && nseg == 0)
@@ -1191,8 +1151,8 @@ namespace Arbaro2.Arbaro.Tree
                 }
                 else
                 {
-                    split_diverge = 20 + 0.75 * (30 + Math.Abs(declination - 90))
-                    * Math.Pow((lpar.var(1) + 1) / 2.0, 2);
+                    split_diverge = (float)(20 + 0.75 * (30 + Math.Abs(declination - 90))
+                    * Math.Pow((lpar.var(1) + 1) / 2.0, 2));
                     if (lpar.var(1) >= 0) split_diverge = -split_diverge;
                 }
 

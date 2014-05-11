@@ -20,9 +20,9 @@ namespace Arbaro2.Arbaro.Params
             _r = new Random(seed);
         }
 
-        public double uniform(double low, double high)
+        public float uniform(float low, float high)
         {
-            return low + _r.NextDouble() * (high - low);
+            return low + (float)_r.NextDouble() * (high - low);
         }
 
         public int getState()
