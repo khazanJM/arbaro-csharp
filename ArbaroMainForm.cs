@@ -72,6 +72,8 @@ namespace Arbaro2
             {
                 Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);
 
+                csParams = new CS_Params();
+                csParams.prepare(13);
                 csParams.readFromXML(mainOpenFileDialog.FileName);
                 csParams.enableDisable();
                 CS_PreciseTimer t0 = new CS_PreciseTimer(10);
