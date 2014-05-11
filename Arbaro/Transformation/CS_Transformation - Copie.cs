@@ -22,22 +22,22 @@ namespace Arbaro2.Arbaro.Transformation
         public static Vector3 Y_AXIS = new Vector3(0, 1, 0);
         public static Vector3 Z_AXIS = new Vector3(0, 0, 1);
 
-        CS_Matrix _matrix;
+        Matrix _matrix;      
         Vector3 _vector;
 
         public DX_Transformation()
         {
-            _matrix = new CS_Matrix();
+            _matrix = new Matrix();         
             _vector = new Vector3();
         }
 
-        public DX_Transformation(CS_Matrix m, Vector3 v)
+        public DX_Transformation(Matrix m, Vector3 v)
         {
             _matrix = m;
             _vector = v;
         }
 
-        public CS_Matrix matrix()
+        public Matrix matrix()
         {
             return _matrix;
         }
@@ -55,7 +55,8 @@ namespace Arbaro2.Arbaro.Transformation
          */
         public DX_Transformation prod(DX_Transformation T1)
         {
-            return new DX_Transformation(_matrix.prod(T1.matrix()), _matrix.prod(T1.vector()) + _vector);
+            Vector4 t = Vector3.Transform(T1.vector(), _matrix);
+            return new DX_Transformation(T1.matrix() * _matrix, new Vector3(t.X, t.Y, t.Z) + _vector);
         }
 
         /**
@@ -66,7 +67,8 @@ namespace Arbaro2.Arbaro.Transformation
          */
         public Vector3 apply(Vector3 v)
         {
-            return _matrix.prod(v) + _vector;
+            Vector4 t = Vector3.Transform(v, _matrix);
+            return new Vector3(t.X, t.Y, t.Z) + _vector;
         }
 
         /**
@@ -77,7 +79,8 @@ namespace Arbaro2.Arbaro.Transformation
          */       
         public Vector3 getX3()
         {
-            return _matrix.col(X);            
+            return new Vector3(_matrix.Column1.X, _matrix.Column1.Y, _matrix.Column1.Z);
+            //return _matrix.col(X);            
         }
 
         /**
@@ -88,7 +91,8 @@ namespace Arbaro2.Arbaro.Transformation
          */       
         public Vector3 getY3()
         {
-            return _matrix.col(Y);         
+            return new Vector3(_matrix.Column2.X, _matrix.Column2.Y, _matrix.Column2.Z);
+            //return _matrix.col(Y);         
         }
 
         /**
@@ -99,7 +103,8 @@ namespace Arbaro2.Arbaro.Transformation
          */
         public Vector3 getZ3()
         {
-            return _matrix.col(Z);
+            return new Vector3(_matrix.Column3.X, _matrix.Column3.Y, _matrix.Column3.Z);
+            //return _matrix.col(Z);
         }
 
         /**
@@ -119,30 +124,24 @@ namespace Arbaro2.Arbaro.Transformation
         {
             // local rotation about z-axis
             float radAngle = (float)(angle * Math.PI / 180);
-            CS_Matrix rm = new CS_Matrix((float)Math.Cos(radAngle), -(float)Math.Sin(radAngle), 0,
-                    (float)Math.Sin(radAngle), (float)Math.Cos(radAngle), 0,
-                    0, 0, 1);
-            return new DX_Transformation(_matrix.prod(rm), _vector);
+            Matrix rm = Matrix.RotationZ(radAngle);
+            return new DX_Transformation(rm * _matrix, _vector);
         }
 
         public DX_Transformation roty(double angle)
         {
             // local rotation about z-axis
             float radAngle = (float)(angle * Math.PI / 180);
-            CS_Matrix rm = new CS_Matrix((float)Math.Cos(radAngle), 0, -(float)Math.Sin(radAngle),
-                    0, 1, 0,
-                    (float)Math.Sin(radAngle), 0, (float)Math.Cos(radAngle));
-            return new DX_Transformation(_matrix.prod(rm), _vector);
+            Matrix rm = Matrix.RotationY(radAngle);
+            return new DX_Transformation(rm*_matrix, _vector);
         }
 
         public DX_Transformation rotx(double angle)
         {
             // local rotation about the x axis
             float radAngle = (float)(angle * Math.PI / 180);
-            CS_Matrix rm = new CS_Matrix(1, 0, 0,
-                    0, (float)Math.Cos(radAngle), -(float)Math.Sin(radAngle),
-                    0, (float)Math.Sin(radAngle), (float)Math.Cos(radAngle));
-            return new DX_Transformation(_matrix.prod(rm), _vector);
+            Matrix rm = Matrix.RotationX(radAngle);
+            return new DX_Transformation(rm * _matrix, _vector);
         }
 
         public DX_Transformation rotxz(double delta, double rho)
@@ -155,10 +154,14 @@ namespace Arbaro2.Arbaro.Transformation
             float sid = (float)Math.Sin(radDelta);
             float cod = (float)Math.Cos(radDelta);
 
-            CS_Matrix rm = new CS_Matrix(cor, -sir * cod, sir * sid,
-                    sir, cor * cod, -cor * sid,
-                    0, sid, cod);
-            return new DX_Transformation(_matrix.prod(rm), _vector);
+            
+            Matrix rm = new Matrix(cor, -sir * cod, sir * sid, 0,
+                    sir, cor * cod, -cor * sid, 0,
+                    0, sid, cod, 0,
+                    0, 0, 0, 1);
+             
+            // TODO
+            return new DX_Transformation(rm * _matrix, _vector);
         }
 
         public DX_Transformation rotaxisz(double delta, double rho)
@@ -173,11 +176,13 @@ namespace Arbaro2.Arbaro.Transformation
             float b = (float)Math.Sin(radRho);
             float si = (float)Math.Sin(radDelta);
             float co = (float)Math.Cos(radDelta);
-
-            CS_Matrix rm = new CS_Matrix((co + a * a * (1 - co)), (b * a * (1 - co)), (b * si),
-                    (a * b * (1 - co)), (co + b * b * (1 - co)), (-a * si),
-                    (-b * si), (a * si), (co));
-            return new DX_Transformation(_matrix.prod(rm), _vector);
+          
+            Matrix rm = new Matrix((co + a * a * (1 - co)), (b * a * (1 - co)), (b * si), 0,
+                    (a * b * (1 - co)), (co + b * b * (1 - co)), (-a * si), 0, 
+                    (-b * si), (a * si), (co), 0,
+                    0, 0, 0, 1);
+                        
+            return new DX_Transformation(rm * _matrix, _vector);
         }
 
         public DX_Transformation translate(Vector3 v)
@@ -196,18 +201,16 @@ namespace Arbaro2.Arbaro.Transformation
             float si = (float)Math.Sin(radAngle);
             float co = (float)Math.Cos(radAngle);
 
-            CS_Matrix rm = new CS_Matrix(
-                    (co + a * a * (1 - co)), (-c * si + b * a * (1 - co)), (b * si + c * a * (1 - co)),
-                    (c * si + a * b * (1 - co)), (co + b * b * (1 - co)), (-a * si + c * b * (1 - co)),
-                    (-b * si + a * c * (1 - co)), (a * si + b * c * (1 - co)), (co + c * c * (1 - co)));
-            return new DX_Transformation(rm.prod(_matrix), _vector);
+            Matrix rm = Matrix.RotationAxis(axis, radAngle);
+            return new DX_Transformation(_matrix * rm, _vector);
         }
 
         public DX_Transformation inverse()
         {
             // get inverse transformation M+t -> M'-M'*t"
-            CS_Matrix T1 = _matrix.transpose();
-            return new DX_Transformation(T1, T1.prod(-_vector));
+            Matrix T1 = Matrix.Transpose(_matrix);
+            Vector4 t = Vector3.Transform(-_vector, T1);
+            return new DX_Transformation(T1, new Vector3(t.X, t.Y, t.Z));
         }
     }
 }
