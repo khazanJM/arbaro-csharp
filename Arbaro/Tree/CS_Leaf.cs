@@ -24,6 +24,6 @@ namespace Arbaro2.Arbaro.Tree
          * @return the leaf's transformation matrix containing
          * the position vector and the rotation matrix.
          */
-        public abstract CS_Transformation getTransformation();
+        public abstract DX_Transformation getTransformation();
     }
 }

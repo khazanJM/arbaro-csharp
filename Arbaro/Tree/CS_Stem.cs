@@ -1,4 +1,5 @@
 ﻿using Arbaro2.Arbaro.Transformation;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,12 @@ namespace Arbaro2.Arbaro.Tree
         /**
          * a vector with the smalles coordinates of the stem
          */
-        public abstract CS_Vector getMinPoint();
+        public abstract Vector3 getMinPoint();
 
         /**
          * a vector with the heighest coordinates of the stem
          */
-        public abstract CS_Vector getMaxPoint();
+        public abstract Vector3 getMaxPoint();
 
         /**
          * The position of the stem in the tree. 0.1c2.3 means:
@@ -96,7 +97,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return the transformation of the stem, containing the position
          * vector and the rotation matrix of the stem base 
          */
-        public abstract CS_Transformation getTransformation();
+        public abstract DX_Transformation getTransformation();
 
     }
 }

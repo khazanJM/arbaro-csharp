@@ -1,5 +1,6 @@
 ﻿using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Transformation;
+using SharpDX;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,20 +20,20 @@ namespace Arbaro2.Arbaro.Tree
         CS_StemImpl parent; // the parent stem
         CS_StemImpl clonedFrom = null; // the stem, from which this clone spreads out 
 
-        CS_Transformation transf;
-        public override CS_Transformation getTransformation() { return transf; }
+        DX_Transformation transf;
+        public override DX_Transformation getTransformation() { return transf; }
 
-        CS_Vector minPoint;
-        CS_Vector maxPoint;
+        Vector3 minPoint;
+        Vector3 maxPoint;
 
         /* (non-Javadoc)
          * @see net.sourceforge.arbaro.tree.TraversableStem#getMinPoint()
          */
-        public override CS_Vector getMinPoint() { return minPoint; }
+        public override Vector3 getMinPoint() { return minPoint; }
         /* (non-Javadoc)
          * @see net.sourceforge.arbaro.tree.TraversableStem#getMaxPoint()
          */
-        public override CS_Vector getMaxPoint() { return maxPoint; }
+        public override Vector3 getMaxPoint() { return maxPoint; }
 
         // stems shouldn't be shorter than 1/2 mm,
         // and taller than 0.05 mm - otherwise 
@@ -82,7 +83,7 @@ namespace Arbaro2.Arbaro.Tree
          * @param offs the offset of ste stem within the parent stem (0..1)
          */
         public CS_StemImpl(CS_TreeImpl tr, CS_StemImpl growsOutOf, int stlev,
-                CS_Transformation trf, float offs) /* offs=0 */ {
+                DX_Transformation trf, float offs) /* offs=0 */ {
                     tree = tr;
                     stemlevel = stlev;
                     transf = trf;
@@ -131,8 +132,8 @@ namespace Arbaro2.Arbaro.Tree
                     pruneTest = false; // flag used for pruning
 
                     //...
-                    maxPoint = new CS_Vector(-float.MaxValue, -float.MaxValue, -float.MaxValue);
-                    minPoint = new CS_Vector(float.MaxValue, float.MaxValue, float.MaxValue);
+                    maxPoint = new Vector3(-float.MaxValue, -float.MaxValue, -float.MaxValue);
+                    minPoint = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
 
                 }
 
@@ -146,7 +147,7 @@ namespace Arbaro2.Arbaro.Tree
          * @param trf  The transformation
          */
 
-        void TRF(String where, CS_Transformation trf)
+        void TRF(String where, DX_Transformation trf)
         {
             DBG(where + ": " + trf.toString());
         }
@@ -230,7 +231,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return The clone stem object
          */
 
-        CS_StemImpl make_clone(CS_Transformation trf, int start_segm)
+        CS_StemImpl make_clone(DX_Transformation trf, int start_segm)
         {
             // creates a clone stem with same atributes as this stem
             CS_StemImpl clone = new CS_StemImpl(tree, this, stemlevel, trf, offset);
@@ -280,7 +281,7 @@ namespace Arbaro2.Arbaro.Tree
             if (stemlevel == 0)
             {
                 float baseWidth = Math.Max(baseRadius, stemRadius(0));
-                minMaxTest(new CS_Vector(baseWidth, baseWidth, 0));
+                minMaxTest(new Vector3(baseWidth, baseWidth, 0));
             }
 
             /*
@@ -420,7 +421,7 @@ namespace Arbaro2.Arbaro.Tree
             //}
             */
 
-            CS_Transformation trf = transf;
+            DX_Transformation trf = transf;
 
             for (int s = start_seg; s < end_seg; s++)
             {
@@ -461,7 +462,7 @@ namespace Arbaro2.Arbaro.Tree
                 }
 
                 // shift to next position
-                trf = trf.translate(trf.getZ().mul(segmentLength));
+                trf = trf.translate(trf.getZ3()*(segmentLength));
                 //self.DBG("transf: %s\n"%(transf))
                 //self.DBG("pos: %s\n"%(transf.vector))
 
@@ -497,10 +498,10 @@ namespace Arbaro2.Arbaro.Tree
          * @return true if the point is inside the pruning envelope
          */
 
-        bool isInsideEnvelope(CS_Vector vector)
+        bool isInsideEnvelope(Vector3 vector)
         {
-            float r = (float)Math.Sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
-            float ratio = (par.scale_tree - vector.getZ()) / (par.scale_tree * (1 - par.BaseSize));
+            float r = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            float ratio = (par.scale_tree - vector.Z) / (par.scale_tree * (1 - par.BaseSize));
             return (r / par.scale_tree) < (par.PruneWidth * par.getShapeRatio(ratio, 8));
         }
 
@@ -514,7 +515,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return The new transformation of the current segment
          */
 
-        CS_Transformation newDirection(CS_Transformation trf, int nsegm)
+        DX_Transformation newDirection(DX_Transformation trf, int nsegm)
         {
             // next segments direction
 
@@ -582,7 +583,7 @@ namespace Arbaro2.Arbaro.Tree
             if (par.AttractionUp != 0 && stemlevel >= 2)
             {
 
-                double declination = Math.Acos(trf.getZ().getZ());
+                double declination = Math.Acos(trf.getZ3().Z);
 
                 // 			I don't see, why we need orientation here, may be this avoids
                 //          attraction of branches with the x-Axis up and thus avoids
@@ -596,9 +597,9 @@ namespace Arbaro2.Arbaro.Tree
                 double curve_up = par.AttractionUp *
                 Math.Abs(declination * Math.Sin(declination)) / lpar.nCurveRes;
 
-                CS_Vector z = trf.getZ();
+                Vector3 z = trf.getZ3();
                 // FIXME: the mesh is twisted for high values of AttractionUp
-                trf = trf.rotaxis(-curve_up * 180 / Math.PI, new CS_Vector(-z.getY(), z.getX(), 0));
+                trf = trf.rotaxis(-curve_up * 180 / Math.PI, new Vector3(-z.Y, z.X, 0));
                 // trf = trf.rotx(curve_up*180/Math.PI);
             }
             return trf;
@@ -875,7 +876,7 @@ namespace Arbaro2.Arbaro.Tree
                 DBG("Stem.make_substems(): offset: "+ offset+" segminx: "+segment.index
                         +" where: "+where+ " seglen: "+segmentLength);
                 */
-                CS_Transformation trf = substemDirection(segment.transf, offset);
+                DX_Transformation trf = substemDirection(segment.transf, offset);
                 trf = segment.substemPosition(trf, where);
 
                 // create new substem
@@ -901,7 +902,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return The direction of the substem
          */
 
-        CS_Transformation substemDirection(CS_Transformation trf, float offset)
+        DX_Transformation substemDirection(DX_Transformation trf, float offset)
         {
             CS_LevelParams lpar_1 = par.getLevelParams(stemlevel + 1);
             //lev = min(level+1,3);
@@ -983,9 +984,9 @@ namespace Arbaro2.Arbaro.Tree
                     // offset from stembase
                     float loffs = (segment.index + where) * segmentLength;
                     // get a new direction for the leaf
-                    CS_Transformation trf = substemDirection(segment.transf, loffs);
+                    DX_Transformation trf = substemDirection(segment.transf, loffs);
                     // translate it to its position on the stem
-                    trf = trf.translate(segment.transf.getZ().mul(where * segmentLength));
+                    trf = trf.translate(segment.transf.getZ3()*(where * segmentLength));
 
                     // create new leaf
                     CS_LeafImpl leaf = new CS_LeafImpl(trf); // ,loffs);
@@ -1002,7 +1003,7 @@ namespace Arbaro2.Arbaro.Tree
                 CS_LevelParams lpar_1 = par.getLevelParams(stemlevel + 1);
                 int cnt = (int)(leavesPerBranch() + 0.5);
 
-                CS_Transformation trf = segment.transf.translate(segment.transf.getZ().mul(segmentLength));
+                DX_Transformation trf = segment.transf.translate(segment.transf.getZ3()*(segmentLength));
                 float distangle = lpar_1.nRotate / cnt;
                 float varangle = lpar_1.nRotateV / cnt;
                 float downangle = lpar_1.nDownAngle;
@@ -1026,7 +1027,7 @@ namespace Arbaro2.Arbaro.Tree
                 {
                     for (int rot = 1; rot >= -1; rot -= 2)
                     {
-                        CS_Transformation transf1 = trf.roty(rot * (offsetangle + s * distangle
+                        DX_Transformation transf1 = trf.roty(rot * (offsetangle + s * distangle
                                 + lpar_1.var(varangle)));
                         transf1 = transf1.rotx(downangle + lpar_1.var(vardown));
                         CS_LeafImpl leaf = new CS_LeafImpl(transf1); //,segmentCount*segmentLength);
@@ -1047,7 +1048,7 @@ namespace Arbaro2.Arbaro.Tree
          *         if stem clone is completely inside the envelope
          */
 
-        int makeClones(CS_Transformation trf, int nseg)
+        int makeClones(DX_Transformation trf, int nseg)
         {
             // splitting
             // FIXME: maybe move this calculation to LevelParams
@@ -1122,7 +1123,7 @@ namespace Arbaro2.Arbaro.Tree
          * @return The new direction for the clone
          */
 
-        CS_Transformation split(CS_Transformation trf,
+        DX_Transformation split(DX_Transformation trf,
                 float s_angle, int nseg, int nsplits)
         {
             // applies a split angle to the stem - the Weber/Penn method
@@ -1130,7 +1131,7 @@ namespace Arbaro2.Arbaro.Tree
 
             // the splitangle
             // FIXME: don't know if it should be nSplitAngle or nSplitAngle/2
-            float declination = (float)(Math.Acos(trf.getZ().getZ()) * 180 / Math.PI);
+            float declination = (float)(Math.Acos(trf.getZ3().Z) * 180 / Math.PI);
             float split_angle = Math.Max(0, (lpar.nSplitAngle
                     + lpar.var(lpar.nSplitAngleV) - declination));
 
@@ -1156,7 +1157,7 @@ namespace Arbaro2.Arbaro.Tree
                     if (lpar.var(1) >= 0) split_diverge = -split_diverge;
                 }
 
-                trf = trf.rotaxis(split_diverge, CS_Vector.Z_AXIS);
+                trf = trf.rotaxis(split_diverge, DX_Transformation.Z_AXIS);
 
             }
             else split_diverge = 0; // for debugging only
@@ -1298,10 +1299,11 @@ namespace Arbaro2.Arbaro.Tree
          * @param pt The point which should be inside of the containing box
          */
 
-        public void minMaxTest(CS_Vector pt)
+        public void minMaxTest(Vector3 pt)
         {
-            maxPoint.setMaxCoord(pt);
-            minPoint.setMinCoord(pt);
+            // TODO
+            Vector3.Max(maxPoint, pt);
+            Vector3.Min(minPoint, pt);
 
             if (clonedFrom != null) clonedFrom.minMaxTest(pt);
             if (parent != null)

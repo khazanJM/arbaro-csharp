@@ -1,5 +1,6 @@
 ﻿using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Transformation;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,14 @@ namespace Arbaro2.Arbaro.Tree
     public class CS_SubsegmentImpl : CS_StemSection
     {
         // a Segment can have one or more Subsegments
-        public CS_Vector pos;
+        public Vector3 pos;
         public float dist; // distance from segment's base 
         public float rad;
         CS_SegmentImpl segment;
         public CS_SubsegmentImpl prev = null;
         public CS_SubsegmentImpl next = null;
 
-        public override CS_Vector getPosition()
+        public override Vector3 getPosition()
         {
             return pos;
         }
@@ -30,14 +31,14 @@ namespace Arbaro2.Arbaro.Tree
             return rad;
         }
 
-        public override CS_Transformation getTransformation()
+        public override DX_Transformation getTransformation()
         {
-            return segment.transf.translate(pos.sub(segment.getLowerPosition()));
+            return segment.transf.translate(pos - segment.getLowerPosition());
         }
 
-        public override CS_Vector getZ()
+        public override Vector3 getZ()
         {
-            return segment.transf.getZ();
+            return segment.transf.getZ3();
         }
 
         public override double getDistance()
@@ -45,7 +46,7 @@ namespace Arbaro2.Arbaro.Tree
             return segment.index * segment.length + dist;
         }
 
-        public CS_SubsegmentImpl(CS_Vector p, float r, float h, CS_SegmentImpl segment)
+        public CS_SubsegmentImpl(Vector3 p, float r, float h, CS_SegmentImpl segment)
         {
             pos = p;
             rad = r;
@@ -53,24 +54,24 @@ namespace Arbaro2.Arbaro.Tree
             this.segment = segment;
         }
 
-        public override CS_Vector[] getSectionPoints()
+        public override Vector3[] getSectionPoints()
         {
             CS_Params par = segment.par;
             CS_LevelParams lpar = segment.lpar;
 
             int pt_cnt = lpar.mesh_points;
-            CS_Vector[] points;
-            CS_Transformation trf = getTransformation(); //segment.getTransformation().translate(pos.sub(segment.getLowerPosition()));
+            Vector3[] points;
+            DX_Transformation trf = getTransformation(); //segment.getTransformation().translate(pos.sub(segment.getLowerPosition()));
 
             // if radius = 0 create only one point
             if (rad < 0.000001)
             {
-                points = new CS_Vector[1];
-                points[0] = trf.apply(new CS_Vector(0, 0, 0));
+                points = new Vector3[1];
+                points[0] = trf.apply(new Vector3(0, 0, 0));
             }
             else
             { //create pt_cnt points
-                points = new CS_Vector[pt_cnt];
+                points = new Vector3[pt_cnt];
                 //stem.DBG("MESH+LOBES: lobes: %d, depth: %f\n"%(self.tree.Lobes, self.tree.LobeDepth))
 
                 for (int i = 0; i < pt_cnt; i++)
@@ -84,18 +85,18 @@ namespace Arbaro2.Arbaro.Tree
                     }
 
                     // create some point on the unit circle
-                    CS_Vector pt = new CS_Vector((float)Math.Cos(angle * Math.PI / 180), (float)Math.Sin(angle * Math.PI / 180), 0);
+                    Vector3 pt = new Vector3((float)Math.Cos(angle * Math.PI / 180), (float)Math.Sin(angle * Math.PI / 180), 0);
                     // scale it to stem radius
                     if (lpar.level == 0 && (par.Lobes != 0 || par._0ScaleV != 0))
                     {
                         float rad1 = rad * (1 +
                                 par.random.uniform(-par._0ScaleV, par._0ScaleV) /
                                 segment.getSubsegmentCount());
-                        pt = pt.mul(rad1 * (1.0f + par.LobeDepth * (float)Math.Cos(par.Lobes * angle * Math.PI / 180.0)));
+                        pt = pt * (rad1 * (1.0f + par.LobeDepth * (float)Math.Cos(par.Lobes * angle * Math.PI / 180.0)));
                     }
                     else
                     {
-                        pt = pt.mul(rad); // faster - no radius calculations
+                        pt = pt * rad; // faster - no radius calculations
                     }
                     // apply transformation to it
                     // (for the first trunk segment transformation shouldn't be applied to

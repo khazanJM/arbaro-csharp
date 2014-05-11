@@ -1,4 +1,5 @@
 ﻿using Arbaro2.Arbaro.Transformation;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Arbaro2.Arbaro.Tree
  * 
  * @return the midpoint of the section
  */
-        public abstract CS_Vector getPosition();
+        public abstract Vector3 getPosition();
 
         /**
          * 
@@ -33,14 +34,14 @@ namespace Arbaro2.Arbaro.Tree
          * @return the transformation for the section, giving it's
          * position vector and rotation matrix
          */
-        public abstract CS_Transformation getTransformation();
+        public abstract DX_Transformation getTransformation();
 
         /**
          * 
          * @return the z-direction vector, it is orthogonal to the
          * section layer
          */
-        public abstract CS_Vector getZ();
+        public abstract Vector3 getZ();
 
         /**
          * 
@@ -48,6 +49,6 @@ namespace Arbaro2.Arbaro.Tree
          * is influenced by the stem level and smooth value. It's distance
          * from midpoint can vary about the radius (when lobes are used).
          */
-        public abstract CS_Vector[] getSectionPoints();
+        public abstract Vector3[] getSectionPoints();
     }
 }

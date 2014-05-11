@@ -1,5 +1,6 @@
 ﻿using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Transformation;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace Arbaro2.Arbaro.Tree
 {
     public class CS_LeafImpl : CS_Leaf
     {
-        public CS_Transformation transf;
+        public DX_Transformation transf;
         //	Params par;
 
-        public override CS_Transformation getTransformation() { return transf; }
+        public override DX_Transformation getTransformation() { return transf; }
 
-        public CS_LeafImpl(CS_Transformation trf)
+        public CS_LeafImpl(DX_Transformation trf)
         {
             //		par = params;
             transf = trf;
@@ -34,24 +35,24 @@ namespace Arbaro2.Arbaro.Tree
             // FIXME: make this function as fast as possible - a tree has a lot of leafs
 
             // rotation outside 
-            CS_Vector pos = transf.getT();
+            Vector3 pos = transf.getT();
             // the z-vector of transf is parallel to the
             // axis of the leaf, the y-vector is the normal
             // (of the upper side) of the leaf
-            CS_Vector norm = transf.getY();
+            Vector3 norm = transf.getY3();
 
-            double tpos = CS_Vector.atan2(pos.getY(), pos.getX());
-            double tbend = tpos - CS_Vector.atan2(norm.getY(), norm.getX());
+            float tpos = (float)(Math.Atan2(pos.Y, pos.X) * 180 / Math.PI);
+            float tbend = tpos - (float)(Math.Atan2(norm.Y, norm.X) * 180 / Math.PI); ;
             // if (tbend>180) tbend = 360-tbend;
 
-            double bend_angle = par.LeafBend * tbend;
+            float bend_angle = par.LeafBend * tbend;
             // transf = transf.rotz(bend_angle);
             // rotate about global z-axis
-            transf = transf.rotaxis(bend_angle, CS_Vector.Z_AXIS);
+            transf = transf.rotaxis(bend_angle, DX_Transformation.Z_AXIS);
 
             // rotation up
-            norm = transf.getY();
-            float fbend = CS_Vector.atan2((float)Math.Sqrt(norm.getX() * norm.getX() + norm.getY() * norm.getY()), norm.getZ());
+            norm = transf.getY3();
+            float fbend = (float)(Math.Atan2((float)Math.Sqrt(norm.X * norm.X + norm.Y * norm.Y), norm.Z) * 180 / Math.PI); 
 
             bend_angle = par.LeafBend * fbend;
 

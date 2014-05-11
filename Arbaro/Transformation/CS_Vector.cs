@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Arbaro2.Arbaro.Transformation
 {
+    /*
     public class CS_Vector
     {
         static int X = 0;
@@ -87,6 +88,12 @@ namespace Arbaro2.Arbaro.Transformation
             return coord[X] * v.getX() + coord[Y] * v.getY() + coord[Z] * v.getZ();
         }
 
+        public float prod(Vector3 v)
+        {
+            // inner product of two vectors
+            return coord[X] * v.X + coord[Y] * v.Y + coord[Z] * v.Z;
+        }
+
         public CS_Vector div(float factor)
         {
             return this.mul(1 / factor);
@@ -102,18 +109,7 @@ namespace Arbaro2.Arbaro.Transformation
             return this.add(v.mul(-1));
         }
 
-        /**
-         * Returns the angle of a 2-dimensional vector (u,v) with the u-axis 
-         *
-         * @param v v-coordinate of the vector
-         * @param u u-coordinate of the vector
-         * @return a value from (-180..180)
-         */
-        static public float atan2(float v, float u)
-        {
-            return (float)(Math.Atan2(v, u) * 180 / Math.PI);
-        }
-
+  
         public void setMaxCoord(CS_Vector v)
         {
             if (v.getX() > coord[X]) coord[X] = v.getX();
@@ -127,5 +123,5 @@ namespace Arbaro2.Arbaro.Transformation
             if (v.getY() < coord[Y]) coord[Y] = v.getY();
             if (v.getZ() < coord[Z]) coord[Z] = v.getZ();
         }
-    }
+    }*/
 }

@@ -1,4 +1,5 @@
 ﻿using Arbaro2.Arbaro.Transformation;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,14 +39,14 @@ namespace Arbaro2.Arbaro.Tree
          * @return a vector with the highest coordinates of the tree.
          * (Considering all stems of all levels)
          */
-        public abstract CS_Vector getMaxPoint();
+        public abstract Vector3 getMaxPoint();
 
         /**
          * 
          * @return a vector with the lowest coordinates of the tree.
          * (Considering all stems of all levels)
          */
-        public abstract CS_Vector getMinPoint();
+        public abstract Vector3 getMinPoint();
 
         /**
          * 

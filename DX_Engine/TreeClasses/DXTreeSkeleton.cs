@@ -173,12 +173,12 @@ namespace Arbaro2.DX_Engine.TreeClasses
             // Only generating the segments... needs to do the same for the subsegments
             foreach (CS_SegmentImpl seg in stem.getSections()) {
                 DXSKV v0, v1;             
-                CS_Vector cv0 = seg.getLowerPosition();
-                CS_Vector cv1 = seg.getUpperPosition();              
+                Vector3 cv0 = seg.getLowerPosition();
+                Vector3 cv1 = seg.getUpperPosition();              
 
                 // the tree is caculated in openGL coordinates with Z "up" so...
-                v0.P = new Vector3((float)cv0.getX(), (float)cv0.getZ(), (float)cv0.getY());
-                v1.P = new Vector3((float)cv1.getX(), (float)cv1.getZ(), (float)cv1.getY());
+                v0.P = new Vector3(cv0.X, cv0.Z, cv0.Y);
+                v1.P = new Vector3(cv1.X, cv1.Z, cv1.Y);
                 v0.C = colors[Math.Min(3, stem.getLevel())];
                 v1.C = colors[Math.Min(3, stem.getLevel())];
 

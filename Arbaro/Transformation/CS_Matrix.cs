@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,14 +54,14 @@ namespace Arbaro2.Arbaro.Transformation
             return "x: " + row(X) + " y: " + row(Y) + " z: " + row(Z);
         }
 
-        public CS_Vector row(int r)
+        public Vector3 row(int r)
         {
-            return new CS_Vector(data[r * 3 + X], data[r * 3 + Y], data[r * 3 + Z]);
+            return new Vector3(data[r * 3 + X], data[r * 3 + Y], data[r * 3 + Z]);
         }
 
-        public CS_Vector col(int c)
+        public Vector3 col(int c)
         {
-            return new CS_Vector(data[X * 3 + c], data[Y * 3 + c], data[Z * 3 + c]);
+            return new Vector3(data[X * 3 + c], data[Y * 3 + c], data[Z * 3 + c]);
         }
 
         public float get(int r, int c)
@@ -110,7 +111,7 @@ namespace Arbaro2.Arbaro.Transformation
             {
                 for (int c = X; c <= Z; c++)
                 {
-                    R.set(r, c, row(r).prod(M.col(c)));
+                    R.set(r, c, Vector3.Dot(row(r), M.col(c)));
                 }
             }
 
@@ -143,9 +144,10 @@ namespace Arbaro2.Arbaro.Transformation
          * @param v the vector
          * @return The product of the matrix and the vector
          */
-        public CS_Vector prod(CS_Vector v)
+  
+        public Vector3 prod(Vector3 v)
         {
-            return new CS_Vector(row(X).prod(v), row(Y).prod(v), row(Z).prod(v));
+            return new Vector3(Vector3.Dot(row(X), v), Vector3.Dot(row(Y), v), Vector3.Dot(row(Z), v));
         }
 
         /**
