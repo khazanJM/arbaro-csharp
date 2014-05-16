@@ -90,7 +90,7 @@ namespace Arbaro2
                     Program.Renderer.RenderableList.Remove("Skeleton");
                     s.Dispose();
                 }
-                DXTreeSkeleton sk = new DXTreeSkeleton(tree);
+                DXTreeSkeleton sk = new DXTreeSkeleton(tree, csParams);
                 Program.Renderer.RenderableList.Add("Skeleton", sk);
                 Program.Renderer.CameraControler.LookAt(sk.BBox);
             }
