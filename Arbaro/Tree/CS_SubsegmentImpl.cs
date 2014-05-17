@@ -29,12 +29,7 @@ namespace Arbaro2.Arbaro.Tree
         public override double getRadius()
         {
             return rad;
-        }
-
-        public DX_Transformation getBaseTransformation()
-        {
-            return segment.transf;
-        }
+        }    
 
         public override DX_Transformation getTransformation()
         {
