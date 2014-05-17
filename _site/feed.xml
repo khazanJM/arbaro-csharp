@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
 <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
-<updated>2014-05-17T10:00:16-04:00</updated>
+<updated>2014-05-17T10:03:15-04:00</updated>
 <id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
@@ -14,7 +14,7 @@
 
 
 <entry>
-  <title type="html"><![CDATA[Update Of The Day]]></title>
+  <title type="html"><![CDATA[Arbaro C#]]></title>
   <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/" />
   <id>http://khazanjm.github.io/arbaro-csharp/Update-of-the-day</id>
   <published>2014-05-17T00:00:00-04:00</published>
@@ -24,9 +24,17 @@
     <uri>http://khazanjm.github.io/arbaro-csharp</uri>
     <email>khazanJM@gmail.com</email>
   </author>
-  <content type="html">
+  <content type="html">&lt;h3 id=&quot;status-as-of-may-17-2014&quot;&gt;Status as of May 17, 2014&lt;/h3&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/&quot;&gt;Update Of The Day&lt;/a&gt; was originally published by KhazanJM at &lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp&quot;&gt;Arbaro C#&lt;/a&gt; on May 17, 2014.&lt;/p&gt;</content>
+&lt;h4 id=&quot;a-screen-shot&quot;&gt;A screen-shot&lt;/h4&gt;
+
+&lt;figure&gt;
+	&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/images/screen_2014_05_17.jpg&quot;&gt;&lt;img src=&quot;http://khazanjm.github.io/arbaro-csharp//images/screen_2014_05_17.jpg&quot; /&gt;&lt;/a&gt;
+	&lt;figcaption&gt;How Arbaro C# does look at the time of this post.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+  &lt;p&gt;&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/&quot;&gt;Arbaro C#&lt;/a&gt; was originally published by KhazanJM at &lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp&quot;&gt;Arbaro C#&lt;/a&gt; on May 17, 2014.&lt;/p&gt;</content>
 </entry>
 
 
