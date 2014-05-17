@@ -137,6 +137,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DX_Engine\DXShader.cs" />
+    <Compile Include="DX_Engine\TreeClasses\DXTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeSkeleton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,6 +176,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Shaders\TreeMesh.hlsl" />
     <Content Include="Shaders\TreeSkeleton.hlsl" />
     <Content Include="sharpdx_direct3d11_effects_x64.dll" />
     <Content Include="sharpdx_direct3d11_effects_x86.dll" />

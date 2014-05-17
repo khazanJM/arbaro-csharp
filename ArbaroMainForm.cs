@@ -93,7 +93,17 @@ namespace Arbaro2
                 }
                 DXTreeSkeleton sk = new DXTreeSkeleton(tree, csParams);
                 Program.Renderer.RenderableList.Add("Skeleton", sk);
-                Program.Renderer.CameraControler.LookAt(sk.BBox);
+
+                if (Program.Renderer.RenderableList.ContainsKey("TreeMesh"))
+                {
+                    DXRenderable s = Program.Renderer.RenderableList["TreeMesh"];
+                    Program.Renderer.RenderableList.Remove("TreeMesh");
+                    s.Dispose();
+                }
+                DXTreeMesh me = new DXTreeMesh(tree, csParams);
+                Program.Renderer.RenderableList.Add("TreeMesh", me);
+
+                Program.Renderer.CameraControler.LookAt(me.BBox);
             }
 
             MainMenuEnableDisable();
