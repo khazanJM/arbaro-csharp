@@ -4,13 +4,30 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
 <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
-<updated>2014-05-15T02:12:55-04:00</updated>
+<updated>2014-05-17T10:00:16-04:00</updated>
 <id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
   <uri>http://khazanjm.github.io/arbaro-csharp/</uri>
   <email>khazanJM@gmail.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Update Of The Day]]></title>
+  <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/" />
+  <id>http://khazanjm.github.io/arbaro-csharp/Update-of-the-day</id>
+  <published>2014-05-17T00:00:00-04:00</published>
+  <updated>2014-05-17T00:00:00-04:00</updated>
+  <author>
+    <name>KhazanJM</name>
+    <uri>http://khazanjm.github.io/arbaro-csharp</uri>
+    <email>khazanJM@gmail.com</email>
+  </author>
+  <content type="html">
+
+  &lt;p&gt;&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/&quot;&gt;Update Of The Day&lt;/a&gt; was originally published by KhazanJM at &lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp&quot;&gt;Arbaro C#&lt;/a&gt; on May 17, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
