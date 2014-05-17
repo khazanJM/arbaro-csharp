@@ -228,6 +228,11 @@ namespace Arbaro2.DX_Engine.TreeClasses
                         
                         Vertices.Add(v0);
                         Vertices.Add(v1);
+
+                        BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
+                        BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
+                        BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
+                        BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
                     }
                 }
             }
@@ -271,9 +276,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
             BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
             BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
 
-            //Vertices.Add(v0);
-            //Vertices.Add(v1);
-
+            Vertices.Add(v0);
+            Vertices.Add(v1);
 
             return true;
         }

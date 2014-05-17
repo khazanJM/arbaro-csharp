@@ -43,7 +43,7 @@ namespace Arbaro2
             renderHwnd.Select();
 
             csParams.prepare(13);
-            csParams.enableDisable();           
+            csParams.enableDisable();
         }
 
         private void ArbaroMainForm_Shown(object sender, EventArgs e)
@@ -85,7 +85,8 @@ namespace Arbaro2
                 Console.WriteLine(elapsed);
 
                 // make 3D Tree
-                if (Program.Renderer.RenderableList.ContainsKey("Skeleton")) {
+                if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))
+                {
                     DXRenderable s = Program.Renderer.RenderableList["Skeleton"];
                     Program.Renderer.RenderableList.Remove("Skeleton");
                     s.Dispose();
@@ -94,6 +95,8 @@ namespace Arbaro2
                 Program.Renderer.RenderableList.Add("Skeleton", sk);
                 Program.Renderer.CameraControler.LookAt(sk.BBox);
             }
+
+            MainMenuEnableDisable();
         }
 
         private void ArbaroMainForm_Resize(object sender, EventArgs e)
@@ -104,6 +107,31 @@ namespace Arbaro2
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        //
+        //  Main menu management
+        //
+
+        // Menu enabling / disabling
+        private void MainMenuEnableDisable()
+        {
+            if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))
+            {
+                renderToolStripMenuItem.Enabled = true;
+                skeletonToolStripMenuItem.Checked = true;
+
+            }
+            else
+            {
+                renderToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void skeletonToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            DXRenderable skeleton = Program.Renderer.RenderableList["Skeleton"];
+            skeleton.Visible = (sender as ToolStripMenuItem).Checked;
         }
     }
 }

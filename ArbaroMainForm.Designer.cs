@@ -40,6 +40,12 @@
             this.mainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.paramTablePanel = new System.Windows.Forms.Panel();
+            this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.skeletonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solidWireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
@@ -49,7 +55,8 @@
             // mainMenuStrip
             // 
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.renderToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new System.Drawing.Size(799, 24);
@@ -151,6 +158,51 @@
             this.paramTablePanel.Size = new System.Drawing.Size(291, 146);
             this.paramTablePanel.TabIndex = 1;
             // 
+            // renderToolStripMenuItem
+            // 
+            this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.skeletonToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.wireframeToolStripMenuItem,
+            this.solidWireframeToolStripMenuItem,
+            this.toolStripMenuItem3});
+            this.renderToolStripMenuItem.Enabled = false;
+            this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
+            this.renderToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.renderToolStripMenuItem.Text = "Render";
+            // 
+            // skeletonToolStripMenuItem
+            // 
+            this.skeletonToolStripMenuItem.Checked = true;
+            this.skeletonToolStripMenuItem.CheckOnClick = true;
+            this.skeletonToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.skeletonToolStripMenuItem.Name = "skeletonToolStripMenuItem";
+            this.skeletonToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.skeletonToolStripMenuItem.Text = "Skeleton";
+            this.skeletonToolStripMenuItem.CheckedChanged += new System.EventHandler(this.skeletonToolStripMenuItem_CheckedChanged);
+            // 
+            // wireframeToolStripMenuItem
+            // 
+            this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
+            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.wireframeToolStripMenuItem.Text = "Wireframe";
+            // 
+            // solidWireframeToolStripMenuItem
+            // 
+            this.solidWireframeToolStripMenuItem.Name = "solidWireframeToolStripMenuItem";
+            this.solidWireframeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.solidWireframeToolStripMenuItem.Text = "Solid wireframe";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(153, 6);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(153, 6);
+            // 
             // ArbaroMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -187,6 +239,12 @@
         private System.Windows.Forms.OpenFileDialog mainOpenFileDialog;
         private System.Windows.Forms.SplitContainer mainSplitContainer;
         private System.Windows.Forms.Panel paramTablePanel;
+        private System.Windows.Forms.ToolStripMenuItem renderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem skeletonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem wireframeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem solidWireframeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
     }
 }
 
