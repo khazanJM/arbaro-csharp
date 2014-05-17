@@ -47,6 +47,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
             BBox = traversal.BBox;
 
             // Build vertex buffer
+            if (traversal.Vertices.Count == 0) return;
+
             var stream = new DataStream(traversal.Vertices.Count * Marshal.SizeOf(typeof(DXSKV)), true, true);
 
             stream.WriteRange(traversal.Vertices.ToArray());
@@ -84,6 +86,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         protected override void _Render(DXCamera camera)
         {
+            if (_vertexBuffer == null) return;
+
             DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXSKV)), 0));
             DXContext.InputAssembler.SetIndexBuffer(_indexBuffer, Format.R32_UInt, 0);
             DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
@@ -174,7 +178,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
         public BoundingBox BBox = new BoundingBox(new Vector3(float.MaxValue, float.MaxValue, float.MaxValue),
                                                   new Vector3(float.MinValue, float.MinValue, float.MinValue));
 
-        public DXTreeSkeleton_TreeTraversal(CS_Params csParams) {
+        public DXTreeSkeleton_TreeTraversal(CS_Params csParams)
+        {
             _csParams = csParams;
         }
 
@@ -183,23 +188,48 @@ namespace Arbaro2.DX_Engine.TreeClasses
             // Only generating the segments... needs to do the same for the subsegments
             foreach (CS_SegmentImpl seg in stem.getSections())
             {
-                DXSKV v0, v1;
-                Vector3 cv0 = seg.getLowerPosition();
-                Vector3 cv1 = seg.getUpperPosition();
+                if (seg.getSubsegmentCount() == 1)
+                {
+                    DXSKV v0, v1;
+                    Vector3 cv0 = seg.getLowerPosition();
+                    Vector3 cv1 = seg.getUpperPosition();
 
-                // the tree is caculated in openGL coordinates with Z "up" so...
-                v0.P = new Vector3(cv0.X, cv0.Z, cv0.Y);
-                v1.P = new Vector3(cv1.X, cv1.Z, cv1.Y);
-                v0.C = colors[Math.Min(3, stem.getLevel())];
-                v1.C = colors[Math.Min(3, stem.getLevel())];
+                    // the tree is caculated in openGL coordinates with Z "up" so...
+                    v0.P = new Vector3(cv0.X, cv0.Z, cv0.Y);
+                    v1.P = new Vector3(cv1.X, cv1.Z, cv1.Y);
+                    v0.C = colors[Math.Min(3, stem.getLevel())];
+                    v1.C = colors[Math.Min(3, stem.getLevel())];
 
-                BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
-                BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
-                BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
-                BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
+                    BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
+                    BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
+                    BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
+                    BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
 
-                Vertices.Add(v0);
-                Vertices.Add(v1);
+                    Vertices.Add(v0);
+                    Vertices.Add(v1);
+                }
+                else
+                {                    
+                    Vector3 currPos = seg.getLowerPosition();
+                                       
+                    for (int subindex = 0; subindex < seg.getSubsegmentCount(); subindex++)
+                    {
+                        DXSKV v0, v1;                       
+                                        
+                        v0.P = new Vector3(currPos.X, currPos.Z, currPos.Y);                                            
+
+                        v1.P = new Vector3(0, 0, 0);
+                        v1.P = seg.subsegments[subindex].getTransformation().apply(v1.P);
+                        currPos = v1.P;
+                        v1.P = new Vector3(v1.P.X, v1.P.Z, v1.P.Y);
+
+                        v0.C = colors[Math.Min(3, stem.getLevel())];
+                        v1.C = colors[Math.Min(3, stem.getLevel())];
+                        
+                        Vertices.Add(v0);
+                        Vertices.Add(v1);
+                    }
+                }
             }
 
             return true;
@@ -241,8 +271,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
             BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
             BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
 
-            Vertices.Add(v0);
-            Vertices.Add(v1);
+            //Vertices.Add(v0);
+            //Vertices.Add(v1);
 
 
             return true;

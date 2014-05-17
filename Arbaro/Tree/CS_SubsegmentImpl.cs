@@ -31,6 +31,11 @@ namespace Arbaro2.Arbaro.Tree
             return rad;
         }
 
+        public DX_Transformation getBaseTransformation()
+        {
+            return segment.transf;
+        }
+
         public override DX_Transformation getTransformation()
         {
             return segment.transf.translate(pos - segment.getLowerPosition());
