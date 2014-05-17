@@ -2,7 +2,7 @@ title:            Arbaro C#
 description:      About porting Arbaro to C#.
 # Your site's domain goes here. Leave localhost server or blank when working locally.
 #url:              http://localhost:4000
-url:              http://khazanjm.github.io/arbaro-csharp/
+url:              http://khazanjm.github.io/arbaro-csharp
 disqus_shortname: 
 
 # Owner/author information
@@ -14,7 +14,7 @@ owner:
   # Social networking links are used in author-bio sidebar. Update and remove as you like.
   twitter:        
   facebook:       
-  github: KhazanJM/arbaro-csharp         
+  github: khazanJM/arbaro-csharp         
   stackoverflow: 
   linkedin:       
   instagram:      

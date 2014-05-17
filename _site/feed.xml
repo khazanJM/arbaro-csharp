@@ -2,26 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Arbaro C#</title>
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp//feed.xml" />
-<link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp/" />
-<updated>2014-05-09T13:55:26-04:00</updated>
-<id>http://khazanjm.github.io/arbaro-csharp//</id>
+<link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
+<link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
+<updated>2014-05-15T02:12:55-04:00</updated>
+<id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
-  <uri>http://khazanjm.github.io/arbaro-csharp//</uri>
+  <uri>http://khazanjm.github.io/arbaro-csharp/</uri>
   <email>khazanJM@gmail.com</email>
 </author>
 
 
 <entry>
   <title type="html"><![CDATA[Arbaro C#]]></title>
-  <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp//sample-post-images/" />
-  <id>http://khazanjm.github.io/arbaro-csharp//sample-post-images</id>
+  <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp/sample-post-images/" />
+  <id>http://khazanjm.github.io/arbaro-csharp/sample-post-images</id>
   <published>2014-05-09T00:00:00-04:00</published>
   <updated>2014-05-09T00:00:00-04:00</updated>
   <author>
     <name>KhazanJM</name>
-    <uri>http://khazanjm.github.io/arbaro-csharp/</uri>
+    <uri>http://khazanjm.github.io/arbaro-csharp</uri>
     <email>khazanJM@gmail.com</email>
   </author>
   <content type="html">&lt;p&gt;Arbaro C# is a project to port Arbaro to C#.
@@ -29,7 +29,7 @@ Arbaro is a cool, though pretty old, tree generator developed using Java.
 It implements ideas developed by Weber &amp;amp; Penn in a somewhat famous paper.
 The original Arbaro implementation can be found &lt;a href=&quot;http://arbaro.sourceforge.net&quot;&gt;here&lt;/a&gt;. The Weber &amp;amp; Penn paper: &lt;em&gt;Creation and rendering of realistic tree&lt;/em&gt; can be found &lt;a href=&quot;https://www.cs.duke.edu/courses/fall02/cps124/resources/p119-weber.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;status-as-of-may-9-2014&quot;&gt;Status as of May 9, 2014&lt;/h3&gt;
+&lt;h3 id=&quot;status-as-of-may-11-2014&quot;&gt;Status as of May 11, 2014&lt;/h3&gt;
 
 &lt;h4 id=&quot;a-screen-shot&quot;&gt;A screen-shot&lt;/h4&gt;
 
@@ -41,8 +41,15 @@ The original Arbaro implementation can be found &lt;a href=&quot;http://arbaro.s
 &lt;p&gt;The current implementation is able to calculate a tree and display its skeleton (skipping subsegments).
 Basically it is still extremely early stages… A lot of work still needed to have something even remotely useful.&lt;/p&gt;
 
+&lt;p&gt;All loaded tree parameters are displayed in the tree view on the left. Though it’s not obvious when looking at the screenshot.&lt;/p&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp//sample-post-images/&quot;&gt;Arbaro C#&lt;/a&gt; was originally published by KhazanJM at &lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/&quot;&gt;Arbaro C#&lt;/a&gt; on May 09, 2014.&lt;/p&gt;</content>
+&lt;p&gt;A basic Orbite controler is implemented on the 3D view. 
+It allows Zoom (whith mouse wheel), Pan (Right mouse button) and rotation around the tree (Left mouse button).&lt;/p&gt;
+
+&lt;p&gt;Currently it takes quite long to calculate any of the sample trees (around 500ms to 1s). Which can possibly be due to all linear algebra calculation being done without any acceleration. My current goal is to remove the CS_Vector, CS_Matrix and CS_Transformation classes and remplace them with the DirectX Vector &amp;amp; Matrix implementations. I guess it can help a bit as Arbaro is doing some intensive linear algebra calculations.&lt;/p&gt;
+
+
+  &lt;p&gt;&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/sample-post-images/&quot;&gt;Arbaro C#&lt;/a&gt; was originally published by KhazanJM at &lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp&quot;&gt;Arbaro C#&lt;/a&gt; on May 09, 2014.&lt;/p&gt;</content>
 </entry>
 
 </feed>
