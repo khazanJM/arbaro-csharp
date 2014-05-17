@@ -15,7 +15,7 @@ comments: true
 * The subsegments are now generated with the skeleton.
 * A few enhancements here and there.
 
-The next step is to generate a proper mesh and display it.
+The next step is to generate a proper mesh and display it. I should be able to get that done in the coming days.
 
 #### A screen-shot
 

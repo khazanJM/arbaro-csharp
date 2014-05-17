@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
 <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
-<updated>2014-05-17T10:38:14-04:00</updated>
+<updated>2014-05-17T10:38:57-04:00</updated>
 <id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
@@ -35,7 +35,7 @@
   &lt;li&gt;A few enhancements here and there.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The next step is to generate a proper mesh and display it.&lt;/p&gt;
+&lt;p&gt;The next step is to generate a proper mesh and display it. I should be able to get that done in the coming days.&lt;/p&gt;
 
 &lt;h4 id=&quot;a-screen-shot&quot;&gt;A screen-shot&lt;/h4&gt;
 
