@@ -13,6 +13,7 @@ comments: true
 * A decent camera with zoom, pan & rotate.
 * The "green" lines shows leaves.
 * The subsegments are now generated with the skeleton.
+* A triangle mesh is generated and displayed using solif wireframe
 * A few enhancements here and there.
 
 
