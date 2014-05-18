@@ -256,26 +256,42 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         public override bool visitLeaf(CS_Leaf leaf)
         {
-            return true;
-
-            DXMEV v0, v1;
+            DXMEV v0, v1, v2, v3;
             DX_Transformation transf = leaf.getTransformation();
 
+            // each leaf is just a quad
+            v0 = new DXMEV(); v0.P = _csParams.LeafScale * new Vector3(-0.5f * _csParams.LeafScaleX, 0, 0);
+            v1 = new DXMEV(); v1.P = _csParams.LeafScale * new Vector3(-0.5f * _csParams.LeafScaleX, 0, 0.5f);
+            v2 = new DXMEV(); v2.P = _csParams.LeafScale * new Vector3(0.5f * _csParams.LeafScaleX, 0, 0.5f);
+            v3 = new DXMEV(); v3.P = _csParams.LeafScale * new Vector3(0.5f * _csParams.LeafScaleX, 0, 0);
 
             // the tree is caculated in openGL coordinates with Z "up" so...
-            v0.P = new Vector3(0, 0, 0);
-            v1.P = new Vector3(0, 0, _csParams.LeafScale);
             v0.P = transf.apply(v0.P); v0.P = new Vector3(v0.P.X, v0.P.Z, v0.P.Y);
             v1.P = transf.apply(v1.P); v1.P = new Vector3(v1.P.X, v1.P.Z, v1.P.Y);
+            v2.P = transf.apply(v2.P); v2.P = new Vector3(v2.P.X, v2.P.Z, v2.P.Y);
+            v3.P = transf.apply(v3.P); v3.P = new Vector3(v3.P.X, v3.P.Z, v3.P.Y);
 
 
             BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
             BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
+            BBox.Maximum = Vector3.Max(BBox.Maximum, v2.P);
+            BBox.Maximum = Vector3.Max(BBox.Maximum, v3.P);
+
             BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
             BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
+            BBox.Minimum = Vector3.Min(BBox.Minimum, v2.P);
+            BBox.Minimum = Vector3.Min(BBox.Minimum, v3.P);
+
+            int c = Vertices.Count;
+            Indices.Add(c); Indices.Add(c + 1); Indices.Add(c + 3);
+            Indices.Add(c + 3); Indices.Add(c + 1); Indices.Add(c + 2);
 
             Vertices.Add(v0);
             Vertices.Add(v1);
+            Vertices.Add(v2);
+            Vertices.Add(v3);
+
+
 
             return true;
         }
