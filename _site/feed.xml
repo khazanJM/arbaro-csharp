@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
 <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
-<updated>2014-05-18T04:26:16-04:00</updated>
+<updated>2014-05-18T04:29:17-04:00</updated>
 <id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
@@ -45,7 +45,7 @@
 &lt;h4 id=&quot;the-mesh&quot;&gt;The mesh&lt;/h4&gt;
 
 &lt;p&gt;I made a quick mesh generator. It gets displayed using a Solid Wireframe shader I found at 
-NVidia here: http://developer.download.nvidia.com/SDK/10.5/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf&lt;/p&gt;
+NVidia &lt;a href=&quot;http://developer.download.nvidia.com/SDK/10.5/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Unfortunately it looks like there are several bugs in the mesh generation… something related with subsegments.
 I have to say I didn’t really understand how Arbaro originally handle those…&lt;/p&gt;

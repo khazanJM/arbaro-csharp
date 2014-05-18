@@ -26,7 +26,7 @@ comments: true
 #### The mesh
 
 I made a quick mesh generator. It gets displayed using a Solid Wireframe shader I found at 
-NVidia here: http://developer.download.nvidia.com/SDK/10.5/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf
+NVidia [here](http://developer.download.nvidia.com/SDK/10.5/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf).
 
 Unfortunately it looks like there are several bugs in the mesh generation... something related with subsegments.
 I have to say I didn't really understand how Arbaro originally handle those...
