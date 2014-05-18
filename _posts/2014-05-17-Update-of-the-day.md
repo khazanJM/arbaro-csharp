@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "05-17-2014"
-description: "What is it about ?"
+description: "Moving forward ..."
 tags: [arbaro, dev-update]
 comments: true
 ---
