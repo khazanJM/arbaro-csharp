@@ -56,7 +56,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 Usage = ResourceUsage.Default
             });
             stream.Dispose();
-           
+
             stream = new DataStream(traversal.Indices.Count * sizeof(UInt32), true, true);
             stream.WriteRange(traversal.Indices.ToArray());
 
@@ -93,7 +93,10 @@ namespace Arbaro2.DX_Engine.TreeClasses
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
             EffectPass usePass = technique.GetPassByIndex(0);
             usePass.Apply(DXContext);
+            DXContext.DrawIndexed(IndexCount, 0, 0);
 
+            usePass = technique.GetPassByIndex(1);
+            usePass.Apply(DXContext);
             DXContext.DrawIndexed(IndexCount, 0, 0);
 
             technique.Dispose();
@@ -102,12 +105,15 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         private void InitShaders()
         {
-            _shader = new DXShader("TreeMesh");
+            _shader = new DXShader("SolidWireframe");
 
             // Create the InputElement
             _inputElements = new InputElement[]
 					{
-						new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0)                       
+                        new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0),
+                        new InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 12, 0),
+                        new InputElement("NORMAL", 0, SharpDX.DXGI.Format.R32G32B32_Float, 20, 0),
+                        new InputElement("TANGENT", 0, SharpDX.DXGI.Format.R32G32B32_Float, 32, 0)
 					};
 
             // Create the InputLayout
@@ -172,17 +178,25 @@ namespace Arbaro2.DX_Engine.TreeClasses
             Vector3[] section_base = stem.getSections()[0].getSectionPoints();
             AddRangeVector3(section_base, true);
 
-            for (int i = 1; i < stem.getSections().Count; i++)
+            for (int i = 0; i < stem.getSections().Count; i++)
             {
                 CS_SegmentImpl seg = stem.getSections()[i];
 
-
-                if (true /*seg.getSubsegmentCount() == 1*/)
+                if (seg.getSubsegmentCount() == 1)
                 {
                     Vector3[] section_next = stem.getSections()[i].getSectionPoints();
-                    AddRangeVector3(section_next, false);                    
+                    AddRangeVector3(section_next, false);
                 }
-                
+                else
+                {
+                    for (int j = 0; j < seg.getSubsegmentCount() /*- 1*/; j++)
+                    {
+                        CS_SubsegmentImpl subseg = seg.subsegments[j];
+                        Vector3[] section_next = subseg.getSectionPoints();
+                        AddRangeVector3(section_next, false);
+                    }
+                }
+
             }
 
             return true;
@@ -190,14 +204,15 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         private void AddRangeVector3(Vector3[] v, bool isFirst)
         {
-            int N = Vertices.Count-1;
+            int N = Vertices.Count - 1;
             int C = v.Count();
 
-            foreach (Vector3 v3 in v) {
+            foreach (Vector3 v3 in v)
+            {
                 DXMEV p = new DXMEV();
                 p.P = new Vector3(v3.X, v3.Z, v3.Y);
                 Vertices.Add(p);
-               
+
                 BBox.Maximum = Vector3.Max(BBox.Maximum, p.P);
                 BBox.Maximum = Vector3.Max(BBox.Maximum, p.P);
                 BBox.Minimum = Vector3.Min(BBox.Minimum, p.P);
@@ -205,15 +220,17 @@ namespace Arbaro2.DX_Engine.TreeClasses
             }
 
             if (isFirst) { }
-            else { 
+            else
+            {
                 // Create the triangles
-                for (int i = 0; i < C; i++) { 
+                for (int i = 0; i < C; i++)
+                {
                     // first triangle for the "quad"
                     Indices.Add(N - C + 1 + i); Indices.Add(N + i + 1);
-                    if (i == C-1) Indices.Add(N - C + 1); else Indices.Add(N-C+2+i);
-                    
+                    if (i == C - 1) Indices.Add(N - C + 1); else Indices.Add(N - C + 2 + i);
+
                     // second triangle for the "quad"
-                    if (i == C - 1) Indices.Add(N - C + 1); else Indices.Add(N - C + 2 + i);                   
+                    if (i == C - 1) Indices.Add(N - C + 1); else Indices.Add(N - C + 2 + i);
                     Indices.Add(N + i + 1);
                     if (i == C - 1) Indices.Add(N + 1); else Indices.Add(N + 2 + i);
                 }

@@ -22,7 +22,9 @@ namespace Arbaro2.DX_Engine
         public int MSAA_SampleCount = 4;
         public int MSAA_SampleDesc = 0;
 
-        public Color4 BackgroundColor = new Color4(new Vector4(210.0f / 255.0f, 210 / 255.0f, 210.0f / 255.0f, 1f));
+        // Coastline cottage blue 
+        // http://www.materials-world.com/paint-colors/martin_senour/martin-senour-36.htm
+        public Color4 BackgroundColor = new Color4(new Vector4(125.0f / 255.0f, 150f / 255.0f, 176.0f / 255.0f, 1f));
 
         public char SmartCameraKeyCode_NZ = 'z';
         public char SmartCameraKeyCode_PZ = 'Z';
