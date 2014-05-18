@@ -6,7 +6,7 @@ tags: [arbaro, dev-update]
 comments: true
 ---
 
-### Status as of May 17, 2014
+### Status as of May 18, 2014
 
 #### Changes
 
@@ -15,7 +15,6 @@ comments: true
 * The subsegments are now generated with the skeleton.
 * A few enhancements here and there.
 
-The next step is to generate a proper mesh and display it. I should be able to get that done in the coming days.
 
 #### A screen-shot
 
@@ -24,6 +23,16 @@ The next step is to generate a proper mesh and display it. I should be able to g
 	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
 </figure>
 
+#### The mesh
 
+I made a quick mesh generator. It gets displayed using a Solid Wireframe shader I found at 
+NVidia here: http://developer.download.nvidia.com/SDK/10.5/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf
 
+Unfortunately it looks like there are several bugs in the mesh generation... something related with subsegments.
+I have to say I didn't really understand how Arbaro originally handle those...
+
+<figure>
+	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_swf.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_swf.jpg"></a>
+	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
+</figure>
 
