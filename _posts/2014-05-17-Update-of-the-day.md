@@ -16,6 +16,13 @@ comments: true
 * A triangle mesh is generated and displayed using solif wireframe
 * A few enhancements here and there.
 
+Next step: 
+* Debug the mesh generation. 
+* Setup a menu to switch from skeleton to wireframe display.
+* Menu to filter display of levels
+* Mesh for leaves
+* Export as .obj file format
+
 
 #### A screen-shot
 
