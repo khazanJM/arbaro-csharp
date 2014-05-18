@@ -16,6 +16,7 @@ comments: true
 * A triangle mesh is generated and displayed using solif wireframe
 * A few enhancements here and there.
 
+
 Next step: 
 
 * Debug the mesh generation. 
