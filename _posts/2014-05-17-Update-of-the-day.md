@@ -17,7 +17,7 @@ comments: true
 * A few enhancements here and there.
 
 
-Next step: 
+#### Next step: 
 
 * Debug the mesh generation. 
 * Setup a menu to switch from skeleton to wireframe display.
