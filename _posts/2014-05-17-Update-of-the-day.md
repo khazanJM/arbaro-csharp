@@ -14,6 +14,7 @@ comments: true
 * The "green" lines shows leaves.
 * The subsegments are now generated with the skeleton.
 * A triangle mesh is generated and displayed using solif wireframe
+* A mesh (quads) is created for the leaves
 * A few enhancements here and there.
 
 
@@ -22,8 +23,8 @@ comments: true
 * Debug the mesh generation. 
 * Setup a menu to switch from skeleton to wireframe display.
 * Menu to filter display of levels
-* Mesh for leaves
 * Export as .obj file format
+* Parameters are not properly displayed when loading a tree definition file
 
 
 #### A screen-shot
@@ -46,3 +47,12 @@ I have to say I didn't really understand how Arbaro originally handle those...
 	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
 </figure>
 
+
+#### Mesh with leaves
+
+Quick update with "leaves"...
+
+<figure>
+	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_leaves.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_leaves.jpg"></a>
+	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
+</figure>
