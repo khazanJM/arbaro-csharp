@@ -23,6 +23,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
     {
         public Vector3 P; // position
         public Vector3 C; // color
+        public int Level;
     }
 
     //
@@ -97,6 +98,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
             _shader.SetParameter("viewMatrix", camera.ViewMatrix);
             _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
             _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
+            _shader.SetParameter("display", Program.DXConfig.LevelVisibility);
 
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
             EffectPass usePass = technique.GetPassByIndex(0);
@@ -116,7 +118,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
             _inputElements = new InputElement[]
 					{
 						new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0),
-                        new InputElement("COLOR", 0, SharpDX.DXGI.Format.R32G32B32_Float, 12, 0)
+                        new InputElement("COLOR", 0, SharpDX.DXGI.Format.R32G32B32_Float, 12, 0),
+                        new InputElement("LEVEL", 0, SharpDX.DXGI.Format.R32_UInt, 24, 0)
 					};
 
             // Create the InputLayout
@@ -204,6 +207,9 @@ namespace Arbaro2.DX_Engine.TreeClasses
                     BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
                     BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
 
+                    v0.Level = 1 << stem.getLevel();
+                    v1.Level = 1 << stem.getLevel();
+
                     Vertices.Add(v0);
                     Vertices.Add(v1);
                 }
@@ -224,9 +230,13 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
                         v0.C = colors[Math.Min(3, stem.getLevel())];
                         v1.C = colors[Math.Min(3, stem.getLevel())];
+
+                        v0.Level = 1 << stem.getLevel();
+                        v1.Level = 1 << stem.getLevel();
                         
                         Vertices.Add(v0);
                         Vertices.Add(v1);
+
 
                         BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
                         BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
@@ -274,6 +284,9 @@ namespace Arbaro2.DX_Engine.TreeClasses
             BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
             BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
             BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
+
+            v0.Level = 16;
+            v1.Level = 16;
 
             Vertices.Add(v0);
             Vertices.Add(v1);

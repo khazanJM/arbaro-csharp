@@ -75,6 +75,11 @@ namespace Arbaro2
                 csParams = new CS_Params();
                 csParams.prepare(13);
                 csParams.readFromXML(mainOpenFileDialog.FileName);
+
+                // refresh params GUI
+                pgv = new CS_ParamGroupsView(treeView1);
+                pvt = new CS_ParamValueTable(paramTablePanel, csParams);
+
                 csParams.enableDisable();
                 CS_PreciseTimer t0 = new CS_PreciseTimer(10);
                 DateTime tStart = t0.Now;
@@ -92,6 +97,7 @@ namespace Arbaro2
                     s.Dispose();
                 }
                 DXTreeSkeleton sk = new DXTreeSkeleton(tree, csParams);
+                sk.Visible = false;
                 Program.Renderer.RenderableList.Add("Skeleton", sk);
 
                 if (Program.Renderer.RenderableList.ContainsKey("TreeMesh"))
@@ -126,22 +132,54 @@ namespace Arbaro2
         // Menu enabling / disabling
         private void MainMenuEnableDisable()
         {
-            if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))
-            {
-                renderToolStripMenuItem.Enabled = true;
-                skeletonToolStripMenuItem.Checked = true;
-
-            }
+            if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))           
+                renderToolStripMenuItem.Enabled = true;                          
             else
-            {
                 renderToolStripMenuItem.Enabled = false;
-            }
         }
 
         private void skeletonToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             DXRenderable skeleton = Program.Renderer.RenderableList["Skeleton"];
             skeleton.Visible = (sender as ToolStripMenuItem).Checked;
+        }
+
+        private void solidWireframeToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            DXRenderable mesh = Program.Renderer.RenderableList["TreeMesh"];
+            mesh.Visible = (sender as ToolStripMenuItem).Checked;
+        }
+
+
+        // quite ugly - do that in a better way
+        private void level0ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 1;
+            else Program.DXConfig.LevelVisibility -= 1;
+        }
+
+        private void level1ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 2;
+            else Program.DXConfig.LevelVisibility -= 2;
+        }
+
+        private void level2ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 4;
+            else Program.DXConfig.LevelVisibility -= 4;
+        }
+
+        private void level3ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 8;
+            else Program.DXConfig.LevelVisibility -= 8;
+        }
+
+        private void leavesToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 16;
+            else Program.DXConfig.LevelVisibility -= 16;
         }
     }
 }

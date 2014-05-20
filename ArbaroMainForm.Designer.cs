@@ -36,16 +36,20 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.skeletonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.solidWireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.level0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.level1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.level2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.level3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.leavesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.mainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.paramTablePanel = new System.Windows.Forms.Panel();
-            this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.skeletonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.solidWireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
@@ -119,6 +123,101 @@
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // renderToolStripMenuItem
+            // 
+            this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.skeletonToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.solidWireframeToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.level0ToolStripMenuItem,
+            this.level1ToolStripMenuItem,
+            this.level2ToolStripMenuItem,
+            this.level3ToolStripMenuItem,
+            this.leavesToolStripMenuItem});
+            this.renderToolStripMenuItem.Enabled = false;
+            this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
+            this.renderToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.renderToolStripMenuItem.Text = "Render";
+            // 
+            // skeletonToolStripMenuItem
+            // 
+            this.skeletonToolStripMenuItem.CheckOnClick = true;
+            this.skeletonToolStripMenuItem.Name = "skeletonToolStripMenuItem";
+            this.skeletonToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.skeletonToolStripMenuItem.Text = "Skeleton";
+            this.skeletonToolStripMenuItem.CheckedChanged += new System.EventHandler(this.skeletonToolStripMenuItem_CheckedChanged);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(153, 6);
+            // 
+            // solidWireframeToolStripMenuItem
+            // 
+            this.solidWireframeToolStripMenuItem.Checked = true;
+            this.solidWireframeToolStripMenuItem.CheckOnClick = true;
+            this.solidWireframeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.solidWireframeToolStripMenuItem.Name = "solidWireframeToolStripMenuItem";
+            this.solidWireframeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.solidWireframeToolStripMenuItem.Text = "Solid wireframe";
+            this.solidWireframeToolStripMenuItem.CheckedChanged += new System.EventHandler(this.solidWireframeToolStripMenuItem_CheckedChanged);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(153, 6);
+            // 
+            // level0ToolStripMenuItem
+            // 
+            this.level0ToolStripMenuItem.Checked = true;
+            this.level0ToolStripMenuItem.CheckOnClick = true;
+            this.level0ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.level0ToolStripMenuItem.Name = "level0ToolStripMenuItem";
+            this.level0ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.level0ToolStripMenuItem.Text = "Level 0";
+            this.level0ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.level0ToolStripMenuItem_CheckedChanged);
+            // 
+            // level1ToolStripMenuItem
+            // 
+            this.level1ToolStripMenuItem.Checked = true;
+            this.level1ToolStripMenuItem.CheckOnClick = true;
+            this.level1ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.level1ToolStripMenuItem.Name = "level1ToolStripMenuItem";
+            this.level1ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.level1ToolStripMenuItem.Text = "Level 1";
+            this.level1ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.level1ToolStripMenuItem_CheckedChanged);
+            // 
+            // level2ToolStripMenuItem
+            // 
+            this.level2ToolStripMenuItem.Checked = true;
+            this.level2ToolStripMenuItem.CheckOnClick = true;
+            this.level2ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.level2ToolStripMenuItem.Name = "level2ToolStripMenuItem";
+            this.level2ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.level2ToolStripMenuItem.Text = "Level 2";
+            this.level2ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.level2ToolStripMenuItem_CheckedChanged);
+            // 
+            // level3ToolStripMenuItem
+            // 
+            this.level3ToolStripMenuItem.Checked = true;
+            this.level3ToolStripMenuItem.CheckOnClick = true;
+            this.level3ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.level3ToolStripMenuItem.Name = "level3ToolStripMenuItem";
+            this.level3ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.level3ToolStripMenuItem.Text = "Level 3";
+            this.level3ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.level3ToolStripMenuItem_CheckedChanged);
+            // 
+            // leavesToolStripMenuItem
+            // 
+            this.leavesToolStripMenuItem.Checked = true;
+            this.leavesToolStripMenuItem.CheckOnClick = true;
+            this.leavesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.leavesToolStripMenuItem.Name = "leavesToolStripMenuItem";
+            this.leavesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.leavesToolStripMenuItem.Text = "Leaves";
+            this.leavesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.leavesToolStripMenuItem_CheckedChanged);
+            // 
             // treeView1
             // 
             this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -157,51 +256,6 @@
             this.paramTablePanel.Name = "paramTablePanel";
             this.paramTablePanel.Size = new System.Drawing.Size(291, 146);
             this.paramTablePanel.TabIndex = 1;
-            // 
-            // renderToolStripMenuItem
-            // 
-            this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.skeletonToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.wireframeToolStripMenuItem,
-            this.solidWireframeToolStripMenuItem,
-            this.toolStripMenuItem3});
-            this.renderToolStripMenuItem.Enabled = false;
-            this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
-            this.renderToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.renderToolStripMenuItem.Text = "Render";
-            // 
-            // skeletonToolStripMenuItem
-            // 
-            this.skeletonToolStripMenuItem.Checked = true;
-            this.skeletonToolStripMenuItem.CheckOnClick = true;
-            this.skeletonToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.skeletonToolStripMenuItem.Name = "skeletonToolStripMenuItem";
-            this.skeletonToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.skeletonToolStripMenuItem.Text = "Skeleton";
-            this.skeletonToolStripMenuItem.CheckedChanged += new System.EventHandler(this.skeletonToolStripMenuItem_CheckedChanged);
-            // 
-            // wireframeToolStripMenuItem
-            // 
-            this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
-            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.wireframeToolStripMenuItem.Text = "Wireframe";
-            // 
-            // solidWireframeToolStripMenuItem
-            // 
-            this.solidWireframeToolStripMenuItem.Name = "solidWireframeToolStripMenuItem";
-            this.solidWireframeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.solidWireframeToolStripMenuItem.Text = "Solid wireframe";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(153, 6);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(153, 6);
             // 
             // ArbaroMainForm
             // 
@@ -242,9 +296,13 @@
         private System.Windows.Forms.ToolStripMenuItem renderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem skeletonToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem wireframeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem solidWireframeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem level0ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem level1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem level2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem level3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem leavesToolStripMenuItem;
     }
 }
 

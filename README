@@ -48,7 +48,8 @@ The installation directory should endup looking like this
 
 Following is my notes on what I am doing and what is coming.
 
--- April 28 2013 --
+
+-- April 28 2014 --
 
 Start working...
 
@@ -61,4 +62,8 @@ The first steps are
 - Release this first version to GIT
 
 
+-- May 18 2014 --
+
+- Get the GUI working
+- Allow to display / hide levels
 
