@@ -29,8 +29,7 @@ namespace Arbaro2.Arbaro.Tree
          */
         private void setLeafOrientation(CS_Params par)
         {
-            if (par.LeafBend == 0) return;
-
+            if (par.LeafBend == 0) return;                  
 
             // FIXME: make this function as fast as possible - a tree has a lot of leafs
 
@@ -66,6 +65,7 @@ namespace Arbaro2.Arbaro.Tree
             //			.rotaxis(-orientation,Vector.Z_AXIS)
             //			.rotx(bend_angle)
             //			.rotaxis(orientation,Vector.Z_AXIS);
+             
         }
 
 

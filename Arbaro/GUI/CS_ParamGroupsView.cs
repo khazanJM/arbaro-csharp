@@ -49,6 +49,8 @@ namespace Arbaro2.Arbaro.GUI
         public CS_ParamGroupsView(TreeView tv)
         {
             _tv = tv;
+            tv.Nodes.Clear();
+
             CreateNodes();
             _tv.AfterSelect += _tv_AfterSelect;
         }
@@ -72,7 +74,6 @@ namespace Arbaro2.Arbaro.GUI
 
             CS_GroupNode general = new CS_GroupNode("", "General", CS_AbstractParam.GENERAL);
             TreeNode tnGeneral = _tv.Nodes.Add(general.getGroupLabel());
-            //tnGeneral.Tag = general;
 
             CS_GroupNode treeShape = new CS_GroupNode("SHAPE", "Tree shape", CS_AbstractParam.GENERAL);
             tn = tnGeneral.Nodes.Add(treeShape.getGroupLabel());

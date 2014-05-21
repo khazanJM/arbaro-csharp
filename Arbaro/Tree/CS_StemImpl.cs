@@ -149,7 +149,7 @@ namespace Arbaro2.Arbaro.Tree
 
         void TRF(String where, DX_Transformation trf)
         {
-            DBG(where + ": " + trf.toString());
+            //DBG(where + ": " + trf.toString());
         }
 
         /**
