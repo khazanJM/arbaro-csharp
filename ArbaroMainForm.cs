@@ -86,8 +86,7 @@ namespace Arbaro2
                 CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
                 tree = treeGenerator.makeTree(new Object());
                 DateTime tEnd = t0.Now;
-                float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
-                Console.WriteLine(elapsed);
+                
 
                 // make 3D Tree
                 if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))
@@ -110,6 +109,9 @@ namespace Arbaro2
                 Program.Renderer.RenderableList.Add("TreeMesh", me);
 
                 Program.Renderer.CameraControler.LookAt(me.BBox);
+
+                float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
+                Console.WriteLine(elapsed);
             }
 
             MainMenuEnableDisable();

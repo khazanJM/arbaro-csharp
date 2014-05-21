@@ -22,6 +22,7 @@ namespace Arbaro2.Arbaro.GUI
         public CS_ParamValueTable(Panel paramValuePanel, CS_Params csparams) 
         {
             _paramValuePanel = paramValuePanel;
+            _paramValuePanel.Controls.Clear();
             _csparams = csparams;
         }
 
