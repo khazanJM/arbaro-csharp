@@ -48,9 +48,16 @@ namespace Arbaro2
 
         private void ArbaroMainForm_Shown(object sender, EventArgs e)
         {
+            csParams.OnParamChanged += csParams_OnParamChanged;
+
             pgv = new CS_ParamGroupsView(treeView1);
             pvt = new CS_ParamValueTable(paramTablePanel, csParams);
-            treeView1.AfterSelect += treeView1_AfterSelect;           
+            treeView1.AfterSelect += treeView1_AfterSelect;   
+        }
+
+        void csParams_OnParamChanged(object sender, CS_ParamChangedArgs e)
+        {
+            MakeTreeFromParams("", true);
         }
 
         public void RendererInitialized()
@@ -84,26 +91,31 @@ namespace Arbaro2
             MainMenuEnableDisable();
         }
 
-        private void MakeTreeFromParams(string filename)
+        private void MakeTreeFromParams(string filename, bool paramExists = false)
         {
-            csParams = new CS_Params();
-            csParams.prepare(13);
-
-            ResetMenuItems();
-
-            if (filename != "")
+            if (!paramExists)
             {
-                Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);
-                csParams.readFromXML(mainOpenFileDialog.FileName);
+                csParams = new CS_Params();
+                csParams.prepare(13);
+               
+                ResetMenuItems();
+
+                if (filename != "")
+                {
+                    Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);                    
+                    csParams.readFromXML(mainOpenFileDialog.FileName);
+                }
+                else
+                    Text = "Arbaro C# V0.1";
+
+                // refresh params GUI
+                pgv = new CS_ParamGroupsView(treeView1);
+                pvt = new CS_ParamValueTable(paramTablePanel, csParams);
+
+                csParams.enableDisable();
+                csParams.OnParamChanged += csParams_OnParamChanged;
             }
-            else
-                Text = "Arbaro C# V0.1";                     
 
-            // refresh params GUI
-            pgv = new CS_ParamGroupsView(treeView1);
-            pvt = new CS_ParamValueTable(paramTablePanel, csParams);
-
-            csParams.enableDisable();
             CS_PreciseTimer t0 = new CS_PreciseTimer(10);
             DateTime tStart = t0.Now;
             CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
@@ -214,6 +226,17 @@ namespace Arbaro2
         {
             if ((sender as ToolStripMenuItem).Checked) Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEAVES] = true;
             else Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEAVES] = false;
+        }
+
+        private void exportAsOBJToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Program.Renderer.RenderableList.ContainsKey("Mesh")) {
+                mainSaveFileDialog.Filter = "obj files (*.obj)|*.obj";
+                if (mainSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    //Program.Renderer.RenderableList["Mesh"].ExportAsObj(mainSaveFileDialog.FileName);
+                }
+            }
         }
     }
 }

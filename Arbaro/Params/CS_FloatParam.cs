@@ -61,8 +61,12 @@ namespace Arbaro2.Arbaro.Params
             {
                 throw new Exception("Value of " + name + " should be less then or equal to " + max);
             }
-            value = d;
-            raiseOnParamChanged("");
+
+            if (Math.Abs(value - d) > 0.00001)
+            {
+                value = d;
+                raiseOnParamChanged("");              
+            }
         }
 
         public override String getValue()

@@ -479,7 +479,7 @@ namespace Arbaro2.Arbaro.Params
             if (p != null)
             {
                 p.setValue(value);
-                //Console.WriteLine("Params.setParam(): set "+name+" to "+value);
+                //raiseOnParamChanged("");
             }
             else
             {
@@ -1039,7 +1039,7 @@ namespace Arbaro2.Arbaro.Params
             return (CS_AbstractParam)paramDB[parname];
         }
 
-        protected void raiseOnParamChanged(string p)
+        public void raiseOnParamChanged(string p)
         {
             EventHandler<CS_ParamChangedArgs> handler = OnParamChanged;
 

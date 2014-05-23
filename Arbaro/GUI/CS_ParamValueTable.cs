@@ -56,6 +56,9 @@ namespace Arbaro2.Arbaro.GUI
                     shp.Items.AddRange(CS_ShapeParam.values());
                     shp.SelectedText = (p as CS_ShapeParam).toString();
                     shp.Enabled = (p as CS_AbstractParam).getEnabled();
+
+                    shp.Tag = "Shape";
+                    shp.SelectedValueChanged += shp_SelectedValueChanged;
                 }
                 else if (p.name == "LeafShape") 
                 {
@@ -70,6 +73,8 @@ namespace Arbaro2.Arbaro.GUI
                 }
                 else
                 {
+                    p.OnParamChanged += p_OnParamChanged;
+
                     TextBox tb = new TextBox();
                     tb.Parent = _paramValuePanel;
                     tb.Left = 90;
@@ -78,12 +83,34 @@ namespace Arbaro2.Arbaro.GUI
                     
                     tb.Text = p.getValue().ToString();
                     tb.Enabled = (p as CS_AbstractParam).getEnabled();
+                    tb.Tag = p.name;
+                    tb.Validated += tb_Validated;
                 }
 
                 Y += lbl.Height + 3;
             }
 
             _paramValuePanel.Height = lbl.Bottom + 5;
+        }
+
+        void p_OnParamChanged(object sender, CS_ParamChangedArgs e)
+        {
+            _csparams.raiseOnParamChanged("");
+        }
+
+        void tb_Validated(object sender, EventArgs e)
+        {
+            string pName = (string)((sender as Control).Tag);
+            string pValue = (sender as TextBox).Text;
+            _csparams.setParam(pName, pValue);            
+        }
+
+        void shp_SelectedValueChanged(object sender, EventArgs e)
+        {
+            string pName = (string)((sender as Control).Tag);
+            string pValue = ((sender as ComboBox).SelectedIndex).ToString();
+
+            _csparams.setParam(pName, pValue);
         }
     }
 

@@ -61,8 +61,11 @@ namespace Arbaro2.Arbaro.Params
                 throw new Exception("Value of " + name + " should be greater or equal to " + max);
             }
 
-            value = i;
-            raiseOnParamChanged("");
+            if (value != i)
+            {
+                value = i;
+                raiseOnParamChanged("");            
+            }
         }
 
         public override String getValue()

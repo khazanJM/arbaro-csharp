@@ -50,6 +50,9 @@
             this.mainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.paramTablePanel = new System.Windows.Forms.Panel();
+            this.exportAsOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.mainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
@@ -75,6 +78,8 @@
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripMenuItem1,
+            this.exportAsOBJToolStripMenuItem,
+            this.toolStripMenuItem4,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -257,6 +262,18 @@
             this.paramTablePanel.Size = new System.Drawing.Size(291, 146);
             this.paramTablePanel.TabIndex = 1;
             // 
+            // exportAsOBJToolStripMenuItem
+            // 
+            this.exportAsOBJToolStripMenuItem.Name = "exportAsOBJToolStripMenuItem";
+            this.exportAsOBJToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportAsOBJToolStripMenuItem.Text = "Export as OBJ...";
+            this.exportAsOBJToolStripMenuItem.Click += new System.EventHandler(this.exportAsOBJToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(181, 6);
+            // 
             // ArbaroMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,6 +320,9 @@
         private System.Windows.Forms.ToolStripMenuItem level2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem level3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leavesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAsOBJToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.SaveFileDialog mainSaveFileDialog;
     }
 }
 
