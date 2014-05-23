@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>05-17-2014 &#8211; Arbaro C#</title>
+<title>05-23-2014 &#8211; Arbaro C#</title>
 <meta name="description" content="Moving forward ...">
 <meta name="keywords" content="arbaro, dev-update">
 
@@ -13,7 +13,7 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="05-17-2014">
+<meta property="og:title" content="05-23-2014">
 <meta property="og:description" content="Moving forward ...">
 <meta property="og:url" content="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/">
 <meta property="og:site_name" content="Arbaro C#">
@@ -110,61 +110,37 @@
   <article>
     <div class="headline-wrap">
       
-        <h1><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/" rel="bookmark" title="05-17-2014">05-17-2014</a></h1>
+        <h1><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/" rel="bookmark" title="05-23-2014">05-23-2014</a></h1>
       
     </div><!--/ .headline-wrap -->
     <div class="article-wrap">
-      <h3 id="status-as-of-may-18-2014">Status as of May 18, 2014</h3>
+      <h3 id="status-as-of-may-24-2014">Status as of May 24, 2014</h3>
 
 <h4 id="changes">Changes</h4>
 
 <ul>
-  <li>A decent camera with zoom, pan &amp; rotate.</li>
-  <li>The “green” lines shows leaves.</li>
-  <li>The subsegments are now generated with the skeleton.</li>
-  <li>A triangle mesh is generated and displayed using solif wireframe</li>
-  <li>A mesh (quads) is created for the leaves</li>
+  <li>The mesh seems properly generated</li>
+  <li>Looks like the leaf bending trick is creating issues (palm for instance)</li>
   <li>A few enhancements here and there.</li>
+  <li>Parameters can be changed (sort of, lots of bugs there).</li>
+  <li>Arbaro documentation is no displayed</li>
 </ul>
 
 <h4 id="next-step">Next step:</h4>
 
 <ul>
-  <li>Debug the mesh generation. </li>
-  <li>Setup a menu to switch from skeleton to wireframe display.</li>
-  <li>Menu to filter display of levels</li>
+  <li>Check the leaf bend </li>
+  <li>Add UV and normals to the mesh</li>
   <li>Export as .obj file format</li>
-  <li>Parameters are not properly displayed when loading a tree definition file</li>
 </ul>
 
 <h4 id="a-screen-shot">A screen-shot</h4>
 
 <figure>
-	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_2014_05_17b.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_2014_05_17b.jpg" /></a>
+	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_23_05_2014.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_23_05_2014.jpg" /></a>
 	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
 </figure>
 
-<h4 id="the-mesh">The mesh</h4>
-
-<p>I made a quick mesh generator. It gets displayed using a Solid Wireframe shader I found at 
-NVidia <a href="http://developer.download.nvidia.com/SDK/10.5/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf">here</a>.</p>
-
-<p>Unfortunately it looks like there are several bugs in the mesh generation… something related with subsegments.
-I have to say I didn’t really understand how Arbaro originally handle those…</p>
-
-<figure>
-	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_swf.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_swf.jpg" /></a>
-	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
-</figure>
-
-<h4 id="mesh-with-leaves">Mesh with leaves</h4>
-
-<p>Quick update with “leaves”…</p>
-
-<figure>
-	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_leaves.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_leaves.jpg" /></a>
-	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
-</figure>
 
       <hr />
       <footer role="contentinfo">
@@ -188,7 +164,7 @@ I have to say I didn’t really understand how Arbaro originally handle those…
 
 
         </div>
-        <p class="byline"><strong>05-17-2014</strong> was published on <time datetime="2014-05-17T00:00:00-04:00">May 17, 2014</time> by <a href="http://khazanjm.github.io/arbaro-csharp/about" title="About KhazanJM">KhazanJM</a>.</p>
+        <p class="byline"><strong>05-23-2014</strong> was published on <time datetime="2014-05-24T00:00:00-04:00">May 24, 2014</time> by <a href="http://khazanjm.github.io/arbaro-csharp/about" title="About KhazanJM">KhazanJM</a>.</p>
       </footer>
     </div><!-- /.article-wrap -->
   
@@ -199,6 +175,8 @@ I have to say I didn’t really understand how Arbaro originally handle those…
   <div class="related-articles">
   <h4>You might also enjoy <small class="pull-right">(<a href="http://khazanjm.github.io/arbaro-csharp/posts/">View all posts</a>)</small></h4>
     <ul>
+    
+      <li><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day/" title="05-17-2014">05-17-2014</a></li>
     
       <li><a href="http://khazanjm.github.io/arbaro-csharp/sample-post-images/" title="Arbaro C#">Arbaro C#</a></li>
     

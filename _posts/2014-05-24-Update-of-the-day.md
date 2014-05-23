@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "05-24-2014"
+title: "05-23-2014"
 description: "Moving forward ..."
 tags: [arbaro, dev-update]
 comments: true
@@ -26,16 +26,7 @@ comments: true
 #### A screen-shot
 
 <figure>
-	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_2014_05_17b.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_2014_05_17b.jpg"></a>
+	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_23_05_2014.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_23_05_2014.jpg"></a>
 	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
 </figure>
 
-
-#### Leaf bend issues
-
-Quick update with "leaves"...
-
-<figure>
-	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_leaves.jpg"><img src="http://khazanjm.github.io/arbaro-csharp/images/screen_leaves.jpg"></a>
-	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
-</figure>
