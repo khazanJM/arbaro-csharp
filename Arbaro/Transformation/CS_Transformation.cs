@@ -82,6 +82,14 @@ namespace Arbaro2.Arbaro.Transformation
             return v3 + _vector;
         }
 
+        public Vector4 apply(Vector4 v)
+        {
+            Matrix mt = _matrix; mt.Transpose();       
+            Vector4 v4 = Vector4.Transform(v, mt);
+            
+            return new Vector4(v4.X+_vector.X, v4.Y+_vector.Y, v4.Z+_vector.Z, 1);
+        }
+
         /**
          * Returns the Z-column of the rotation matrix. This
          * is the projection on to the z-axis

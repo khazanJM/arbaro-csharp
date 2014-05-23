@@ -603,7 +603,7 @@ namespace Arbaro2.Arbaro.Params
                     "(see PruneWidth, PruneWidthPeak, PrunePowerLow, PrunePowerHigh)</li></ul>\n"
             );
 
-            intParam("Levels", 0, 9, 3, "SHAPE", "levels of recursion",
+            intParam("Levels", 0, 9, 2, "SHAPE", "levels of recursion",
                     "<strong>Levels</strong> are the levels of recursion when creating the\n" +
                     "stems of the tree.<ul>\n" +
                     "<li>Levels=1 means the tree consist only of the (may be splitting) trunk</li>\n" +

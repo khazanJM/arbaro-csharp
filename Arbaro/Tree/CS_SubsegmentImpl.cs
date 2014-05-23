@@ -54,8 +54,9 @@ namespace Arbaro2.Arbaro.Tree
             this.segment = segment;
         }
 
-        public override Vector3[] getSectionPoints()
+        public override Vector3[] getSectionPoints(bool start = true)
         {
+          
             CS_Params par = segment.par;
             CS_LevelParams lpar = segment.lpar;
 
@@ -63,8 +64,8 @@ namespace Arbaro2.Arbaro.Tree
             Vector3[] points;
             DX_Transformation trf = getTransformation(); //segment.getTransformation().translate(pos.sub(segment.getLowerPosition()));
 
-            // if radius = 0 create only one point
-            if (rad < 0.000001)
+            // if radius = 0 create only one point -> that's a problem for me
+            if (false /*rad < -0.000001*/)
             {
                 points = new Vector3[1];
                 points[0] = trf.apply(new Vector3(0, 0, 0));

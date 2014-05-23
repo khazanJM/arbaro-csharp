@@ -22,7 +22,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
     [StructLayout(LayoutKind.Sequential)]
     public struct DXMEV
     {
-        public Vector3 P; // position     
+        public Vector4 P; // position     
     }
 
     public class DXTreeMesh : DXRenderable
@@ -110,10 +110,10 @@ namespace Arbaro2.DX_Engine.TreeClasses
             // Create the InputElement
             _inputElements = new InputElement[]
 					{
-                        new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0),
-                        new InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 12, 0),
-                        new InputElement("NORMAL", 0, SharpDX.DXGI.Format.R32G32B32_Float, 20, 0),
-                        new InputElement("TANGENT", 0, SharpDX.DXGI.Format.R32G32B32_Float, 32, 0)
+                        new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32A32_Float, 0, 0),
+                        new InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 16, 0),
+                        new InputElement("NORMAL", 0, SharpDX.DXGI.Format.R32G32B32_Float, 24, 0),
+                        new InputElement("TANGENT", 0, SharpDX.DXGI.Format.R32G32B32_Float, 36, 0)
 					};
 
             // Create the InputLayout
@@ -173,27 +173,35 @@ namespace Arbaro2.DX_Engine.TreeClasses
             _csParams = csParams;
         }
 
-        public override bool enterStem(CS_Stem stem)
+        // Pb getSectionPoints retourne les points de le section "basse"
+        public bool enterStem_old(CS_Stem stem)
         {
-            Vector3[] section_base = stem.getSections()[0].getSectionPoints();
-            AddRangeVector3(section_base, true);
+            //Console.WriteLine("enter stem");
 
+
+            bool first = true;
+            Vector3[] section_base = stem.getSections()[0].getSectionPoints();
+            AddRangeVector3(section_base, first); first = false;
+
+            //Console.WriteLine("stem section count "+stem.getSections().Count);
             for (int i = 0; i < stem.getSections().Count; i++)
             {
                 CS_SegmentImpl seg = stem.getSections()[i];
 
+                //Console.WriteLine("stem sub section count " + seg.getSubsegmentCount());
+
                 if (seg.getSubsegmentCount() == 1)
                 {
-                    Vector3[] section_next = stem.getSections()[i].getSectionPoints();
-                    AddRangeVector3(section_next, false);
+                    Vector3[] section_next = stem.getSections()[i].getSectionPoints();                   
+                    AddRangeVector3(section_next, first);         
                 }
                 else
                 {
-                    for (int j = 0; j < seg.getSubsegmentCount() /*- 1*/; j++)
+                    for (int j = 0; j < seg.getSubsegmentCount(); j++)
                     {
                         CS_SubsegmentImpl subseg = seg.subsegments[j];
                         Vector3[] section_next = subseg.getSectionPoints();
-                        AddRangeVector3(section_next, false);
+                        AddRangeVector3(section_next, first);                     
                     }
                 }
 
@@ -201,6 +209,43 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
             return true;
         }
+
+        public override bool enterStem(CS_Stem stem)
+        {
+            // 1. Create the first section
+            bool first = true;
+            Vector3[] section_base = stem.getSections()[0].getSectionPoints();
+            AddRangeVector3(section_base, first); first = false;
+
+            // 2. for each section but the last one - generate the upper part of the section
+            //      and connect it with triangles to the previous section
+            //      we use the lower section of next segment as upper section of current segment
+            for (int i = 0; i < stem.getSections().Count-1; i++)
+            {               
+                if (stem.getSections()[i].getSubsegmentCount() == 1)
+                {
+                    Vector3[] section_next = stem.getSections()[i + 1].getSectionPoints();
+                    AddRangeVector3(section_next, first);
+                }
+                else {
+                    CS_SegmentImpl seg = stem.getSections()[i];
+                    for (int j = 0; j < seg.getSubsegmentCount(); j++)
+                    {
+                        CS_SubsegmentImpl subseg = seg.subsegments[j];
+                        Vector3[] section_next = subseg.getSectionPoints();
+                        AddRangeVector3(section_next, first);
+                    }
+                }
+            }
+
+            // 3. The last section I don't know how it gets calculated in initial Arbaro implementation :-(
+            //      So I modified getSectionPoints to retrieve explicitely this last section
+            Vector3[] section_last = stem.getSections()[stem.getSections().Count - 1].getSectionPoints(false);
+            AddRangeVector3(section_last, first);  
+
+            return true;
+        }
+
 
         private void AddRangeVector3(Vector3[] v, bool isFirst)
         {
@@ -210,13 +255,11 @@ namespace Arbaro2.DX_Engine.TreeClasses
             foreach (Vector3 v3 in v)
             {
                 DXMEV p = new DXMEV();
-                p.P = new Vector3(v3.X, v3.Z, v3.Y);
+                p.P = new Vector4(v3.X, v3.Z, v3.Y, 1);
                 Vertices.Add(p);
 
-                BBox.Maximum = Vector3.Max(BBox.Maximum, p.P);
-                BBox.Maximum = Vector3.Max(BBox.Maximum, p.P);
-                BBox.Minimum = Vector3.Min(BBox.Minimum, p.P);
-                BBox.Minimum = Vector3.Min(BBox.Minimum, p.P);
+                BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(p.P.X, p.P.Y, p.P.Z));                
+                BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(p.P.X, p.P.Y, p.P.Z));                
             }
 
             if (isFirst) { }
@@ -260,27 +303,27 @@ namespace Arbaro2.DX_Engine.TreeClasses
             DX_Transformation transf = leaf.getTransformation();
 
             // each leaf is just a quad
-            v0 = new DXMEV(); v0.P = _csParams.LeafScale * new Vector3(-0.5f * _csParams.LeafScaleX, 0, 0);
-            v1 = new DXMEV(); v1.P = _csParams.LeafScale * new Vector3(-0.5f * _csParams.LeafScaleX, 0, 0.5f);
-            v2 = new DXMEV(); v2.P = _csParams.LeafScale * new Vector3(0.5f * _csParams.LeafScaleX, 0, 0.5f);
-            v3 = new DXMEV(); v3.P = _csParams.LeafScale * new Vector3(0.5f * _csParams.LeafScaleX, 0, 0);
+            v0 = new DXMEV(); v0.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, 0, 1);
+            v1 = new DXMEV(); v1.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, 0.5f, 1);
+            v2 = new DXMEV(); v2.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, 0.5f, 1);
+            v3 = new DXMEV(); v3.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, 0, 1);
 
             // the tree is caculated in openGL coordinates with Z "up" so...
-            v0.P = transf.apply(v0.P); v0.P = new Vector3(v0.P.X, v0.P.Z, v0.P.Y);
-            v1.P = transf.apply(v1.P); v1.P = new Vector3(v1.P.X, v1.P.Z, v1.P.Y);
-            v2.P = transf.apply(v2.P); v2.P = new Vector3(v2.P.X, v2.P.Z, v2.P.Y);
-            v3.P = transf.apply(v3.P); v3.P = new Vector3(v3.P.X, v3.P.Z, v3.P.Y);
+            v0.P = transf.apply(v0.P); v0.P = new Vector4(v0.P.X, v0.P.Z, v0.P.Y, 1);
+            v1.P = transf.apply(v1.P); v1.P = new Vector4(v1.P.X, v1.P.Z, v1.P.Y, 1);
+            v2.P = transf.apply(v2.P); v2.P = new Vector4(v2.P.X, v2.P.Z, v2.P.Y, 1);
+            v3.P = transf.apply(v3.P); v3.P = new Vector4(v3.P.X, v3.P.Z, v3.P.Y, 1);
 
 
-            BBox.Maximum = Vector3.Max(BBox.Maximum, v0.P);
-            BBox.Maximum = Vector3.Max(BBox.Maximum, v1.P);
-            BBox.Maximum = Vector3.Max(BBox.Maximum, v2.P);
-            BBox.Maximum = Vector3.Max(BBox.Maximum, v3.P);
+            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v0.P.X, v0.P.Y, v0.P.Z));
+            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v1.P.X, v1.P.Y, v1.P.Z));
+            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v2.P.X, v2.P.Y, v2.P.Z));
+            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v3.P.X, v3.P.Y, v3.P.Z));
 
-            BBox.Minimum = Vector3.Min(BBox.Minimum, v0.P);
-            BBox.Minimum = Vector3.Min(BBox.Minimum, v1.P);
-            BBox.Minimum = Vector3.Min(BBox.Minimum, v2.P);
-            BBox.Minimum = Vector3.Min(BBox.Minimum, v3.P);
+            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v0.P.X, v0.P.Y, v0.P.Z));
+            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v1.P.X, v1.P.Y, v1.P.Z));
+            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v2.P.X, v2.P.Y, v2.P.Z));
+            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v3.P.X, v3.P.Y, v3.P.Z));
 
             int c = Vertices.Count;
             Indices.Add(c); Indices.Add(c + 1); Indices.Add(c + 3);

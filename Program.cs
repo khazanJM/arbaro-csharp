@@ -53,6 +53,7 @@ namespace Arbaro2
                     Rectangle r = form.renderCtrl.ClientRectangle;
                     Renderer.Initialize(r.Width, r.Height, form.renderCtrl.Handle, form, DXConfig);
                     initialized = true;
+                    form.RendererInitialized();
                 }
                 if (resize)
                 {

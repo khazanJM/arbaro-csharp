@@ -294,15 +294,21 @@ namespace Arbaro2.Arbaro.Tree
 	}
 
 
-    public override Vector3[] getSectionPoints()
+    // return points on the low part of the section 
+    // I don't understand how the author is generating the upper section of the last
+    // segment in the stem... Moreover using this function to create up and low part
+    // can result in inconsistencies due to the random radius
+    // the upper part of a segment would not match the lower part of its successor
+    public override Vector3[] getSectionPoints(bool lower_section = true)
     {
 		int pt_cnt = lpar.mesh_points;
         Vector3[] points;
         DX_Transformation trf = getTransformation(); //segment.getTransformation().translate(pos.sub(segment.getLowerPosition()));
         float rad = this.rad1;
+        if (!lower_section) rad = rad2;
 		
-		// if radius = 0 create only one point
-		if (rad<0.000001) {
+		// if radius = 0 create only one point -> that's a problem for me KhazanJM
+		if (false /*rad<-0.00001*/) {
             points = new Vector3[1];
             points[0] = trf.apply(new Vector3(0, 0, 0));
 		} else { //create pt_cnt points
@@ -322,7 +328,7 @@ namespace Arbaro2.Arbaro.Tree
 
 				// scale it to stem radius
 				if (lpar.level==0 && (par.Lobes != 0 || par._0ScaleV !=0)) {
-					double rad1 = rad * (1 + 
+					float rad1 = rad * (1 + 
 							par.random.uniform(-par._0ScaleV,par._0ScaleV)/
 							getSubsegmentCount());
 					pt = pt * ((float)(rad1*(1.0+par.LobeDepth*Math.Cos(par.Lobes*angle*Math.PI/180.0)))); 
@@ -337,6 +343,7 @@ namespace Arbaro2.Arbaro.Tree
 				// should applied additionally?
 				
 				pt = trf.apply(pt);
+                if (!lower_section) pt += (getUpperPosition()-getLowerPosition());
 				points[i] = pt;
 			}
 		}

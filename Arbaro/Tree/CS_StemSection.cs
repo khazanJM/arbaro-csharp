@@ -49,6 +49,6 @@ namespace Arbaro2.Arbaro.Tree
          * is influenced by the stem level and smooth value. It's distance
          * from midpoint can vary about the radius (when lobes are used).
          */
-        public abstract Vector3[] getSectionPoints();
+        public abstract Vector3[] getSectionPoints(bool start = true);
     }
 }

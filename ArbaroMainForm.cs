@@ -50,7 +50,15 @@ namespace Arbaro2
         {
             pgv = new CS_ParamGroupsView(treeView1);
             pvt = new CS_ParamValueTable(paramTablePanel, csParams);
-            treeView1.AfterSelect += treeView1_AfterSelect;
+            treeView1.AfterSelect += treeView1_AfterSelect;           
+        }
+
+        public void RendererInitialized()
+        {
+            // Generate the view of the default tree only once
+            // all the DirectX stuff is properly initialized
+            MakeTreeFromParams("");
+            MainMenuEnableDisable();
         }
 
         void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -70,51 +78,61 @@ namespace Arbaro2
             mainOpenFileDialog.Filter = "xml files (*.xml)|*.xml";
             if (mainOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);
-
-                csParams = new CS_Params();
-                csParams.prepare(13);
-                csParams.readFromXML(mainOpenFileDialog.FileName);
-
-                // refresh params GUI
-                pgv = new CS_ParamGroupsView(treeView1);
-                pvt = new CS_ParamValueTable(paramTablePanel, csParams);
-
-                csParams.enableDisable();
-                CS_PreciseTimer t0 = new CS_PreciseTimer(10);
-                DateTime tStart = t0.Now;
-                CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
-                tree = treeGenerator.makeTree(new Object());
-                DateTime tEnd = t0.Now;
-                
-
-                // make 3D Tree
-                if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))
-                {
-                    DXRenderable s = Program.Renderer.RenderableList["Skeleton"];
-                    Program.Renderer.RenderableList.Remove("Skeleton");
-                    s.Dispose();
-                }
-                DXTreeSkeleton sk = new DXTreeSkeleton(tree, csParams);
-                sk.Visible = false;
-                Program.Renderer.RenderableList.Add("Skeleton", sk);
-
-                if (Program.Renderer.RenderableList.ContainsKey("TreeMesh"))
-                {
-                    DXRenderable s = Program.Renderer.RenderableList["TreeMesh"];
-                    Program.Renderer.RenderableList.Remove("TreeMesh");
-                    s.Dispose();
-                }
-                DXTreeMesh me = new DXTreeMesh(tree, csParams);
-                Program.Renderer.RenderableList.Add("TreeMesh", me);
-
-                Program.Renderer.CameraControler.LookAt(me.BBox);
-
-                float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
-                Console.WriteLine(elapsed);
+                MakeTreeFromParams(mainOpenFileDialog.FileName);             
             }
 
             MainMenuEnableDisable();
+        }
+
+        private void MakeTreeFromParams(string filename)
+        {
+            csParams = new CS_Params();
+            csParams.prepare(13);
+
+            if (filename != "")
+            {
+                Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);
+                csParams.readFromXML(mainOpenFileDialog.FileName);
+            }
+            else
+                Text = "Arbaro C# V0.1";                     
+
+            // refresh params GUI
+            pgv = new CS_ParamGroupsView(treeView1);
+            pvt = new CS_ParamValueTable(paramTablePanel, csParams);
+
+            csParams.enableDisable();
+            CS_PreciseTimer t0 = new CS_PreciseTimer(10);
+            DateTime tStart = t0.Now;
+            CS_TreeGenerator treeGenerator = CS_TreeGeneratorFactory.createShieldedTreeGenerator(csParams);
+            tree = treeGenerator.makeTree(new Object());
+            DateTime tEnd = t0.Now;
+
+
+            // make 3D Tree
+            if (Program.Renderer.RenderableList.ContainsKey("Skeleton"))
+            {
+                DXRenderable s = Program.Renderer.RenderableList["Skeleton"];
+                Program.Renderer.RenderableList.Remove("Skeleton");
+                s.Dispose();
+            }
+            DXTreeSkeleton sk = new DXTreeSkeleton(tree, csParams);
+            sk.Visible = false;
+            Program.Renderer.RenderableList.Add("Skeleton", sk);
+
+            if (Program.Renderer.RenderableList.ContainsKey("TreeMesh"))
+            {
+                DXRenderable s = Program.Renderer.RenderableList["TreeMesh"];
+                Program.Renderer.RenderableList.Remove("TreeMesh");
+                s.Dispose();
+            }
+            DXTreeMesh me = new DXTreeMesh(tree, csParams);
+            Program.Renderer.RenderableList.Add("TreeMesh", me);
+
+            Program.Renderer.CameraControler.LookAt(me.BBox);
+
+            float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
+            Console.WriteLine(elapsed);
         }
 
         private void ArbaroMainForm_Resize(object sender, EventArgs e)
