@@ -9,7 +9,7 @@ comments: true
 ### Status as of May 24, 2014
 
 #### Changes
-
+ 
 * The mesh seems properly generated
 * Looks like the leaf bending trick is creating issues (palm for instance)
 * A few enhancements here and there.
