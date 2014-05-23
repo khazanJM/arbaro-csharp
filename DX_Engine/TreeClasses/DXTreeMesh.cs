@@ -27,8 +27,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
     public class DXTreeMesh : DXRenderable
     {
-        private Buffer _vertexBuffer, _indexBuffer;
-        private int IndexCount = 0;
+        private Buffer[] _vertexBuffer2 = {null, null, null, null, null}, _indexBuffer2 = {null, null, null, null, null};
+        private int[] IndexCount2 = {0,0,0,0,0};
         private InputElement[] _inputElements;
         private InputLayout _inputLayout;
 
@@ -40,67 +40,77 @@ namespace Arbaro2.DX_Engine.TreeClasses
             tree.traverseTree(traversal);
             BBox = traversal.BBox;
 
-            // Build vertex buffer
-            if (traversal.Vertices.Count == 0) return;
-
-            var stream = new DataStream(traversal.Vertices.Count * Marshal.SizeOf(typeof(DXSKV)), true, true);
-
-            stream.WriteRange(traversal.Vertices.ToArray());
-            stream.Position = 0;
-            _vertexBuffer = new Buffer(DXDevice, stream, new BufferDescription()
+            for (int i = 0; i < 5; i++)
             {
-                BindFlags = BindFlags.VertexBuffer,
-                CpuAccessFlags = CpuAccessFlags.None,
-                OptionFlags = ResourceOptionFlags.None,
-                SizeInBytes = traversal.Vertices.Count * Marshal.SizeOf(typeof(DXSKV)),
-                Usage = ResourceUsage.Default
-            });
-            stream.Dispose();
+                // Build vertex buffer
+                if (traversal.Vertices2[i].Count != 0)
+                {
+                    var stream = new DataStream(traversal.Vertices2[i].Count * Marshal.SizeOf(typeof(DXSKV)), true, true);
 
-            stream = new DataStream(traversal.Indices.Count * sizeof(UInt32), true, true);
-            stream.WriteRange(traversal.Indices.ToArray());
+                    stream.WriteRange(traversal.Vertices2[i].ToArray());
+                    stream.Position = 0;
+                    _vertexBuffer2[i] = new Buffer(DXDevice, stream, new BufferDescription()
+                    {
+                        BindFlags = BindFlags.VertexBuffer,
+                        CpuAccessFlags = CpuAccessFlags.None,
+                        OptionFlags = ResourceOptionFlags.None,
+                        SizeInBytes = traversal.Vertices2[i].Count * Marshal.SizeOf(typeof(DXSKV)),
+                        Usage = ResourceUsage.Default
+                    });
+                    stream.Dispose();
 
-            stream.Position = 0;
+                    stream = new DataStream(traversal.Indices2[i].Count * sizeof(UInt32), true, true);
+                    stream.WriteRange(traversal.Indices2[i].ToArray());
 
-            _indexBuffer = new Buffer(DXDevice, stream, new BufferDescription()
-            {
-                BindFlags = BindFlags.IndexBuffer,
-                CpuAccessFlags = CpuAccessFlags.None,
-                OptionFlags = ResourceOptionFlags.None,
-                SizeInBytes = traversal.Indices.Count * sizeof(UInt32),
-                Usage = ResourceUsage.Default
-            });
-            stream.Dispose();
+                    stream.Position = 0;
 
-            IndexCount = traversal.Indices.Count;
+                    _indexBuffer2[i] = new Buffer(DXDevice, stream, new BufferDescription()
+                    {
+                        BindFlags = BindFlags.IndexBuffer,
+                        CpuAccessFlags = CpuAccessFlags.None,
+                        OptionFlags = ResourceOptionFlags.None,
+                        SizeInBytes = traversal.Indices2[i].Count * sizeof(UInt32),
+                        Usage = ResourceUsage.Default
+                    });
+                    stream.Dispose();
+
+                    IndexCount2[i] = traversal.Indices2[i].Count;
+                }
+            }
         }
 
 
         protected override void _Render(DXCamera camera)
         {
-            if (_vertexBuffer == null) return;
-
-            DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXMEV)), 0));
-            DXContext.InputAssembler.SetIndexBuffer(_indexBuffer, Format.R32_UInt, 0);
-            DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
-            DXContext.InputAssembler.InputLayout = _inputLayout;
-
-            _shader.SetParameter("worldMatrix", Matrix.Identity);
-            _shader.SetParameter("viewMatrix", camera.ViewMatrix);
-            _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
-            _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
-
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
-            EffectPass usePass = technique.GetPassByIndex(0);
-            usePass.Apply(DXContext);
-            DXContext.DrawIndexed(IndexCount, 0, 0);
+            
+            for (int i = 0; i < 5; i++)
+            {
+                if (_vertexBuffer2[i] != null && Program.DXSceneOptions.LevelVisibility[i])
+                {
 
-            usePass = technique.GetPassByIndex(1);
-            usePass.Apply(DXContext);
-            DXContext.DrawIndexed(IndexCount, 0, 0);
+                    DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer2[i], Marshal.SizeOf(typeof(DXMEV)), 0));
+                    DXContext.InputAssembler.SetIndexBuffer(_indexBuffer2[i], Format.R32_UInt, 0);
+                    DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
+                    DXContext.InputAssembler.InputLayout = _inputLayout;
 
-            technique.Dispose();
-            usePass.Dispose();
+                    _shader.SetParameter("worldMatrix", Matrix.Identity);
+                    _shader.SetParameter("viewMatrix", camera.ViewMatrix);
+                    _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
+                    _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
+
+                    EffectPass usePass = technique.GetPassByIndex(0);
+                    usePass.Apply(DXContext);
+                    DXContext.DrawIndexed(IndexCount2[i], 0, 0);
+                    usePass.Dispose();
+
+                    usePass = technique.GetPassByIndex(1);
+                    usePass.Apply(DXContext);
+                    DXContext.DrawIndexed(IndexCount2[i], 0, 0);
+                    usePass.Dispose();
+                }
+            }
+            technique.Dispose();        
         }
 
         private void InitShaders()
@@ -139,8 +149,10 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 }
 
                 // cleanup unmanaged stuff
-                if (_vertexBuffer != null) _vertexBuffer.Dispose();
-                if (_indexBuffer != null) _indexBuffer.Dispose();
+                for (int i = 0; i < 5; i++) { 
+                    if (_vertexBuffer2[i] != null) _vertexBuffer2[i].Dispose();
+                if (_indexBuffer2[i] != null) _indexBuffer2[i].Dispose();
+            }
                 if (_inputLayout != null) _inputLayout.Dispose();
 
                 disposed = true;
@@ -161,10 +173,13 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
     public class DXTreeMesh_TreeTraversal : CS_TreeTraversal
     {
+        private int LEAFLEVEL = 4;
+
         private CS_Params _csParams;
 
-        public List<DXMEV> Vertices = new List<DXMEV>();
-        public List<int> Indices = new List<int>();
+        public List<DXMEV>[] Vertices2 = { new List<DXMEV>(), new List<DXMEV>(), new List<DXMEV>(), new List<DXMEV>(), new List<DXMEV>() };
+
+        public List<int>[] Indices2 = { new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
         public BoundingBox BBox = new BoundingBox(new Vector3(float.MaxValue, float.MaxValue, float.MaxValue),
                                                   new Vector3(float.MinValue, float.MinValue, float.MinValue));
 
@@ -178,7 +193,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
             // 1. Create the first section
             bool first = true;
             Vector3[] section_base = stem.getSections()[0].getSectionPoints();
-            AddRangeVector3(section_base, first); first = false;
+            AddRangeVector3(section_base, stem.getLevel(), first); first = false;
 
             // 2. for each section but the last one - generate the upper part of the section
             //      and connect it with triangles to the previous section
@@ -188,7 +203,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 if (stem.getSections()[i].getSubsegmentCount() == 1 && i != stem.getSections().Count -1)
                 {
                     Vector3[] section_next = stem.getSections()[i + 1].getSectionPoints();
-                    AddRangeVector3(section_next, first);
+                    AddRangeVector3(section_next, stem.getLevel(), first);
                 }
                 else {
                     CS_SegmentImpl seg = stem.getSections()[i];
@@ -196,7 +211,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                     {
                         CS_SubsegmentImpl subseg = seg.subsegments[j];
                         Vector3[] section_next = subseg.getSectionPoints();
-                        AddRangeVector3(section_next, first);
+                        AddRangeVector3(section_next, stem.getLevel(), first);
                     }
                 }
             }
@@ -206,23 +221,23 @@ namespace Arbaro2.DX_Engine.TreeClasses
             if (stem.getSections()[stem.getSections().Count-1].getSubsegmentCount() == 1)
             {
                 Vector3[] section_last = stem.getSections()[stem.getSections().Count - 1].getSectionPoints(false);
-                AddRangeVector3(section_last, first);
+                AddRangeVector3(section_last, stem.getLevel(), first);
             }
 
             return true;
         }
 
 
-        private void AddRangeVector3(Vector3[] v, bool isFirst)
+        private void AddRangeVector3(Vector3[] v, int level, bool isFirst)
         {
-            int N = Vertices.Count - 1;
+            int N = Vertices2[level].Count - 1;
             int C = v.Count();
 
             foreach (Vector3 v3 in v)
             {
                 DXMEV p = new DXMEV();
                 p.P = new Vector4(v3.X, v3.Z, v3.Y, 1);
-                Vertices.Add(p);
+                Vertices2[level].Add(p);
 
                 BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(p.P.X, p.P.Y, p.P.Z));                
                 BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(p.P.X, p.P.Y, p.P.Z));                
@@ -235,20 +250,19 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 for (int i = 0; i < C; i++)
                 {
                     // first triangle for the "quad"
-                    Indices.Add(N - C + 1 + i); Indices.Add(N + i + 1);
-                    if (i == C - 1) Indices.Add(N - C + 1); else Indices.Add(N - C + 2 + i);
+                    Indices2[level].Add(N - C + 1 + i); Indices2[level].Add(N + i + 1);
+                    if (i == C - 1) Indices2[level].Add(N - C + 1); else Indices2[level].Add(N - C + 2 + i);
 
                     // second triangle for the "quad"
-                    if (i == C - 1) Indices.Add(N - C + 1); else Indices.Add(N - C + 2 + i);
-                    Indices.Add(N + i + 1);
-                    if (i == C - 1) Indices.Add(N + 1); else Indices.Add(N + 2 + i);
+                    if (i == C - 1) Indices2[level].Add(N - C + 1); else Indices2[level].Add(N - C + 2 + i);
+                    Indices2[level].Add(N + i + 1);
+                    if (i == C - 1) Indices2[level].Add(N + 1); else Indices2[level].Add(N + 2 + i);
                 }
             }
         }
 
         public override bool enterTree(CS_Tree tree)
         {
-            //Console.WriteLine("enter tree");
             return true;
         }
 
@@ -259,7 +273,6 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         public override bool leaveTree(CS_Tree tree)
         {
-            //Console.WriteLine("leave tree");
             return true;
         }
 
@@ -291,14 +304,14 @@ namespace Arbaro2.DX_Engine.TreeClasses
             BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v2.P.X, v2.P.Y, v2.P.Z));
             BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v3.P.X, v3.P.Y, v3.P.Z));
 
-            int c = Vertices.Count;
-            Indices.Add(c); Indices.Add(c + 1); Indices.Add(c + 3);
-            Indices.Add(c + 3); Indices.Add(c + 1); Indices.Add(c + 2);
+            int c = Vertices2[LEAFLEVEL].Count;
+            Indices2[LEAFLEVEL].Add(c); Indices2[LEAFLEVEL].Add(c + 1); Indices2[LEAFLEVEL].Add(c + 3);
+            Indices2[LEAFLEVEL].Add(c + 3); Indices2[LEAFLEVEL].Add(c + 1); Indices2[LEAFLEVEL].Add(c + 2);
 
-            Vertices.Add(v0);
-            Vertices.Add(v1);
-            Vertices.Add(v2);
-            Vertices.Add(v3);
+            Vertices2[LEAFLEVEL].Add(v0);
+            Vertices2[LEAFLEVEL].Add(v1);
+            Vertices2[LEAFLEVEL].Add(v2);
+            Vertices2[LEAFLEVEL].Add(v3);
 
 
 

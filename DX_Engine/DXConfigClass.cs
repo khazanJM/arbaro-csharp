@@ -44,12 +44,6 @@ namespace Arbaro2.DX_Engine
         // Create config from config file
         public DXConfigClass(string configFilePath)
         {              
-        }
-
-
-        //
-        //  Rendering state
-        //
-        public int LevelVisibility = 0x1F;
+        }       
     }
 }

@@ -188,32 +188,32 @@ namespace Arbaro2
         // quite ugly - do that in a better way
         private void level0ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 1;
-            else Program.DXConfig.LevelVisibility -= 1;
+            if ((sender as ToolStripMenuItem).Checked) Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_0] = true;
+            else Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_0] = false;
         }
 
         private void level1ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 2;
-            else Program.DXConfig.LevelVisibility -= 2;
+            if ((sender as ToolStripMenuItem).Checked) Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_1] = true;
+            else Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_1] = false;
         }
 
         private void level2ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 4;
-            else Program.DXConfig.LevelVisibility -= 4;
+            if ((sender as ToolStripMenuItem).Checked) Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_2] = true;
+            else Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_2] = false;
         }
 
         private void level3ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 8;
-            else Program.DXConfig.LevelVisibility -= 8;
+            if ((sender as ToolStripMenuItem).Checked) Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_3] = true;
+            else Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEVEL_3] = false;
         }
 
         private void leavesToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if ((sender as ToolStripMenuItem).Checked) Program.DXConfig.LevelVisibility += 16;
-            else Program.DXConfig.LevelVisibility -= 16;
+            if ((sender as ToolStripMenuItem).Checked) Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEAVES] = true;
+            else Program.DXSceneOptions.LevelVisibility[(int)DXSceneOptions.LEVELS.LEAVES] = false;
         }
     }
 }

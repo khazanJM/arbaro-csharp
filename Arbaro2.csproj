@@ -134,6 +134,7 @@
     <Compile Include="DX_Engine\DXRenderPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DX_Engine\DXSceneOptions.cs" />
     <Compile Include="DX_Engine\DXShader.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeSkeleton.cs" />
