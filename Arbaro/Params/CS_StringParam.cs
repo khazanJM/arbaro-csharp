@@ -16,8 +16,8 @@ namespace Arbaro2.Arbaro.Params
         private String deflt;
         private String value;
 
-        public CS_StringParam(String nam, String def, String grp, int lev, int ord, String sh, String lng)
-            : base(nam, grp, lev, ord, sh, lng)
+        public CS_StringParam(String nam, String def, String grp, int lev, int ord, String sh, String lng, string html)
+            : base(nam, grp, lev, ord, sh, lng, html)
         {
             deflt = def;
             value = "";

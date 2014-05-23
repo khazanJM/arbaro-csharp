@@ -520,20 +520,20 @@ namespace Arbaro2.Arbaro.Params
 
         int order;
         private void intParam(String name, int min, int max, int deflt,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, String html_desc)
         {
-            paramDB.Add(name, new CS_IntParam(name, min, max, deflt, group, CS_AbstractParam.GENERAL, order++, short_desc, long_desc));
+            paramDB.Add(name, new CS_IntParam(name, min, max, deflt, group, CS_AbstractParam.GENERAL, order++, short_desc, long_desc, html_desc));
         }
 
         private void shapeParam(String name, int min, int max, int deflt,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, string html)
         {
-            paramDB.Add(name, new CS_ShapeParam(name, min, max, deflt, group, CS_AbstractParam.GENERAL, order++, short_desc, long_desc));
+            paramDB.Add(name, new CS_ShapeParam(name, min, max, deflt, group, CS_AbstractParam.GENERAL, order++, short_desc, long_desc, html));
         }
 
         private void int4Param(String name, int min, int max,
                 int deflt0, int deflt1, int deflt2, int deflt3,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, string html_desc)
         {
             int[] deflt = { deflt0, deflt1, deflt2, deflt3 };
             order++;
@@ -541,20 +541,20 @@ namespace Arbaro2.Arbaro.Params
             {
                 String fullname = "" + i + name.Substring(1);
                 paramDB.Add(fullname, new CS_IntParam(fullname, min, max, deflt[i], group, i,
-                        order, short_desc, long_desc));
+                        order, short_desc, long_desc, html_desc));
             }
         }
 
         private void dblParam(String name, float min, float max, float deflt,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, string html_desc)
         {
             paramDB.Add(name, new CS_FloatParam(name, min, max, deflt, group, CS_AbstractParam.GENERAL,
-                    order++, short_desc, long_desc));
+                    order++, short_desc, long_desc, html_desc));
         }
 
         private void dbl4Param(String name, float min, float max,
                 float deflt0, float deflt1, float deflt2, float deflt3,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, string html_desc)
         {
             float[] deflt = { deflt0, deflt1, deflt2, deflt3 };
             order++;
@@ -562,22 +562,22 @@ namespace Arbaro2.Arbaro.Params
             {
                 String fullname = "" + i + name.Substring(1);
                 paramDB.Add(fullname, new CS_FloatParam(fullname, min, max, deflt[i], group, i,
-                        order, short_desc, long_desc));
+                        order, short_desc, long_desc, html_desc));
             }
         }
 
         private void lshParam(String name, String deflt,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, string html_desc)
         {
             paramDB.Add(name, new CS_LeafShapeParam(name, deflt, group, CS_AbstractParam.GENERAL,
-                    order++, short_desc, long_desc));
+                    order++, short_desc, long_desc, html_desc));
         }
 
         private void strParam(String name, String deflt,
-                String group, String short_desc, String long_desc)
+                String group, String short_desc, String long_desc, string html_desc)
         {
             paramDB.Add(name, new CS_StringParam(name, deflt, group, CS_AbstractParam.GENERAL,
-                    order++, short_desc, long_desc));
+                    order++, short_desc, long_desc, html_desc));
         }
 
         private void registerParams()
@@ -585,12 +585,12 @@ namespace Arbaro2.Arbaro.Params
             order = 1;
 
             strParam("Species", "default",
-                    "SHAPE", "the tree's species",
-                    "<strong>Species</strong> is the kind of tree.<br>\n" +
-                    "It is used for declarations in the output file.<br>\n");
+                    "SHAPE", "The tree's species",
+                    "<p><strong>Species</strong> is the kind of tree.</p>" +
+                    "<p>It is used for declarations in the output file.</p>","");
 
-            shapeParam("Shape", 0, 8, 0, "SHAPE", "general tree shape id",
-                    "The <strong>Shape</strong> can be one of:<ul>\n" +
+            shapeParam("Shape", 0, 8, 0, "SHAPE", "General tree shape id",
+                    "<p>The <strong>Shape</strong> can be one of:</p><ul>\n" +
                     "<li>0 - conical</li>\n" +
                     "<li>1 - spherical</li>\n" +
                     "<li>2 - hemispherical</li>\n" +
@@ -599,51 +599,57 @@ namespace Arbaro2.Arbaro.Params
                     "<li>5 - flame</li>\n" +
                     "<li>6 - inverse conical</li>\n" +
                     "<li>7 - tend flame</li>\n" +
-                    "<li>8 - envelope - uses pruning envelope<br>\n" +
-                    "(see PruneWidth, PruneWidthPeak, PrunePowerLow, PrunePowerHigh)</li></ul>\n"
+                    "<li>8 - envelope - uses pruning envelope\n" +
+                    "(see PruneWidth, PruneWidthPeak, PrunePowerLow, PrunePowerHigh)</li></ul></p>\n",
+                    ""
             );
 
-            intParam("Levels", 0, 9, 2, "SHAPE", "levels of recursion",
-                    "<strong>Levels</strong> are the levels of recursion when creating the\n" +
-                    "stems of the tree.<ul>\n" +
+            intParam("Levels", 0, 9, 2, "SHAPE", "Levels of recursion",
+                    "<p><strong>Levels</strong> are the levels of recursion when creating the\n" +
+                    "stems of the tree.</p><ul>\n" +
                     "<li>Levels=1 means the tree consist only of the (may be splitting) trunk</li>\n" +
                     "<li>Levels=2 the tree consist of the trunk with one level of branches</li>\n" +
                     "<li>Levels>4 seldom necessary, the parameters of the forth level are used\n" +
                     "for all higher levels.</li></ul>\n" +
-                    "Leaves are considered to be one level above the last stem level.<br>\n" +
-                    "and uses it's down and rotation angles.\n"
+                    "<p>Leaves are considered to be one level above the last stem level, \n" +
+                    "and uses it's down and rotation angles.</p>\n",
+                    ""
             );
 
-            dblParam("Scale", 0.000001f, float.PositiveInfinity, 10.0f, "SHAPE", "average tree size in meters",
-                    "<strong>Scale</strong> is the average tree size in meters.<br>\n" +
-                    "With Scale = 10.0 and ScaleV = 2.0 trees of this species\n" +
-                    "reach from 8.0 to 12.0 meters.<br>\n" +
-                    "Note, that the trunk length can be different from the tree size.\n" +
-                    "(See 0Length and 0LengthV)\n"
+            dblParam("Scale", 0.000001f, float.PositiveInfinity, 10.0f, "SHAPE", "Average tree size in meters",
+                    "<p><strong>Scale</strong> is the average tree size in meters.</p>\n" +
+                    "<p>With Scale = 10.0 and ScaleV = 2.0 trees of this species\n" +
+                    "reach from 8.0 to 12.0 meters.</p>\n" +
+                    "<p>Note, that the trunk length can be different from the tree size.\n" +
+                    "(See 0Length and 0LengthV)</p>\n",
+                    ""
             );
 
-            dblParam("ScaleV", 0.0f, float.PositiveInfinity, 0.0f, "SHAPE", "variation of tree size in meters",
-                    "<strong>ScaleV</strong> is the variation range of the tree size in meters.<br>\n" +
-                    "Scale = 10.0, ScaleV = 2.0 means trees of this species\n" +
+            dblParam("ScaleV", 0.0f, float.PositiveInfinity, 0.0f, "SHAPE", "Variation of tree size in meters",
+                    "<p><strong>ScaleV</strong> is the variation range of the tree size in meters.</p>\n" +
+                    "<p>Scale = 10.0, ScaleV = 2.0 means trees of this species\n" +
                     "reach from 8.0 to 12.0 meters.\n" +
-                    "(See Scale)\n"
+                    "(See Scale)</p>\n",
+                    ""
             );
 
-            dblParam("BaseSize", 0.0f, 1.0f, 0.25f, "SHAPE", "fractional branchless area at tree base",
-                    "<strong>BaseSize</strong> is the fractional branchless part of the trunk. E.g.\n<ul>" +
+            dblParam("BaseSize", 0.0f, 1.0f, 0.25f, "SHAPE", "Fractional branchless area at tree base",
+                    "<p><strong>BaseSize</strong> is the fractional branchless part of the trunk. E.g.</p>\n<ul>" +
                     "<li>BaseSize=&nbsp;&nbsp;0</code> means branches begin on the bottom of the tree,</li>\n" +
                     "<li>BaseSize=0.5</code> means half of the trunk is branchless,</li>\n" +
-                    "<li>BaseSize=1.0</code> branches grow out from the peak of the trunk only.</li></ul>\n"
+                    "<li>BaseSize=1.0</code> branches grow out from the peak of the trunk only.</li></ul>\n",
+                    ""
             );
 
             intParam("0BaseSplits", 0, int.MaxValue, 0, "SHAPE",
-                    "stem splits at base of trunk",
-                    "<strong>BaseSplits</strong> are the stem splits at the top of the first trunk segment.<br>\n" +
-                    "So with BaseSplits=2 you get a trunk splitting into three parts. Other then<br>\n" +
-                    "with 0SegSplits the clones are evenly distributed over<br>\n" +
-                    "the 360&deg;. So, if you want to use splitting, you should<br>\n" +
-                    "use BaseSplits for the first splitting to get a circular<br>\n" +
-                    "stem distribution (seen from top).<br>\n"
+                    "Stem splits at base of trunk",
+                    "<p><strong>BaseSplits</strong> are the stem splits at the top of the first trunk segment.</p>\n" +
+                    "<p>So with BaseSplits=2 you get a trunk splitting into three parts. Other then\n" +
+                    "with 0SegSplits the clones are evenly distributed over\n" +
+                    "the 360&deg;. So, if you want to use splitting, you should\n" +
+                    "use BaseSplits for the first splitting to get a circular\n" +
+                    "stem distribution (seen from top).</p>\n",
+                    ""
             );
 
             //		dblParam("ZScale",0.000001,Double.POSITIVE_INFINITY,1.0,"SHAPE",
@@ -659,18 +665,19 @@ namespace Arbaro2.Arbaro.Params
             //		);
 
             dblParam("Ratio", 0.000001f, float.PositiveInfinity, 0.05f, "TRUNK",
-                    "trunk radius/length ratio",
-                    "<strong>Ratio</strong> is the radius/length ratio of the trunk.<br>\n" +
-                    "Ratio=0.05 means the trunk is 1/20 as thick as it is long,<br>\n" +
-                    "t.e. a 10m long trunk has a base radius of 50cm.<br>\n" +
-                    "Note, that the real base radius could be greater, when Flare<br>\n" +
-                    "and/or Lobes are used. (See Flare, Lobes, LobesDepth, RatioPower)\n"
+                    "Trunk radius/length ratio",
+                    "<p><strong>Ratio</strong> is the radius/length ratio of the trunk.</p>\n" +
+                    "<p>Ratio=0.05 means the trunk is 1/20 as thick as it is long,\n" +
+                    "t.e. a 10m long trunk has a base radius of 50cm.</p>\n" +
+                    "<p>Note, that the real base radius could be greater, when Flare\n" +
+                    "and/or Lobes are used. (See Flare, Lobes, LobesDepth, RatioPower)</p>\n",
+                    ""
             );
 
             dblParam("RatioPower", float.NegativeInfinity, float.PositiveInfinity, 1.0f,
-                    "SHAPE", "radius reduction",
-                    "<strong>RatioPower</strong> is a reduction value for the radius of the\n" +
-                    "substems.\n<ul>" +
+                    "SHAPE", "Radius reduction",
+                    "<p><strong>RatioPower</strong> is a reduction value for the radius of the\n" +
+                    "substems.\n</p><ul>" +
                     "<li>RatioPower=1.0  means the radius decreases linearly with\n" +
                     "decreasing stem length</li>\n" +
                     "<li>RatioPower=2.0  means it decreases with the second power</li>\n" +
@@ -678,318 +685,355 @@ namespace Arbaro2.Arbaro.Params
                     "(t.e. it doesn't depend of the length)</li>\n" +
                     "<li>RatioPower=-1.0 means the shorter the stem the thicker it is\n" +
                     "(radius = parent radius * 1 / length)</li></ul>\n" +
-                    "Note, that the radius of a stem cannot be greater then the parent radius at the stem offset.<br>\n" +
-                    "So with negative RatioPower you cannot create stems thicker than it's parent.<br>\n" +
-                    "Instead you can use it to make stems thinner, which are longer than it's parent.<br>\n" +
-                    "(See Ratio)\n"
+                    "<p>Note, that the radius of a stem cannot be greater then the parent radius at the stem offset.</p>\n" +
+                    "<p>So with negative RatioPower you cannot create stems thicker than it's parent.</p>\n" +
+                    "<p>Instead you can use it to make stems thinner, which are longer than it's parent.\n" +
+                    "(See Ratio)</p>\n",
+                    ""
             );
 
             dblParam("Flare", -1.0f, float.PositiveInfinity, 0.5f,
-                    "TRUNK", "exponential expansion at base of tree",
-                    "<strong>Flare</strong> makes the trunk base thicker.<ul>\n" +
+                    "TRUNK", "Exponential expansion at base of tree",
+                    "<p><strong>Flare</strong> makes the trunk base thicker.</p><ul>\n" +
                     "<li>Flare = 0.0 means base radius is used at trunk base</li>\n" +
                     "<li>Flare = 1.0 means trunk base is twice as thick as it's base radius\n" +
                     "(See Ratio)</li></ul>\n" +
-                    "Note, that using Lobes make the trunk base thicker too.\n" +
-                    "(See Lobes, LobeDepth)\n"
+                    "<p>Note, that using Lobes make the trunk base thicker too.\n" +
+                    "(See Lobes, LobeDepth)</p>\n",
+                    ""
             );
 
             intParam("Lobes", 0, int.MaxValue, 0, "TRUNK",
-                    "sinusoidal cross-section variation",
-                    "With <strong>Lobes</strong> you define how much lobes (this are variations in it's<br>\n" +
-                    "cross-section) the trunk will have. This isn't supported for<br>\n" +
-                    "cones output, but for mesh only.<br>\n" +
-                    "(See LobeDepth too)\n"
+                    "Sinusoidal cross-section variation",
+                    "<p>With <strong>Lobes</strong> you define how much lobes (this are variations in it's\n" +
+                    "cross-section) the trunk will have. This isn't supported for\n" +
+                    "cones output, but for mesh only.\n" +
+                    "(See LobeDepth too)</p>\n",
+                    ""
             );
 
             dblParam("LobeDepth", 0, float.PositiveInfinity, 0,
-                    "TRUNK", "amplitude of cross-section variation",
-                    "<strong>LobeDepth</strong> defines, how deep the lobes of the trunk will be.<br>\n" +
-                    "This is the amplitude of the sinusoidal cross-section variations.<br>\n" +
-                    "(See Lobes)\n"
+                    "TRUNK", "Amplitude of cross-section variation",
+                    "<p><strong>LobeDepth</strong> defines, how deep the lobes of the trunk will be.</p>\n" +
+                    "<p>This is the amplitude of the sinusoidal cross-section variations.<br>\n" +
+                    "(See Lobes)</p>\n",
+                    ""
             );
 
             intParam("Leaves", int.MinValue, int.MaxValue, 0,
-                    "LEAVES", "number of leaves per stem",
-                    "<strong>Leaves</strong> gives the maximal number of leaves per stem.<br>\n" +
-                    "Leaves grow only from stems of the last level. The actual number of leaves on a stem,<br>\n" +
-                    "depending on the stem offset and length, can be smaller than Leaves.<br>\n" +
-                    "When Leaves is negative, the leaves grow in a fan at\n" +
-                    "the end of the stem.\n"
+                    "LEAVES", "Number of leaves per stem",
+                    "<p><strong>Leaves</strong> gives the maximal number of leaves per stem.</p>\n" +
+                    "<p>Leaves grow only from stems of the last level. The actual number of leaves on a stem,\n" +
+                    "depending on the stem offset and length, can be smaller than Leaves.</p>\n" +
+                    "<p>When Leaves is negative, the leaves grow in a fan at\n" +
+                    "the end of the stem.</p>\n",
+                    ""
             );
 
-            lshParam("LeafShape", "0", "LEAVES", "leaf shape id",
-                    "<strong>LeafShape</strong> is the shape of the leaf (\"0\" means oval shape).<br>\n" +
-                    "The length and width of the leaf are given by LeafScale and LeafScaleX.<br>\n" +
+            lshParam("LeafShape", "0", "LEAVES", "Leaf shape id",
+                    "<p><strong>LeafShape</strong> is the shape of the leaf (\"0\" means oval shape).</p>\n" +
+                    "<p>The length and width of the leaf are given by LeafScale and LeafScaleX.</p>\n" +
 
-                    "When creating a mesh at the moment you can use the following values:<ul>\n" +
+                    "<p>When creating a mesh at the moment you can use the following values:</p><ul>\n" +
                     "<li>\"disc\" - a surface consisting of 6 triangles approximating an oval shape</li>\n" +
-                    "<li>\"sphere\" - an ikosaeder approximating a shperical shape,<br>\n" +
+                    "<li>\"sphere\" - an ikosaeder approximating a shperical shape,\n" +
                     "useful for making knots or seeds instead of leaves, or for high quality needles</li>\n" +
-                    "<li>\"disc1\", \"disc2\", ... - a surface consisting of 1, 2, ... triangles approximating an oval shape<br>\n" +
-                    "lower values are useful for low quality needles or leaves, to reduce mesh size,<br>\n" +
+                    "<li>\"disc1\", \"disc2\", ... - a surface consisting of 1, 2, ... triangles approximating an oval shape\n" +
+                    "lower values are useful for low quality needles or leaves, to reduce mesh size,\n" +
                     "values between 6 and 10 are quite good for big, round leaves.</li>\n" +
                     "<li>any other - same like disc</li></ul>\n" +
 
-                    "When using primitives output, the possible values of LeafShape references<br>\n" +
-                    "the declarations in arbaro.inc. At the moment there are:<ul>\n" +
-                    "<li>\"disc\" the standard oval form of a leaf, defined<br>\n" +
-                    "as a unit circle of radius 0.5m. The real<br>\n" +
+                    "<p>When using primitives output, the possible values of LeafShape references\n" +
+                    "the declarations in arbaro.inc. At the moment there are:</p><ul>\n" +
+                    "<li>\"disc\" the standard oval form of a leaf, defined\n" +
+                    "as a unit circle of radius 0.5m. The real\n" +
                     "length and width are given by the LeafScale parameters.</li>\n" +
-                    "<li>\"sphere\" a spherical form, you can use to<br>\n" +
-                    "simulate seeds on herbs or knots on branches like in the<br>\n" +
-                    "desert bush. You can use the sphere shape for needles too,<br>\n" +
+                    "<li>\"sphere\" a spherical form, you can use to\n" +
+                    "simulate seeds on herbs or knots on branches like in the\n" +
+                    "desert bush. You can use the sphere shape for needles too,\n" +
                     "thus they are visible from all sides</li>\n" +
-                    "<li>\"palm\" a palm leaf, this are two disc halfs put together<br>\n" +
-                    "with an angle between them. So they are visible<br>\n" +
-                    "also from the side and the light effects are<br>\n" +
+                    "<li>\"palm\" a palm leaf, this are two disc halfs put together\n" +
+                    "with an angle between them. So they are visible\n" +
+                    "also from the side and the light effects are\n" +
                     "more typically, especialy for fan palms seen from small distances.</li>\n" +
-                    "<li>any other - add your own leaf shape to the file arbaro.inc</li></ul>\n"
+                    "<li>any other - add your own leaf shape to the file arbaro.inc</li></ul>\n",
+                    ""
             );
 
             dblParam("LeafScale", 0.000001f, float.PositiveInfinity, 0.2f,
-                    "LEAVES", "leaf length",
-                    "<strong>LeafScale</strong> is the length of the leaf in meters.<br>\n" +
-                    "The unit leaf is scaled in z-direction (y-direction in Povray)\n" +
-                    "by this factor. (See LeafShape, LeafScaleX)\n"
+                    "LEAVES", "Leaf length",
+                    "<p><strong>LeafScale</strong> is the length of the leaf in meters.</p>\n" +
+                    "<p>The unit leaf is scaled in z-direction (y-direction in Povray)\n" +
+                    "by this factor. (See LeafShape, LeafScaleX)</p>\n",
+                    ""
             );
 
             dblParam("LeafScaleX", 0.000001f, float.PositiveInfinity, 0.5f, "LEAVES",
-                    "fractional leaf width",
-                    "<strong>LeafScaleX</strong> is the fractional width of the leaf relativly to it's length. So<ul>\n" +
+                    "Fractional leaf width",
+                    "<p><strong>LeafScaleX</strong> is the fractional width of the leaf relativly to it's length. So</p><ul>\n" +
                     "<li>LeafScaleX=0.5 means the leaf is half as wide as long</li>\n" +
                     "<li>LeafScaleX=1.0 means the leaf is like a circle</li></ul>\n" +
-                    "The unit leaf is scaled by LeafScale*LeafScaleX in x- and\n" +
-                    "y-direction (x- and z-direction in Povray).<br>\n" +
-                    "So the spherical leaf is transformed to a needle 5cm long and<br>\n" +
-                    "1mm wide by LeafScale=0.05 and LeafScaleX=0.02.\n"
+                    "<p>The unit leaf is scaled by LeafScale*LeafScaleX in x- and\n" +
+                    "y-direction (x- and z-direction in Povray).\n" +
+                    "So the spherical leaf is transformed to a needle 5cm long and\n" +
+                    "1mm wide by LeafScale=0.05 and LeafScaleX=0.02.</p>\n",
+                    ""
             );
 
-            dblParam("LeafBend", 0, 1, 0.3f, "LEAVES", "leaf orientation toward light",
-                    "With <strong>LeafBend</strong> you can influence, how much leaves are oriented<br>\n" +
-                    "outside and upwards.<br>Values near 0.5 are good. For low values the leaves<br>\n" +
-                    "are oriented to the stem, for high value to the light.<br>\n" +
-                    "For trees with long leaves like palms you should use lower values.\n"
+            dblParam("LeafBend", 0, 1, 0.3f, "LEAVES", "Leaf orientation toward light",
+                    "<p>With <strong>LeafBend</strong> you can influence, how much leaves are oriented\n" +
+                    "outside and upwards.<br>Values near 0.5 are good. For low values the leaves\n" +
+                    "are oriented to the stem, for high value to the light.</p>\n" +
+                    "<p>For trees with long leaves like palms you should use lower values.</p>\n",
+                    ""
             );
 
             dblParam("LeafStemLen", float.NegativeInfinity, float.PositiveInfinity, 0.5f,
-                    "LEAVES", "fractional leaf stem length",
-                    "<strong>LeafStemLen</strong is the length of the (virtual) leaf stem.<br>\n" +
-                    "It's not drawn, so this is the distance between the stem<br>\n" +
-                    "axis and the leaf. For normal trees with many nearly circular<br>\n" +
-                    "leaves the default value of 0.5 (meaning the stem has half of the length<br>\n" +
-                    "of the leaf) is quite good. For other trees like palms with long leaves<br>\n" +
-                    "or some herbs you need a LeafStemLen near 0. Negative stem length is<br>\n" +
-                    "allowed for special cases."
+                    "LEAVES", "Fractional leaf stem length",
+                    "<p><strong>LeafStemLen</strong is the length of the (virtual) leaf stem.</p>\n" +
+                    "<p>It's not drawn, so this is the distance between the stem\n" +
+                    "axis and the leaf. For normal trees with many nearly circular\n" +
+                    "leaves the default value of 0.5 (meaning the stem has half of the length\n" +
+                    "of the leaf) is quite good. For other trees like palms with long leaves\n" +
+                    "or some herbs you need a LeafStemLen near 0. Negative stem length is\n" +
+                    "allowed for special cases.</p>",
+                    ""
             );
 
-            intParam("LeafDistrib", 0, 8, 4, "LEAVES", "leaf distribution",
-                    "<strong>LeafDistrib</strong> determines how leaves are distributed over<br>\n" +
-                    "the branches of the last but one stem level. It takes the same<br>\n" +
-                    "values like Shape, meaning 3 = even distribution, 0 = most leaves<br>\n" +
-                    "outside. Default is 4 (some inside, more outside)."
+            intParam("LeafDistrib", 0, 8, 4, "LEAVES", "Leaf distribution",
+                    "<p><strong>LeafDistrib</strong> determines how leaves are distributed over\n" +
+                    "the branches of the last but one stem level. It takes the same\n" +
+                    "values like Shape, meaning 3 = even distribution, 0 = most leaves\n" +
+                    "outside. Default is 4 (some inside, more outside).</p>",
+                    ""
             );
 
-            dblParam("LeafQuality", 0.000001f, 1.0f, 1.0f, "QUALITY", "leaf quality/leaf count reduction",
-                    "With a <strong>LeafQuality</strong> less then 1.0 you can reduce the number of leaves<br>\n" +
-                    "to improve rendering speed and memory usage. The leaves are scaled<br>\n" +
-                    "with the same amount to get the same coverage.<br>\n" +
-                    "For trees in the background of the scene you will use a reduced<br>\n" +
-                    "LeafQuality around 0.9. Very small values would cause strange results.<br>\n" +
-                    "(See LeafScale)"
+            dblParam("LeafQuality", 0.000001f, 1.0f, 1.0f, "QUALITY", "Leaf quality/leaf count reduction",
+                    "<p>With a <strong>LeafQuality</strong> less then 1.0 you can reduce the number of leaves\n" +
+                    "to improve rendering speed and memory usage. The leaves are scaled\n" +
+                    "with the same amount to get the same coverage.</p>\n" +
+                    "<p>For trees in the background of the scene you will use a reduced\n" +
+                    "LeafQuality around 0.9. Very small values would cause strange results.\n" +
+                    "(See LeafScale)</p>",
+                    ""
             );
 
-            dblParam("Smooth", 0.0f, 1.0f, 0.5f, "QUALITY", "smooth value for mesh creation",
-                    "Higher <strong>Smooth</strong> values creates meshes with more vertices and<br>\n" +
-                    "adds normal vectors to them for some or all branching levels.<br>\n" +
-                    "Normally you would specify this value on the command line or in<br>\n" +
-                    "the rendering dialog, but for some species a special default<br>\n" +
-                    "smooth value could be best. E.g. for shave-grass a low smooth value<br>\n" +
-                    "is preferable, because this herb has angular stems."
+            dblParam("Smooth", 0.0f, 1.0f, 0.5f, "QUALITY", "Smooth value for mesh creation",
+                    "<p>Higher <strong>Smooth</strong> values creates meshes with more vertices and\n" +
+                    "adds normal vectors to them for some or all branching levels.</p>\n" +
+                    "<p>Normally you would specify this value on the command line or in\n" +
+                    "the rendering dialog, but for some species a special default\n" +
+                    "smooth value could be best. E.g. for shave-grass a low smooth value\n" +
+                    "is preferable, because this herb has angular stems.</p>",
+                    ""
             );
 
             dblParam("AttractionUp", float.NegativeInfinity, float.PositiveInfinity, 0.0f,
-                    "SHAPE", "upward/downward growth tendency",
-                    "<strong>AttractionUp</strong> is the tendency of stems with level>=2 to grow upwards<br>\n" +
-                    "(downwards for negative values).<br>\n" +
-                    "A value of 1.0 for a horizontal stem means the last segment should point upwards.<br>\n" +
-                    "Greater values means earlier reaching of upward direction. Values of 10 and greater<br>\n" +
-                    "could cause overcorrection resulting in a snaking oscillation.<br>\n" +
-                    "As an example see the weeping willow, which has a negative AttractionUp value.\n"
+                    "SHAPE", "Upward/downward growth tendency",
+                    "<p><strong>AttractionUp</strong> is the tendency of stems with level>=2 to grow upwards\n" +
+                    "(downwards for negative values).</p>\n" +
+                    "<p>A value of 1.0 for a horizontal stem means the last segment should point upwards.</p>\n" +
+                    "<p>Greater values means earlier reaching of upward direction. Values of 10 and greater\n" +
+                    "could cause overcorrection resulting in a snaking oscillation.</p>\n" +
+                    "<p>As an example see the weeping willow, which has a negative AttractionUp value.</p>\n",
+                    ""
             );
 
             dblParam("PruneRatio", 0.0f, 1.0f, 0.0f, "PRUNING",
-                    "fractional effect of pruning",
-                    "A <strong>PruneRatio</strong> of 1.0 means all branches are inside<br>\n" +
-                    "the envelope. 0.0 means no pruning.\n"
+                    "Fractional effect of pruning",
+                    "<p>A <strong>PruneRatio</strong> of 1.0 means all branches are inside\n" +
+                    "the envelope. 0.0 means no pruning.</p>\n",
+                    ""
             );
 
-            dblParam("PruneWidth", 0.0f, 1.0f, 0.5f, "PRUNING", "width of envelope peak",
-                    "<strong>PruneWidth</strong> is the fractional width of the pruning envelope at the<br>\n" +
-                    "peak. A value of 0.5 means the tree is half as wide as high.<br>\n" +
-                    "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
+            dblParam("PruneWidth", 0.0f, 1.0f, 0.5f, "PRUNING", "Width of envelope peak",
+                    "<p><strong>PruneWidth</strong> is the fractional width of the pruning envelope at the\n" +
+                    "peak. A value of 0.5 means the tree is half as wide as high.</p>\n" +
+                    "<p>This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.</p>\n",
+                    ""
             );
 
-            dblParam("PruneWidthPeak", 0.0f, 1.0f, 0.5f, "PRUNING", "position of envelope peak",
-                    "<strong>PruneWidthPeak</strong> is the fractional height of the envelope peak.<br>\n" +
-                    "A value of 0.5 means upper part and lower part of the envelope have the same height.<br>\n" +
-                    "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
+            dblParam("PruneWidthPeak", 0.0f, 1.0f, 0.5f, "PRUNING", "Position of envelope peak",
+                    "<p><strong>PruneWidthPeak</strong> is the fractional height of the envelope peak.</p>\n" +
+                    "<p>A value of 0.5 means upper part and lower part of the envelope have the same height.</p>\n" +
+                    "<p>This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.</p>\n",
+                    ""
             );
 
             dblParam("PrunePowerLow", 0.0f, float.PositiveInfinity, 0.5f, "PRUNING",
-                    "curvature of envelope",
-                    "<strong>PrunePowerLow</strong> describes the envelope curve below the peak.<br>\n" +
-                    "A value of 1 means linear decreasing. Higher values means concave,<br>\n" +
-                    "lower values convex curve.<br>\n" +
-                    "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
+                    "Curvature of envelope",
+                    "<p><strong>PrunePowerLow</strong> describes the envelope curve below the peak.</p>\n" +
+                    "<p>A value of 1 means linear decreasing. Higher values means concave,\n" +
+                    "lower values convex curve.</p>\n" +
+                    "<p>This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.</p>\n",
+                    ""
             );
 
             dblParam("PrunePowerHigh", 0.0f, float.PositiveInfinity, 0.5f, "PRUNING",
-                    "curvature of envelope",
-                    "<strong>PrunePowerHigh</strong> describes the envelope curve above the peak.<br>\n" +
-                    "A value of 1 means linear decreasing. Higher values means concave,<br>\n" +
-                    "lower values convex curve.<br>\n" +
-                    "This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.\n"
+                    "Curvature of envelope",
+                    "<p><strong>PrunePowerHigh</strong> describes the envelope curve above the peak.</p>\n" +
+                    "<p>A value of 1 means linear decreasing. Higher values means concave,\n" +
+                    "lower values convex curve.</p>\n" +
+                    "<p>This parameter is used for the shape \"envelope\" too, even if PruneRatio is off.</p>\n",
+                    ""
             );
 
             dblParam("0Scale", 0.000001f, float.PositiveInfinity, 1.0f,
-                    "TRUNK", "extra trunk scaling",
-                    "<strong>0Scale</strong> and 0ScaleV makes the trunk thicker.<br>\n" +
-                    "This parameters exists for the level 0 only. From the Weber/Penn paper it is<br>\n" +
-                    "not clear, why there are two trunk scaling parameters<br> \n" +
-                    "0Scale and Ratio. See Ratio, 0ScaleV, Scale, ScaleV.<br>\n" +
-                    "In this implementation 0Scale does not influence the trunk base radius<br>\n" +
-                    "but is applied finally to the stem radius formular. Thus the<br>\n" +
-                    "trunk radius could be influenced independently from the<br>\n" +
-                    "Ratio/RatioPower parameters and the periodic tapering (0Taper > 2.0)<br>\n" +
-                    "could be scaled, so that the sections are elongated spheres.\n"
+                    "TRUNK", "Extra trunk scaling",
+                    "<p><strong>0Scale</strong> and 0ScaleV makes the trunk thicker.</p>\n" +
+                    "<p>This parameters exists for the level 0 only. From the Weber/Penn paper it is\n" +
+                    "not clear, why there are two trunk scaling parameters \n" +
+                    "0Scale and Ratio. See Ratio, 0ScaleV, Scale, ScaleV.</p>\n" +
+                    "<p>In this implementation 0Scale does not influence the trunk base radius\n" +
+                    "but is applied finally to the stem radius formular. Thus the\n" +
+                    "trunk radius could be influenced independently from the\n" +
+                    "Ratio/RatioPower parameters and the periodic tapering (0Taper > 2.0)\n" +
+                    "could be scaled, so that the sections are elongated spheres.</p>\n",
+                    ""
             );
 
             dblParam("0ScaleV", 0.0f, float.PositiveInfinity, 0.0f, "TRUNK",
-                    "variation for extra trunk scaling",
-                    "0Scale and <strong>0ScaleV</strong> makes the trunk thicker. This parameters<br>\n" +
-                    "exists for the level 0 only. From the Weber/Penn paper it is<br>\n" +
-                    "not clear, why there are two trunk scaling parameters<br>\n" +
-                    "0Scale and Ratio. See Ratio, 0ScaleV, Scale, ScaleV.<br>\n" +
-                    "In this implementation 0ScaleV is used to perturb the<br>\n" +
-                    "mesh of the trunk. But use with care, because the mesh<br>\n" +
-                    "could got fissures when using too big values.<br>\n"
+                    "Variation for extra trunk scaling",
+                    "<p>0Scale and <strong>0ScaleV</strong> makes the trunk thicker. This parameters\n" +
+                    "exists for the level 0 only. From the Weber/Penn paper it is\n" +
+                    "not clear, why there are two trunk scaling parameters\n" +
+                    "0Scale and Ratio. See Ratio, 0ScaleV, Scale, ScaleV.</p>\n" +
+                    "<p>In this implementation 0ScaleV is used to perturb the\n" +
+                    "mesh of the trunk. But use with care, because the mesh\n" +
+                    "could got fissures when using too big values.</p>\n",
+                    ""
             );
 
             dbl4Param("nLength", 0.0000001f, float.PositiveInfinity, 1.0f, 0.5f, 0.5f, 0.5f,
-                    "LENTAPER", "fractional trunk scaling",
-                    "<strong>0Length</strong> and 0LengthV give the fractional length of the<br>\n" +
-                    "trunk. So with Scale=10 and 0Length=0.8 the length of the<br>\n" +
-                    "trunk will be 8m. Dont' confuse the height of the tree with<br>\n" +
-                    "the length of the trunk here.<br><br>\n" +
-                    "<strong>nLength</strong> and nLengthV define the fractional length of a stem<br>\n" +
-                    "relating to the length of theire parent.<br>\n"
+                    "LENTAPER", "Fractional trunk scaling",
+                    "<p><strong>0Length</strong> and 0LengthV give the fractional length of the\n" +
+                    "trunk. So with Scale=10 and 0Length=0.8 the length of the\n" +
+                    "trunk will be 8m. Dont' confuse the height of the tree with\n" +
+                    "the length of the trunk here.</p>\n" +
+                    "<p><strong>nLength</strong> and nLengthV define the fractional length of a stem\n" +
+                    "relating to the length of theire parent.</p>\n",
+                    ""
             );
 
             dbl4Param("nLengthV", 0.0f, float.PositiveInfinity, 0.0f, 0.0f, 0.0f, 0.0f,
                     "LENTAPER", "variation of fractional trunk scaling",
-                    "<strong>nLengthV</strong> is the variation of the length given by nLength.<br>\n"
+                    "<p><strong>nLengthV</strong> is the variation of the length given by nLength.</p>\n",
+                    ""
             );
 
             dbl4Param("nTaper", 0.0f, 2.99999999f, 1.0f, 1.0f, 1.0f, 1.0f,
-                    "LENTAPER", "cross-section scaling",
-                    "<strong>nTaper</strong> is the tapering of the stem along its length.<ul>\n" +
+                    "LENTAPER", "Cross-section scaling",
+                    "<p><strong>nTaper</strong> is the tapering of the stem along its length.</p><ul>\n" +
                     "<li>0 - non-tapering cylinder</li>\n" +
                     "<li>1 - taper to a point (cone)</li>\n" +
                     "<li>2 - taper to a spherical end</li>\n" +
                     "<li>3 - periodic tapering (concatenated spheres)</li></ul>\n" +
-                    "You can use fractional values, to get intermediate results.<br>\n"
+                    "<p>You can use fractional values, to get intermediate results.</p>\n",
+                    ""
             );
 
             dbl4Param("nSegSplits", 0, float.PositiveInfinity, 0, 0, 0, 0,
-                    "SPLITTING", "stem splits per segment",
-                    "<strong>nSegSplits</strong> determines how much splits per segment occures.<br><br>\n" +
-                    "Normally you would use a value between 0.0 and 1.0. A value of<br>\n" +
-                    "0.5 means a split at every second segment. If you use splitting<br>\n" +
-                    "for the trunk you should use 0BaseSplits for the first split, <br>\n" +
-                    "otherwise the tree will tend to one side."
+                    "SPLITTING", "Stem splits per segment",
+                    "<p><strong>nSegSplits</strong> determines how much splits per segment occures.</p>\n" +
+                    "<p>Normally you would use a value between 0.0 and 1.0. A value of\n" +
+                    "0.5 means a split at every second segment. If you use splitting\n" +
+                    "for the trunk you should use 0BaseSplits for the first split, \n" +
+                    "otherwise the tree will tend to one side.</p>",
+                    ""
             );
 
             dbl4Param("nSplitAngle", 0, 180, 0, 0, 0, 0, "SPLITTING",
-                    "splitting angle",
-                    "<strong>nSplitAngle</strong> is the vertical splitting angle. A horizontal diverging<br>\n" +
-                    "angle will be added too, but this one you cannot influence with parameters.<br>\n" +
-                    "The declination of the splitting branches won't exceed the splitting angle.<br>\n"
+                    "Splitting angle",
+                    "<p><strong>nSplitAngle</strong> is the vertical splitting angle. A horizontal diverging\n" +
+                    "angle will be added too, but this one you cannot influence with parameters.</p>\n" +
+                    "<p>The declination of the splitting branches won't exceed the splitting angle.</p>\n",
+                    ""
             );
 
             dbl4Param("nSplitAngleV", 0, 180, 0, 0, 0, 0, "SPLITTING",
-                    "splitting angle variation",
-                    "<strong>nSplitAngleV</strong> is the variation of the splitting angle. See nSplitAngle.<br>\n"
+                    "Splitting angle variation",
+                    "<p><strong>nSplitAngleV</strong> is the variation of the splitting angle. See nSplitAngle.</p>\n",
+                    ""
             );
 
             int4Param("nCurveRes", 1, int.MaxValue, 3, 3, 1, 1,
-                    "CURVATURE", "curvature resolution",
-                    "<strong>nCurveRes</strong> determines how many segments the branches consist of.<br><br>\n" +
-                    "Normally you will use higher values for the first levels, and low<br>\n" +
-                    "values for the higher levels.<br>\n"
+                    "CURVATURE", "Curvature resolution",
+                    "<p><strong>nCurveRes</strong> determines how many segments the branches consist of.</p>\n" +
+                    "<p>Normally you will use higher values for the first levels, and low\n" +
+                    "values for the higher levels.</p>\n",
+                    ""
             );
 
             dbl4Param("nCurve", float.NegativeInfinity, float.PositiveInfinity, 0, 0, 0, 0,
-                    "CURVATURE", "curving angle",
-                    "<strong>nCurve</strong> is the angle the branches are declined over theire whole length.<br>\n" +
-                    "If nCurveBack is used, the curving angle is distributed only over the<br>\n" +
-                    "first half of the stem.<br>\n"
+                    "CURVATURE", "Curving angle",
+                    "<p><strong>nCurve</strong> is the angle the branches are declined over theire whole length.</p>\n" +
+                    "<p>If nCurveBack is used, the curving angle is distributed only over the\n" +
+                    "first half of the stem.</p>\n",
+                    ""
             );
 
             dbl4Param("nCurveV", -90, float.PositiveInfinity, 0, 0, 0, 0,
-                    "CURVATURE", "curving angle variation",
-                    "<strong>nCurveV</strong> is the variation of the curving angle. See nCurve, nCurveBack.<br>\n" +
-                    "A negative value means helical curvature<br>\n"
+                    "CURVATURE", "Curving angle variation",
+                    "<p><strong>nCurveV</strong> is the variation of the curving angle. See nCurve, nCurveBack.</p>\n" +
+                    "<p>A negative value means helical curvature</p>\n",
+                    ""
             );
 
             dbl4Param("nCurveBack", float.NegativeInfinity, float.PositiveInfinity, 0, 0, 0, 0,
-                    "CURVATURE", "curving angle upper stem half",
-                    "Using <strong>nCurveBack</strong> you can give the stem an S-like shape.<br>\n" +
-                    "The first half of the stem the nCurve value is applied.<br>\n" +
-                    "The second half the nCurveBack value.<br><br>\n" +
-                    "It's also possible to give both parametera the same sign to<br>\n" +
-                    "get different curving over the stem length, instead of a S-shape<br>\n"
+                    "CURVATURE", "Curving angle upper stem half",
+                    "<p>Using <strong>nCurveBack</strong> you can give the stem an S-like shape.</p>\n" +
+                    "<p>The first half of the stem the nCurve value is applied.</p>\n" +
+                    "<p>The second half the nCurveBack value.</p>\n" +
+                    "<p>It's also possible to give both parametera the same sign to\n" +
+                    "get different curving over the stem length, instead of a S-shape</p>\n",
+                    ""
             );
 
             dbl4Param("nDownAngle", -179.9999999f, 179.999999f, 0, 30, 30, 30,
-                    "BRANCHING", "angle from parent",
-                    "<strong>nDownAngle</strong> is the angle between a stem and it's parent.<br>\n"
+                    "BRANCHING", "Angle from parent",
+                    "<p><strong>nDownAngle</strong> is the angle between a stem and it's parent.</p>\n",
+                    ""
             );
 
             dbl4Param("nDownAngleV", -179.9999999f, 179.9999999f, 0, 0, 0, 0,
-                    "BRANCHING", "down angle variation",
-                    "<strong>nDownAngleV</strong> is the variation of the downangle. See nDownAngle.<br>\n" +
-                    "Using a negative value, the nDownAngleV is variated over the<br>\n" +
-                    "length of the stem, so that the lower branches have a bigger<br>\n" +
-                    "downangle then the higher branches.<br>\n"
+                    "BRANCHING", "Down angle variation",
+                    "<p><strong>nDownAngleV</strong> is the variation of the downangle. See nDownAngle.</p>\n" +
+                    "<p>Using a negative value, the nDownAngleV is variated over the\n" +
+                    "length of the stem, so that the lower branches have a bigger\n" +
+                    "downangle then the higher branches.</p>\n",
+                    ""
             );
 
             dbl4Param("nRotate", -360, 360, 0, 120, 120, 120,
-                    "BRANCHING", "spiraling angle",
-                    "<strong>nRotate</strong> is the angle, the branches are rotating around the parent<br>\n" +
-                    "If nRotate is negative the branches are located on alternating<br>\n" +
-                    "sides of the parent.<br>\n"
+                    "BRANCHING", "Spiraling angle",
+                    "<p><strong>nRotate</strong> is the angle, the branches are rotating around the parent</p>\n" +
+                    "<p>If nRotate is negative the branches are located on alternating\n" +
+                    "sides of the parent.</p>\n",
+                    ""
             );
 
             dbl4Param("nRotateV", -360, 360, 0, 0, 0, 0,
-                    "BRANCHING", "spiraling angle variation",
-                    "<strong>nRotateV</strong> is the variation of nRotate.<br>\n"
+                    "BRANCHING", "Spiraling angle variation",
+                    "<p><strong>nRotateV</strong> is the variation of nRotate.</p>\n",
+                    ""
             );
 
             int4Param("nBranches", 0, int.MaxValue, 1, 10, 5, 5,
-                    "BRANCHING", "number of branches",
-                    "<strong>nBranches</strong> is the maximal number of branches on a parent stem.<br>\n" +
-                    "The number of branches are reduced proportional to the<br>\n" +
-                    "relative length of theire parent.<br>\n"
+                    "BRANCHING", "Number of branches",
+                    "<p><strong>nBranches</strong> is the maximal number of branches on a parent stem.</p>\n" +
+                    "<p>The number of branches are reduced proportional to the\n" +
+                    "relative length of theire parent.</p>\n",
+                    ""
             );
 
             dbl4Param("nBranchDist", 0, 1, 0, 1, 1, 1,
-                    "BRANCHING", "branch distribution along the segment",
-                    "<strong>nBranchDist</strong> is an additional parameter of Arbaro. It influences the<br>\n" +
-                    "distribution of branches over a segment of the parent stem.<br>\n" +
-                    "With 1.0 you get evenly distribution of branches like in the<br>\n" +
-                    "original model. With 0.0 all branches grow from the segments<br>\n" +
-                    "base like for conifers.<br>\n"
+                    "BRANCHING", "Branch distribution along the segment",
+                    "<p><strong>nBranchDist</strong> is an additional parameter of Arbaro. It influences the\n" +
+                    "distribution of branches over a segment of the parent stem.</p>\n" +
+                    "<p>With 1.0 you get evenly distribution of branches like in the\n" +
+                    "original model. With 0.0 all branches grow from the segments\n" +
+                    "base like for conifers.</p>\n",
+                    ""
             );
 
 

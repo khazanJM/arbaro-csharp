@@ -15,13 +15,15 @@ namespace Arbaro2.Arbaro.GUI
     public class CS_ParamValueTable
     {     
         private Panel _paramValuePanel;
+        private Panel _paramExplanationPanel;
         private CS_Params _csparams;
         private string _groupName;
         private int _groupLevel;
        
-        public CS_ParamValueTable(Panel paramValuePanel, CS_Params csparams) 
+        public CS_ParamValueTable(Panel paramValuePanel, Panel paramExplanationPanel, CS_Params csparams) 
         {
             _paramValuePanel = paramValuePanel;
+            _paramExplanationPanel = paramExplanationPanel;
             _paramValuePanel.Controls.Clear();
             _csparams = csparams;
         }
@@ -85,12 +87,22 @@ namespace Arbaro2.Arbaro.GUI
                     tb.Enabled = (p as CS_AbstractParam).getEnabled();
                     tb.Tag = p.name;
                     tb.Validated += tb_Validated;
+
+                    tb.Enter += tb_Enter;
                 }
 
                 Y += lbl.Height + 3;
             }
 
             _paramValuePanel.Height = lbl.Bottom + 5;
+            _paramExplanationPanel.Top = _paramValuePanel.Top + _paramValuePanel.Height + 5;
+            _paramExplanationPanel.Height = _paramExplanationPanel.Parent.Height - _paramExplanationPanel.Top - 10;
+        }
+
+        void tb_Enter(object sender, EventArgs e)
+        {
+            string pName = (string)((sender as Control).Tag);
+            (_paramExplanationPanel.Tag as CS_ParamExplanationView).showExplanation(pName);            
         }
 
         void p_OnParamChanged(object sender, CS_ParamChangedArgs e)

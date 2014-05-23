@@ -18,8 +18,8 @@ namespace Arbaro2.Arbaro.Params
         private float deflt;
         private float value;
 
-        public CS_FloatParam(String nam, float mn, float mx, float def, String grp, int lev, int ord, String sh, String lng) :
-            base(nam, grp, lev, ord, sh, lng)
+        public CS_FloatParam(String nam, float mn, float mx, float def, String grp, int lev, int ord, String sh, String lng, String html) :
+            base(nam, grp, lev, ord, sh, lng, html)
         {
             min = mn;
             max = mx;

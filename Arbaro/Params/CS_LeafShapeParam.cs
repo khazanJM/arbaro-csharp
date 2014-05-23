@@ -22,8 +22,8 @@ namespace Arbaro2.Arbaro.Params
          * @param sh
          * @param lng
          */
-        public CS_LeafShapeParam(String nam, String def, String grp, int lev, int ord, String sh, String lng) :
-            base(nam, def, grp, lev, ord, sh, lng)
+        public CS_LeafShapeParam(String nam, String def, String grp, int lev, int ord, String sh, String lng, string html) :
+            base(nam, def, grp, lev, ord, sh, lng, html)
         {
         }
 

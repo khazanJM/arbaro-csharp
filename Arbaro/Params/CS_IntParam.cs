@@ -17,8 +17,8 @@ namespace Arbaro2.Arbaro.Params
         private int deflt;
         private int value;
 
-        public CS_IntParam(String nam, int mn, int mx, int def, String grp, int lev, int ord, String sh, String lng) :
-            base(nam, grp, lev, ord, sh, lng)
+        public CS_IntParam(String nam, int mn, int mx, int def, String grp, int lev, int ord, String sh, String lng, String html) :
+            base(nam, grp, lev, ord, sh, lng, html)
         {
             min = mn;
             max = mx;

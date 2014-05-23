@@ -28,6 +28,8 @@ namespace Arbaro2
         // Tree params etc... should be gathered somewhere else
         CS_ParamGroupsView pgv;
         CS_ParamValueTable pvt;
+        CS_ParamExplanationView pev;
+
         CS_Params csParams = new CS_Params();
         CS_Tree tree;
         //
@@ -51,7 +53,9 @@ namespace Arbaro2
             csParams.OnParamChanged += csParams_OnParamChanged;
 
             pgv = new CS_ParamGroupsView(treeView1);
-            pvt = new CS_ParamValueTable(paramTablePanel, csParams);
+            pvt = new CS_ParamValueTable(paramTablePanel, paramExplanationPanel, csParams);
+            pev = new CS_ParamExplanationView(paramExplanationPanel, paramTablePanel, csParams);
+
             treeView1.AfterSelect += treeView1_AfterSelect;   
         }
 
@@ -110,7 +114,8 @@ namespace Arbaro2
 
                 // refresh params GUI
                 pgv = new CS_ParamGroupsView(treeView1);
-                pvt = new CS_ParamValueTable(paramTablePanel, csParams);
+                pvt = new CS_ParamValueTable(paramTablePanel, paramExplanationPanel, csParams);
+                pev = new CS_ParamExplanationView(paramExplanationPanel, paramTablePanel, csParams);
 
                 csParams.enableDisable();
                 csParams.OnParamChanged += csParams_OnParamChanged;
@@ -143,7 +148,9 @@ namespace Arbaro2
             DXTreeMesh me = new DXTreeMesh(tree, csParams);
             Program.Renderer.RenderableList.Add("TreeMesh", me);
 
-            Program.Renderer.CameraControler.LookAt(me.BBox);
+            // only reset the view when a new tree is loaded
+            if (!paramExists)
+                Program.Renderer.CameraControler.LookAt(me.BBox);
 
             float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
             Console.WriteLine(elapsed);

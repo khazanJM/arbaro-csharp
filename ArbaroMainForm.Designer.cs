@@ -53,10 +53,13 @@
             this.exportAsOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.mainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.paramExplanationPanel = new System.Windows.Forms.Panel();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
             this.mainSplitContainer.SuspendLayout();
+            this.paramExplanationPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuStrip
@@ -243,6 +246,7 @@
             // 
             // mainSplitContainer.Panel1
             // 
+            this.mainSplitContainer.Panel1.Controls.Add(this.paramExplanationPanel);
             this.mainSplitContainer.Panel1.Controls.Add(this.paramTablePanel);
             this.mainSplitContainer.Panel1.Controls.Add(this.treeView1);
             this.mainSplitContainer.Panel1MinSize = 300;
@@ -250,7 +254,7 @@
             // mainSplitContainer.Panel2
             // 
             this.mainSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(3);
-            this.mainSplitContainer.Size = new System.Drawing.Size(799, 472);
+            this.mainSplitContainer.Size = new System.Drawing.Size(799, 567);
             this.mainSplitContainer.SplitterDistance = 300;
             this.mainSplitContainer.TabIndex = 2;
             // 
@@ -274,11 +278,29 @@
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Size = new System.Drawing.Size(181, 6);
             // 
+            // paramExplanationPanel
+            // 
+            this.paramExplanationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.paramExplanationPanel.Controls.Add(this.webBrowser1);
+            this.paramExplanationPanel.Location = new System.Drawing.Point(6, 414);
+            this.paramExplanationPanel.Name = "paramExplanationPanel";
+            this.paramExplanationPanel.Size = new System.Drawing.Size(291, 146);
+            this.paramExplanationPanel.TabIndex = 2;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(289, 144);
+            this.webBrowser1.TabIndex = 0;
+            // 
             // ArbaroMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(799, 496);
+            this.ClientSize = new System.Drawing.Size(799, 591);
             this.Controls.Add(this.mainSplitContainer);
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
@@ -291,6 +313,7 @@
             this.mainSplitContainer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).EndInit();
             this.mainSplitContainer.ResumeLayout(false);
+            this.paramExplanationPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,6 +346,8 @@
         private System.Windows.Forms.ToolStripMenuItem exportAsOBJToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.SaveFileDialog mainSaveFileDialog;
+        private System.Windows.Forms.Panel paramExplanationPanel;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 

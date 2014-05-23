@@ -37,12 +37,14 @@ namespace Arbaro2.Arbaro.Params
         int order;
         String shortDesc;
         String longDesc;
+        String htmlDesc;
         bool enabled;
+
 
         public event EventHandler<CS_ParamChangedArgs> OnParamChanged;
 
         public CS_AbstractParam(String nam, String grp, int lev, int ord,
-                String sh, String lng)
+                String sh, String lng, String html)
         {
             name = nam;
             group = grp;
@@ -50,6 +52,7 @@ namespace Arbaro2.Arbaro.Params
             order = ord;
             shortDesc = sh;
             longDesc = lng;
+            htmlDesc = html;
             enabled = true;
         }
 
@@ -100,6 +103,16 @@ namespace Arbaro2.Arbaro.Params
         public String getShortDesc()
         {
             return shortDesc;
+        }
+
+        public String getHTMLDesc()
+        {
+            string css = "<HEAD><style type='text/css'>"
+                +"H1 {font-size: small;}"
+                +"P {font-size:x-small;}"
+                +"LI {font-size:x-small;}"
+                + "</style></HEAD>";
+            return css+"<BODY><H1>"+shortDesc+"</H1>"+longDesc+"</BODY>";
         }
 
         public String toString()
