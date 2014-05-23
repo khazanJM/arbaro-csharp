@@ -89,6 +89,8 @@ namespace Arbaro2
             csParams = new CS_Params();
             csParams.prepare(13);
 
+            ResetMenuItems();
+
             if (filename != "")
             {
                 Text = "Arbaro C# V0.1 - " + Path.GetFileName(mainOpenFileDialog.FileName);
@@ -148,6 +150,18 @@ namespace Arbaro2
         //
         //  Main menu management
         //
+
+        public void ResetMenuItems() 
+        {
+            renderToolStripMenuItem.Enabled = false;
+            skeletonToolStripMenuItem.Checked = false;
+            solidWireframeToolStripMenuItem.Checked = true;
+            level0ToolStripMenuItem.Checked = true;
+            level1ToolStripMenuItem.Checked = true;
+            level2ToolStripMenuItem.Checked = true;
+            level3ToolStripMenuItem.Checked = true;
+            leavesToolStripMenuItem.Checked = true;
+        }
 
         // Menu enabling / disabling
         private void MainMenuEnableDisable()

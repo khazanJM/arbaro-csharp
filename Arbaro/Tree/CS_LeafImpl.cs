@@ -28,7 +28,7 @@ namespace Arbaro2.Arbaro.Tree
          *	Leaf rotation toward light
          */
         private void setLeafOrientation(CS_Params par)
-        {
+        {          
             if (par.LeafBend == 0) return;                  
 
             // FIXME: make this function as fast as possible - a tree has a lot of leafs
