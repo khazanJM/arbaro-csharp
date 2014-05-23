@@ -173,43 +173,6 @@ namespace Arbaro2.DX_Engine.TreeClasses
             _csParams = csParams;
         }
 
-        // Pb getSectionPoints retourne les points de le section "basse"
-        public bool enterStem_old(CS_Stem stem)
-        {
-            //Console.WriteLine("enter stem");
-
-
-            bool first = true;
-            Vector3[] section_base = stem.getSections()[0].getSectionPoints();
-            AddRangeVector3(section_base, first); first = false;
-
-            //Console.WriteLine("stem section count "+stem.getSections().Count);
-            for (int i = 0; i < stem.getSections().Count; i++)
-            {
-                CS_SegmentImpl seg = stem.getSections()[i];
-
-                //Console.WriteLine("stem sub section count " + seg.getSubsegmentCount());
-
-                if (seg.getSubsegmentCount() == 1)
-                {
-                    Vector3[] section_next = stem.getSections()[i].getSectionPoints();                   
-                    AddRangeVector3(section_next, first);         
-                }
-                else
-                {
-                    for (int j = 0; j < seg.getSubsegmentCount(); j++)
-                    {
-                        CS_SubsegmentImpl subseg = seg.subsegments[j];
-                        Vector3[] section_next = subseg.getSectionPoints();
-                        AddRangeVector3(section_next, first);                     
-                    }
-                }
-
-            }
-
-            return true;
-        }
-
         public override bool enterStem(CS_Stem stem)
         {
             // 1. Create the first section
@@ -220,9 +183,9 @@ namespace Arbaro2.DX_Engine.TreeClasses
             // 2. for each section but the last one - generate the upper part of the section
             //      and connect it with triangles to the previous section
             //      we use the lower section of next segment as upper section of current segment
-            for (int i = 0; i < stem.getSections().Count-1; i++)
-            {               
-                if (stem.getSections()[i].getSubsegmentCount() == 1)
+            for (int i = 0; i < stem.getSections().Count; i++)
+            {
+                if (stem.getSections()[i].getSubsegmentCount() == 1 && i != stem.getSections().Count -1)
                 {
                     Vector3[] section_next = stem.getSections()[i + 1].getSectionPoints();
                     AddRangeVector3(section_next, first);
@@ -240,8 +203,11 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
             // 3. The last section I don't know how it gets calculated in initial Arbaro implementation :-(
             //      So I modified getSectionPoints to retrieve explicitely this last section
-            Vector3[] section_last = stem.getSections()[stem.getSections().Count - 1].getSectionPoints(false);
-            AddRangeVector3(section_last, first);  
+            if (stem.getSections()[stem.getSections().Count-1].getSubsegmentCount() == 1)
+            {
+                Vector3[] section_last = stem.getSections()[stem.getSections().Count - 1].getSectionPoints(false);
+                AddRangeVector3(section_last, first);
+            }
 
             return true;
         }
