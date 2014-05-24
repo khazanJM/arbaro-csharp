@@ -16,8 +16,8 @@ A dedicated gitHub page can be found here: http://khazanjm.github.io/arbaro-csha
 
 2/ Purpose
 
-Arbaro is a nice software. It helps me get into what Weber described in their original paper.
-Though Arbaro is getting quite old and I think it deserve a new version.
+Arbaro is a nice software. It helps me get into what Weber & Penn described in their original paper.
+Though Arbaro is getting quite old and I think it deserves a new version.
 My goal here is twofold
 - Provide this new version
 - Enhance it with several of my own ideas  
@@ -66,4 +66,15 @@ The first steps are
 
 - Get the GUI working
 - Allow to display / hide levels
+
+
+-- May 24 2014 --
+
+- Most features are ported
+- Trees are generated with their mesh (missing UV and normals)
+- Parameters can be edited (several remaining bugs)
+- Documentation for each parameters is displayed
+- Biggest missing features are: saving a tree, exporting it to obj file ...
+- There are lots of GUI bugs... so the package is still not really useful
+
 
