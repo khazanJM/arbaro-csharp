@@ -62,7 +62,7 @@ namespace Arbaro2.Arbaro.Params
                 throw new Exception("Value of " + name + " should be less then or equal to " + max);
             }
 
-            if (Math.Abs(value - d) > 0.00001)
+            if (float.IsNaN(value) || Math.Abs(value - d) > 0.00001)
             {
                 value = d;
                 raiseOnParamChanged("");              

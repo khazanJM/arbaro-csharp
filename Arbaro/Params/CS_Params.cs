@@ -476,6 +476,7 @@ namespace Arbaro2.Arbaro.Params
         public void setParam(String name, String value)
         {
             CS_AbstractParam p = (CS_AbstractParam)paramDB[name];
+            
             if (p != null)
             {
                 p.setValue(value);
@@ -1070,7 +1071,7 @@ namespace Arbaro2.Arbaro.Params
                 elemList = doc.GetElementsByTagName("param");
                 foreach (XmlNode n in elemList) {
                     setParam(n.Attributes.GetNamedItem("name").Value, n.Attributes.GetNamedItem("value").Value);
-                }
+                }             
             }
             catch (Exception e)
             {
