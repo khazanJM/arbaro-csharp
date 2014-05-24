@@ -281,11 +281,16 @@ namespace Arbaro2.DX_Engine.TreeClasses
             DXMEV v0, v1, v2, v3;
             DX_Transformation transf = leaf.getTransformation();
 
+            //
+            //  Call a leaf mesh factory here... 
+            //  feeding it with _csParams should do the trick 
+            //
+
             // each leaf is just a quad
-            v0 = new DXMEV(); v0.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, 0, 1);
-            v1 = new DXMEV(); v1.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, 0.5f, 1);
-            v2 = new DXMEV(); v2.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, 0.5f, 1);
-            v3 = new DXMEV(); v3.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, 0, 1);
+            v0 = new DXMEV(); v0.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen, 1);
+            v1 = new DXMEV(); v1.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen+1, 1);
+            v2 = new DXMEV(); v2.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen+1, 1);
+            v3 = new DXMEV(); v3.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen, 1);           
 
             // the tree is caculated in openGL coordinates with Z "up" so...
             v0.P = transf.apply(v0.P); v0.P = new Vector4(v0.P.X, v0.P.Z, v0.P.Y, 1);
