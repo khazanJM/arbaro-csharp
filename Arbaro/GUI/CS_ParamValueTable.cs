@@ -28,6 +28,17 @@ namespace Arbaro2.Arbaro.GUI
             _csparams = csparams;
         }
 
+        public void Refresh() 
+        {           
+            foreach (Control c in _paramValuePanel.Controls) {
+                if (c.Tag != null) {
+                    string pName = (c.Tag as string);
+                    CS_AbstractParam ap = _csparams.getParam(pName);
+                    c.Enabled = ap.getEnabled();
+                }
+            }
+        }
+
         public void ShowGroup(string group, int level)
         {
             _groupName = group;
@@ -72,6 +83,9 @@ namespace Arbaro2.Arbaro.GUI
                     shp.Items.AddRange(CS_LeafShapeParam.values());
                     shp.SelectedText = (p as CS_LeafShapeParam).toString();
                     shp.Enabled = (p as CS_AbstractParam).getEnabled();
+
+                    shp.Tag = "LeafShape";
+                    shp.SelectedValueChanged += shp_SelectedValueChanged;
                 }
                 else
                 {
@@ -86,8 +100,9 @@ namespace Arbaro2.Arbaro.GUI
                     tb.Text = p.getValue().ToString();
                     tb.Enabled = (p as CS_AbstractParam).getEnabled();
                     tb.Tag = p.name;
+                    
                     tb.Validated += tb_Validated;
-
+                    tb.KeyPress += tb_KeyPress;
                     tb.Enter += tb_Enter;
                 }
 
@@ -99,6 +114,15 @@ namespace Arbaro2.Arbaro.GUI
             _paramExplanationPanel.Height = _paramExplanationPanel.Parent.Height - _paramExplanationPanel.Top - 10;
         }
 
+        void tb_KeyPress(object sender, KeyPressEventArgs e)
+        {            
+            if (e.KeyChar == (char)13)
+            {
+                e.Handled = true;
+                tb_Validated(sender, null);
+            }
+        }
+
         void tb_Enter(object sender, EventArgs e)
         {
             string pName = (string)((sender as Control).Tag);
@@ -107,7 +131,8 @@ namespace Arbaro2.Arbaro.GUI
 
         void p_OnParamChanged(object sender, CS_ParamChangedArgs e)
         {
-            _csparams.raiseOnParamChanged("");
+            _csparams.enableDisable();
+            _csparams.raiseOnParamChanged("");          
         }
 
         void tb_Validated(object sender, EventArgs e)

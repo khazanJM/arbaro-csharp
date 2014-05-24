@@ -61,6 +61,11 @@ namespace Arbaro2
 
         void csParams_OnParamChanged(object sender, CS_ParamChangedArgs e)
         {
+            csParams.OnParamChanged -= csParams_OnParamChanged;
+            csParams.enableDisable();
+            pvt.Refresh();
+            csParams.OnParamChanged += csParams_OnParamChanged;
+
             MakeTreeFromParams("", true);
         }
 

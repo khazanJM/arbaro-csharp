@@ -479,7 +479,7 @@ namespace Arbaro2.Arbaro.Params
             if (p != null)
             {
                 p.setValue(value);
-                //raiseOnParamChanged("");
+                raiseOnParamChanged("");
             }
             else
             {

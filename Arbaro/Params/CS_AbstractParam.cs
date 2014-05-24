@@ -72,7 +72,8 @@ namespace Arbaro2.Arbaro.Params
         public void setEnabled(bool en)
         {
             enabled = en;
-            raiseOnParamChanged("");
+            // BEWARE
+            //raiseOnParamChanged("");
         }
 
         public bool getEnabled()
