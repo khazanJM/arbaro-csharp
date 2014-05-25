@@ -35,6 +35,8 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportAsOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.skeletonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,12 +51,10 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.mainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.paramTablePanel = new System.Windows.Forms.Panel();
-            this.exportAsOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.mainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.paramExplanationPanel = new System.Windows.Forms.Panel();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.paramTablePanel = new System.Windows.Forms.Panel();
+            this.mainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
@@ -94,6 +94,7 @@
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -109,6 +110,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -117,11 +119,24 @@
             | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
+            // 
+            // exportAsOBJToolStripMenuItem
+            // 
+            this.exportAsOBJToolStripMenuItem.Name = "exportAsOBJToolStripMenuItem";
+            this.exportAsOBJToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportAsOBJToolStripMenuItem.Text = "Export as OBJ...";
+            this.exportAsOBJToolStripMenuItem.Click += new System.EventHandler(this.exportAsOBJToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(181, 6);
             // 
             // quitToolStripMenuItem
             // 
@@ -258,26 +273,6 @@
             this.mainSplitContainer.SplitterDistance = 300;
             this.mainSplitContainer.TabIndex = 2;
             // 
-            // paramTablePanel
-            // 
-            this.paramTablePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.paramTablePanel.Location = new System.Drawing.Point(6, 262);
-            this.paramTablePanel.Name = "paramTablePanel";
-            this.paramTablePanel.Size = new System.Drawing.Size(291, 146);
-            this.paramTablePanel.TabIndex = 1;
-            // 
-            // exportAsOBJToolStripMenuItem
-            // 
-            this.exportAsOBJToolStripMenuItem.Name = "exportAsOBJToolStripMenuItem";
-            this.exportAsOBJToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.exportAsOBJToolStripMenuItem.Text = "Export as OBJ...";
-            this.exportAsOBJToolStripMenuItem.Click += new System.EventHandler(this.exportAsOBJToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(181, 6);
-            // 
             // paramExplanationPanel
             // 
             this.paramExplanationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -295,6 +290,14 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(289, 144);
             this.webBrowser1.TabIndex = 0;
+            // 
+            // paramTablePanel
+            // 
+            this.paramTablePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.paramTablePanel.Location = new System.Drawing.Point(6, 262);
+            this.paramTablePanel.Name = "paramTablePanel";
+            this.paramTablePanel.Size = new System.Drawing.Size(291, 146);
+            this.paramTablePanel.TabIndex = 1;
             // 
             // ArbaroMainForm
             // 

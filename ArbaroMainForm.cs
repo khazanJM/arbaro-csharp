@@ -34,6 +34,9 @@ namespace Arbaro2
         CS_Tree tree;
         //
 
+
+        private string filename = "";
+
         public ArbaroMainForm()
         {
             InitializeComponent();
@@ -94,6 +97,7 @@ namespace Arbaro2
             mainOpenFileDialog.Filter = "xml files (*.xml)|*.xml";
             if (mainOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
+                filename = mainOpenFileDialog.FileName;
                 MakeTreeFromParams(mainOpenFileDialog.FileName);             
             }
 
@@ -249,6 +253,39 @@ namespace Arbaro2
                     //Program.Renderer.RenderableList["Mesh"].ExportAsObj(mainSaveFileDialog.FileName);
                 }
             }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (filename != "")
+            {
+                StreamWriter sw = new StreamWriter(filename);
+                csParams.toXML(sw);
+                sw.Close();
+            }
+            else {
+                saveAsToolStripMenuItem_Click(sender, e);
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainSaveFileDialog.Filter = "xml files (*.xml)|*.xml";
+            if (mainSaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                filename = mainSaveFileDialog.FileName;
+                StreamWriter sw = new StreamWriter(filename);
+                csParams.toXML(sw);
+                sw.Close();
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            filename = "";
+            MakeTreeFromParams("", false);
+            MainMenuEnableDisable();
+
         }
     }
 }
