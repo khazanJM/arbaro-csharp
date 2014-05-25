@@ -139,7 +139,14 @@ namespace Arbaro2.Arbaro.GUI
         {
             string pName = (string)((sender as Control).Tag);
             string pValue = (sender as TextBox).Text;
-            _csparams.setParam(pName, pValue);            
+            try
+            {
+                _csparams.setParam(pName, pValue);
+            }
+            catch (Exception ex) {
+                (sender as Control).Text = _csparams.getParam(pName).getValue();
+                MessageBox.Show(ex.Message, "Parameter value error", MessageBoxButtons.OK);
+            }
         }
 
         void shp_SelectedValueChanged(object sender, EventArgs e)
