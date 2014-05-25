@@ -183,9 +183,14 @@ namespace Arbaro2.DX_Engine.TreeClasses
         public BoundingBox BBox = new BoundingBox(new Vector3(float.MaxValue, float.MaxValue, float.MaxValue),
                                                   new Vector3(float.MinValue, float.MinValue, float.MinValue));
 
+        private List<DXMEV> V = new List<DXMEV>();
+        private List<int> I = new List<int>();
+
         public DXTreeMesh_TreeTraversal(CS_Params csParams)
         {
             _csParams = csParams;
+            DXLeafMeshHelper leaves = new DXLeafMeshHelper(csParams.LeafScale, csParams.LeafScale * _csParams.LeafScaleX, 
+                _csParams.LeafScale * _csParams.LeafStemLen, csParams.LeafShape, V, I);            
         }
 
         public override bool enterStem(CS_Stem stem)
@@ -277,48 +282,30 @@ namespace Arbaro2.DX_Engine.TreeClasses
         }
 
         public override bool visitLeaf(CS_Leaf leaf)
-        {
-            DXMEV v0, v1, v2, v3;
+        {            
             DX_Transformation transf = leaf.getTransformation();
 
             //
             //  Call a leaf mesh factory here... 
             //  feeding it with _csParams should do the trick 
             //
+            List<DXMEV> mev = new List<DXMEV>();
+            foreach(DXMEV m in V) {
+                DXMEV mp = new DXMEV();
+                mp.P = transf.apply(m.P);
+                mp.P = new Vector4(mp.P.X, mp.P.Z, mp.P.Y, 1);
+                mev.Add(mp);
 
-            // each leaf is just a quad
-            v0 = new DXMEV(); v0.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen, 1);
-            v1 = new DXMEV(); v1.P = _csParams.LeafScale * new Vector4(-0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen+1, 1);
-            v2 = new DXMEV(); v2.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen+1, 1);
-            v3 = new DXMEV(); v3.P = _csParams.LeafScale * new Vector4(0.5f * _csParams.LeafScaleX, 0, _csParams.LeafStemLen, 1);           
+                int c = Vertices2[LEAFLEVEL].Count;
+                foreach (int k in I) {
+                    Indices2[LEAFLEVEL].Add(c + k);
+                }
 
-            // the tree is caculated in openGL coordinates with Z "up" so...
-            v0.P = transf.apply(v0.P); v0.P = new Vector4(v0.P.X, v0.P.Z, v0.P.Y, 1);
-            v1.P = transf.apply(v1.P); v1.P = new Vector4(v1.P.X, v1.P.Z, v1.P.Y, 1);
-            v2.P = transf.apply(v2.P); v2.P = new Vector4(v2.P.X, v2.P.Z, v2.P.Y, 1);
-            v3.P = transf.apply(v3.P); v3.P = new Vector4(v3.P.X, v3.P.Z, v3.P.Y, 1);
+                Vertices2[LEAFLEVEL].AddRange(mev);
 
-
-            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v0.P.X, v0.P.Y, v0.P.Z));
-            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v1.P.X, v1.P.Y, v1.P.Z));
-            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v2.P.X, v2.P.Y, v2.P.Z));
-            BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(v3.P.X, v3.P.Y, v3.P.Z));
-
-            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v0.P.X, v0.P.Y, v0.P.Z));
-            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v1.P.X, v1.P.Y, v1.P.Z));
-            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v2.P.X, v2.P.Y, v2.P.Z));
-            BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(v3.P.X, v3.P.Y, v3.P.Z));
-
-            int c = Vertices2[LEAFLEVEL].Count;
-            Indices2[LEAFLEVEL].Add(c); Indices2[LEAFLEVEL].Add(c + 1); Indices2[LEAFLEVEL].Add(c + 3);
-            Indices2[LEAFLEVEL].Add(c + 3); Indices2[LEAFLEVEL].Add(c + 1); Indices2[LEAFLEVEL].Add(c + 2);
-
-            Vertices2[LEAFLEVEL].Add(v0);
-            Vertices2[LEAFLEVEL].Add(v1);
-            Vertices2[LEAFLEVEL].Add(v2);
-            Vertices2[LEAFLEVEL].Add(v3);
-
-
+                BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(mp.P.X, mp.P.Y, mp.P.Z));
+                BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(mp.P.X, mp.P.Y, mp.P.Z));
+            }         
 
             return true;
         }
