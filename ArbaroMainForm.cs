@@ -280,12 +280,12 @@ namespace Arbaro2
             }
         }
 
+        
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             filename = "";
             MakeTreeFromParams("", false);
             MainMenuEnableDisable();
-
         }
     }
 }
