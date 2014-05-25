@@ -37,8 +37,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
             if (leafType == "7") _leafType = 7;
             if (leafType == "8") _leafType = 8;
             if (leafType == "9") _leafType = 9;
-
-
+            if (leafType == "10") _leafType = 10; // square
+            if (leafType == "11") _leafType = 11; // sphere
 
             MakeLeaf();
         }
@@ -51,6 +51,12 @@ namespace Arbaro2.DX_Engine.TreeClasses
             else if (_leafType == 3) MakeDiscPoints(5);
             else if (_leafType == 4) MakeDiscPoints(6);
             else if (_leafType == 5) MakeDiscPoints(7);
+            else if (_leafType == 6) MakeDiscPoints(8);
+            else if (_leafType == 7) MakeDiscPoints(9);
+            else if (_leafType == 8) MakeDiscPoints(10);
+            else if (_leafType == 9) MakeDiscPoints(11);
+            else if (_leafType == 10) MakeDiscPoints(4);
+            else if (_leafType == 11) MakeSpherePoints();
         }
 
 
@@ -72,7 +78,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
                 p.X *= _width;
                 p.Y *= _width;
-                p.Z = (_stemLength + p.Z+1) * _length;              
+                p.Z = (_stemLength + p.Z + 1) * _length;
 
                 DXMEV m = new DXMEV();
                 m.P = p;
@@ -95,8 +101,61 @@ namespace Arbaro2.DX_Engine.TreeClasses
             return (float)(0.8 * Math.Log(x + 1) / Math.Log(1.2) - 1.0 * Math.Sin(x));
         }
 
-        private void MakeLeaf1()
+        private void MakeSpherePoints()
         {
+            float s = (float)((Math.Sqrt(5) - 1) / 2 * Math.Sqrt(2 / (5 - Math.Sqrt(5))) / 2);
+            float t = (float)(Math.Sqrt(2 / (5 - Math.Sqrt(5))) / 2);
+
+            DXMEV m;
+            m = new DXMEV(); m.P = new Vector4(0, s, -t + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(t, 0, -s + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(-s, t, 0 + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(0, s, t + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(-t, 0, -s + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(-s, -t, 0 + 0.5f, 1); Vertices.Add(m);
+
+            m = new DXMEV(); m.P = new Vector4(0, -s, -t + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(t, 0, s + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(s, t, 0 + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(0, -s, t + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(-t, 0, s + 0.5f, 1); Vertices.Add(m);
+            m = new DXMEV(); m.P = new Vector4(s, -t, 0 + 0.5f, 1); Vertices.Add(m);
+
+            for (int i = 0; i < Vertices.Count; i++)
+            {
+                DXMEV mev = Vertices[i];
+                mev.P.X *= _width;
+                mev.P.Y *= _width;
+                mev.P.Z = (_stemLength + mev.P.Z + 1) * _length;
+                Vertices[i] = mev;
+            }
+
+            Indices.AddRange(new int[] { 0, 1, 6 });
+            Indices.AddRange(new int[] { 0, 6, 4 });           
+            Indices.AddRange(new int[] { 1, 8, 7 });
+            Indices.AddRange(new int[] { 1, 7, 11 });                                
+            Indices.AddRange(new int[] { 2, 3, 8 });
+           
+            Indices.AddRange(new int[] { 2, 3, 0 });       
+
+            Indices.AddRange(new int[] { 3, 9, 7 });
+            Indices.AddRange(new int[] { 3, 10, 9 });
+            Indices.AddRange(new int[] { 4, 10, 2 });
+            Indices.AddRange(new int[] { 4, 5, 10 });
+            Indices.AddRange(new int[] { 5, 6, 11 });
+            Indices.AddRange(new int[] { 5, 11, 9 });
+
+            Indices.AddRange(new int[] { 0, 8, 1 });
+            Indices.AddRange(new int[] { 6, 1, 11 });
+            Indices.AddRange(new int[] { 6, 5, 4 });
+            Indices.AddRange(new int[] { 0, 4, 2 });
+
+            Indices.AddRange(new int[] { 7, 8, 3 });
+            Indices.AddRange(new int[] { 10, 3, 2 });
+            Indices.AddRange(new int[] { 10, 5, 9 });
+            Indices.AddRange(new int[] { 9, 11, 7 });
+
+
         }
     }
 }

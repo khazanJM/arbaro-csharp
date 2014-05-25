@@ -296,16 +296,17 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 mp.P = new Vector4(mp.P.X, mp.P.Z, mp.P.Y, 1);
                 mev.Add(mp);
 
-                int c = Vertices2[LEAFLEVEL].Count;
-                foreach (int k in I) {
-                    Indices2[LEAFLEVEL].Add(c + k);
-                }
-
-                Vertices2[LEAFLEVEL].AddRange(mev);
-
                 BBox.Maximum = Vector3.Max(BBox.Maximum, new Vector3(mp.P.X, mp.P.Y, mp.P.Z));
                 BBox.Minimum = Vector3.Min(BBox.Minimum, new Vector3(mp.P.X, mp.P.Y, mp.P.Z));
-            }         
+            }
+
+            int c = Vertices2[LEAFLEVEL].Count;
+            foreach (int k in I)
+            {
+                Indices2[LEAFLEVEL].Add(c + k);
+            }
+
+            Vertices2[LEAFLEVEL].AddRange(mev);
 
             return true;
         }
