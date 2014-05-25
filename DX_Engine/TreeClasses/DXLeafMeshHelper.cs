@@ -126,7 +126,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 DXMEV mev = Vertices[i];
                 mev.P.X *= _width;
                 mev.P.Y *= _width;
-                mev.P.Z = (_stemLength + mev.P.Z + 1) * _length;
+                mev.P.Z = (_stemLength + mev.P.Z) * _length;
                 Vertices[i] = mev;
             }
 
@@ -136,7 +136,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
             Indices.AddRange(new int[] { 1, 7, 11 });                                
             Indices.AddRange(new int[] { 2, 3, 8 });
            
-            Indices.AddRange(new int[] { 2, 3, 0 });       
+            Indices.AddRange(new int[] { 2, 0,3 });       
 
             Indices.AddRange(new int[] { 3, 9, 7 });
             Indices.AddRange(new int[] { 3, 10, 9 });
