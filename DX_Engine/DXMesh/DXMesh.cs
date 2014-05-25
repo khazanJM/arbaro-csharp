@@ -127,6 +127,124 @@ namespace Arbaro2.DX_Engine.DXMesh
             vertices.Clear();
         }
 
-        // L 151
+        /// <summary>
+        /// Triangulates a mesh.
+        /// </summary>
+        /// <returns>A triangulated copy of the mesh.</returns>
+        /// <remarks>
+        /// Any edge and halfedge traits are not copied to the new mesh. Face traits are copied
+        /// to all faces triangulated from a face.
+        /// </remarks>
+        public DXMesh<TEdgeTraits, TFaceTraits, THalfedgeTraits, TVertexTraits> TriangularCopy()
+        {
+            DXMesh<TEdgeTraits, TFaceTraits, THalfedgeTraits, TVertexTraits> triangulatedMesh = new DXMesh<TEdgeTraits, TFaceTraits, THalfedgeTraits, TVertexTraits>();
+            Dictionary<DXVertex, DXVertex> newVertices = new Dictionary<DXVertex, DXVertex>();
+
+            foreach (DXVertex v in Vertices)
+            {
+                newVertices[v] = triangulatedMesh.Vertices.Add(v.Traits);
+            }
+
+            foreach (DXFace f in Faces)
+            {
+                DXVertex[] vertices = new DXVertex[f.VertexCount];
+                int i = 0;
+                foreach (DXVertex v in f.Vertices)
+                {
+                    vertices[i] = newVertices[v];
+                    ++i;
+                }
+                triangulatedMesh.Faces.AddTriangles(f.Traits, vertices);
+            }
+
+            return triangulatedMesh;
+        }
+
+        /// <summary>
+        /// Trims internal data structures to their current size.
+        /// </summary>
+        /// <remarks>
+        /// Call this method to prevent excess memory usage when the mesh is done being built.
+        /// </remarks>
+        public void TrimExcess()
+        {
+            edges.TrimExcess();
+            faces.TrimExcess();
+            halfedges.TrimExcess();
+            vertices.TrimExcess();
+        }
+
+        /// <summary>
+        /// Checks halfedge connections to verify that a valid mesh was constructed.
+        /// </summary>
+        /// <remarks>
+        /// Checking for proper topology in every case when a face is added would slow down
+        /// mesh construction significantly, so this method may be called once when a mesh
+        /// is complete to ensure that topology is manifold (with boundary).
+        /// If the mesh is non-manifold, a BadTopologyException will be thrown.
+        /// </remarks>
+        public void VerifyTopology()
+        {
+            foreach (DXHalfedge h in halfedges)
+            {
+                //Debug.Assert(h == h.Opposite.Opposite);
+                //Debug.Assert(h.Edge == h.Opposite.Edge);
+                //Debug.Assert(h.ToVertex.Halfedge.Opposite.ToVertex == h.ToVertex);
+
+                if (h.Previous.Next != h)
+                {
+                    throw new DXBadTopologyException("A halfedge's previous next is not itself.");
+                }
+
+                if (h.Next.Previous != h)
+                {
+                    throw new DXBadTopologyException("A halfedge's next previous is not itself.");
+                }
+
+                if (h.Next.Face != h.Face)
+                {
+                    throw new DXBadTopologyException("Adjacent halfedges do not belong to the same face.");
+                }
+
+                // Make sure each halfedge is reachable from the vertex it originates from
+                bool found = false;
+
+                foreach (DXHalfedge hIt in h.FromVertex.Halfedges)
+                {
+                    if (hIt == h)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found == false)
+                {
+                    throw new DXBadTopologyException("A halfedge is not reachable from the vertex it originates from.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Determines if two faces are adjacent.
+        /// </summary>
+        /// <param name="faceA">One of the faces to search for.</param>
+        /// <param name="faceB">The other face to search for.</param>
+        /// <returns>True if the faces are adjacent, false if they are not.</returns>
+        public static bool FacesShareEdge(DXFace faceA, DXFace faceB)
+        {
+            foreach (DXFace f in faceA.Faces)
+            {
+                if (f == faceB)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+
     }
 }
