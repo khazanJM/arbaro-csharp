@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
 <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
-<updated>2014-05-23T11:39:15-04:00</updated>
+<updated>2014-05-25T10:09:29-04:00</updated>
 <id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
@@ -33,7 +33,10 @@
   &lt;li&gt;Looks like the leaf bending trick is creating issues (palm for instance)&lt;/li&gt;
   &lt;li&gt;A few enhancements here and there.&lt;/li&gt;
   &lt;li&gt;Parameters can be changed (sort of, lots of bugs there).&lt;/li&gt;
-  &lt;li&gt;Arbaro documentation is no displayed&lt;/li&gt;
+  &lt;li&gt;Arbaro documentation is now displayed&lt;/li&gt;
+  &lt;li&gt;File Open/Save/Save as and New menu items are implemented&lt;/li&gt;
+  &lt;li&gt;The various leave type are also implemented. There is a bug with the Spherical leaves&lt;/li&gt;
+  &lt;li&gt;Bad entries for parameters triggers a MessageBox rather than an unhandled exception.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;next-step&quot;&gt;Next step:&lt;/h4&gt;
@@ -42,6 +45,7 @@
   &lt;li&gt;Check the leaf bend &lt;/li&gt;
   &lt;li&gt;Add UV and normals to the mesh&lt;/li&gt;
   &lt;li&gt;Export as .obj file format&lt;/li&gt;
+  &lt;li&gt;Review all parameters&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;a-screen-shot&quot;&gt;A screen-shot&lt;/h4&gt;

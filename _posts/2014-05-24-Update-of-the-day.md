@@ -14,13 +14,17 @@ comments: true
 * Looks like the leaf bending trick is creating issues (palm for instance)
 * A few enhancements here and there.
 * Parameters can be changed (sort of, lots of bugs there).
-* Arbaro documentation is no displayed
+* Arbaro documentation is now displayed
+* File Open/Save/Save as and New menu items are implemented
+* The various leave type are also implemented. There is a bug with the Spherical leaves
+* Bad entries for parameters triggers a MessageBox rather than an unhandled exception.
 
 #### Next step: 
 
 * Check the leaf bend 
 * Add UV and normals to the mesh
 * Export as .obj file format
+* Review all parameters
 
 
 #### A screen-shot
