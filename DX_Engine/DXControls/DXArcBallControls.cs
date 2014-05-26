@@ -54,15 +54,12 @@ namespace Arbaro2.DX_Engine.DXControls
                 // Pan
                 //  The camera and the target are translated with the same
                 //  translation. 
-                Matrix VP = -_camera.ViewMatrix * _camera.ProjMatrix;
-                Vector3 MP = _camera.Target;
-                Vector4 mpp = Vector3.Transform(MP, VP);
-                Vector4 delta = new Vector4(-2*DX, 2*DY, mpp.Z/mpp.W, 1);
-                Matrix vp = _camera.ViewMatrix * _camera.ProjMatrix;
-                vp.Invert();
-                delta = Vector4.Transform(delta, vp);
-                
+                Matrix VP = _camera.ViewMatrix * _camera.ProjMatrix;             
+                Vector4 mpp = Vector3.Transform(_camera.Target, VP);
+                VP.Invert();
+                Vector4 delta = Vector4.Transform(new Vector4(-2 * DX, 2 * DY, mpp.Z / mpp.W, 1), VP);              
                 Vector3 delta3 = new Vector3(delta.X, delta.Y, delta.Z)/delta.W;
+
                 _camera.Position += delta3 - _camera.Target;
                 _camera.Target = delta3;
             }
