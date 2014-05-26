@@ -19,55 +19,42 @@ using System.Windows.Forms;
 //  camera position & yaw/pitch
 //
 
-namespace Arbaro2.DX_Engine
+namespace Arbaro2.DX_Engine.DXControls
 {
-    public class DXOrbitControls
+    public class DXOrbitControls : DXBaseControls
     {
-        private float _MouseX, _MouseY;
-        private bool _MouseDown = false;
-        private Control _Ctrl;    
-        private DXCamera _camera;
-
         // ctrl is the control hooked for events (mouse & keyboard)
         public DXOrbitControls(DXCamera camera, Control ctrl)
+            : base(camera, ctrl)
         {
-            _Ctrl = ctrl;
-            _camera = camera;
-            ctrl.MouseDown += ctrl_MouseDown;
-            ctrl.MouseMove += ctrl_MouseMove;
-            ctrl.MouseUp += ctrl_MouseUp;
-            ctrl.MouseWheel += ctrl_MouseWheel;
-            ctrl.KeyDown += ctrl_KeyDown;
-
-            _MouseX = 0; _MouseY = 0;
         }
 
-        public void Reset()
+        private void Reset()
         {
             _MouseX = 0; _MouseY = 0;
         }
 
 
-        void ctrl_KeyDown(object sender, KeyEventArgs e)
+        protected override void ctrl_KeyDown(object sender, KeyEventArgs e)
         {
         }
 
 
-        void ctrl_MouseWheel(object sender, MouseEventArgs e)
+        protected override void ctrl_MouseWheel(object sender, MouseEventArgs e)
         {
             float zoom = e.Delta;
             Vector3 rail = _camera.Target - _camera.Position;
             UpdateCamera(0, 0, Math.Sign(zoom) * 0.1f * rail, Vector3.Zero);
         }
 
-        void ctrl_MouseUp(object sender, MouseEventArgs e)
+        protected override void ctrl_MouseUp(object sender, MouseEventArgs e)
         {
             _MouseX = 0;
             _MouseY = 0;
             _MouseDown = false;
         }
 
-        void ctrl_MouseMove(object sender, MouseEventArgs e)
+        protected override void ctrl_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_MouseDown) return;
 
@@ -80,7 +67,7 @@ namespace Arbaro2.DX_Engine
             {
                 // Rotate
                 DX = (float)Math.PI * DX;
-                DY = (float)Math.PI * DY;               
+                DY = (float)Math.PI * DY;
                 UpdateCamera(-DX, DY, Vector3.Zero, Vector3.Zero);
             }
             else if (e.Button == MouseButtons.Right)
@@ -92,20 +79,20 @@ namespace Arbaro2.DX_Engine
                 l.Normalize();
                 Vector3 u = Vector3.Cross((_camera.Target - _camera.Position), l);
                 u.Normalize();
-               
+
                 Vector3 translation = 10 * (DX * l + -DY * u);
                 UpdateCamera(0, 0, translation, translation);
             }
         }
 
-        void ctrl_MouseDown(object sender, MouseEventArgs e)
+        protected override void ctrl_MouseDown(object sender, MouseEventArgs e)
         {
             _MouseX = e.X;
             _MouseY = e.Y;
             _MouseDown = true;
         }
 
-        public void LookAt(BoundingBox BBox)
+        public override void LookAt(BoundingBox BBox)
         {
             Reset();
 
@@ -122,7 +109,7 @@ namespace Arbaro2.DX_Engine
             _camera.Target = p;
         }
 
-        void UpdateCamera(float dYaw, float dPitch, Vector3 dPosition, Vector3 dTarget)
+        private void UpdateCamera(float dYaw, float dPitch, Vector3 dPosition, Vector3 dTarget)
         {
             _camera.Position += dPosition;
             _camera.Target += dTarget;

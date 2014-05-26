@@ -129,6 +129,8 @@
     <Compile Include="DX_Engine\D3DClass.cs" />
     <Compile Include="DX_Engine\DXCamera.cs" />
     <Compile Include="DX_Engine\DXConfigClass.cs" />
+    <Compile Include="DX_Engine\DXControls\DXArcBallControls.cs" />
+    <Compile Include="DX_Engine\DXControls\DXBaseControls.cs" />
     <Compile Include="DX_Engine\DXMesh\DXBadTopologyException.cs" />
     <Compile Include="DX_Engine\DXMesh\DXBaseTraits.cs" />
     <Compile Include="DX_Engine\DXMesh\DXEdge.cs" />
@@ -137,7 +139,7 @@
     <Compile Include="DX_Engine\DXMesh\DXMesh.cs" />
     <Compile Include="DX_Engine\DXMesh\DXMeshCollections.cs" />
     <Compile Include="DX_Engine\DXMesh\DXVertex.cs" />
-    <Compile Include="DX_Engine\DXOrbitControls.cs" />
+    <Compile Include="DX_Engine\DXControls\DXOrbitControls.cs" />
     <Compile Include="DX_Engine\DXRenderable.cs" />
     <Compile Include="DX_Engine\DXRendererClass.cs" />
     <Compile Include="DX_Engine\DXRenderPanel.cs">
