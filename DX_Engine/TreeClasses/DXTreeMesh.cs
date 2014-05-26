@@ -11,7 +11,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Arbaro2.DX_Engine.DXMesh;
+
 using Buffer = SharpDX.Direct3D11.Buffer;
+using DXBaseTreeMesh = Arbaro2.DX_Engine.DXMesh.DXMesh<Arbaro2.DX_Engine.DXMesh.DXNullTrait, Arbaro2.DX_Engine.DXMesh.DXNullTrait, Arbaro2.DX_Engine.DXMesh.DXNullTrait, Arbaro2.DX_Engine.DXMesh.DXVertexBaseTrait>;
 
 
 namespace Arbaro2.DX_Engine.TreeClasses
@@ -173,6 +176,8 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
     public class DXTreeMesh_TreeTraversal : CS_TreeTraversal
     {
+        private DXBaseTreeMesh treeMesh = new DXBaseTreeMesh();
+
         private int LEAFLEVEL = 4;
 
         private CS_Params _csParams;

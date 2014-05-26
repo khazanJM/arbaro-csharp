@@ -130,6 +130,7 @@
     <Compile Include="DX_Engine\DXCamera.cs" />
     <Compile Include="DX_Engine\DXConfigClass.cs" />
     <Compile Include="DX_Engine\DXMesh\DXBadTopologyException.cs" />
+    <Compile Include="DX_Engine\DXMesh\DXBaseTraits.cs" />
     <Compile Include="DX_Engine\DXMesh\DXEdge.cs" />
     <Compile Include="DX_Engine\DXMesh\DXFace.cs" />
     <Compile Include="DX_Engine\DXMesh\DXHalfedge.cs" />
