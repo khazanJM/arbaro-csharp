@@ -100,17 +100,19 @@ namespace Arbaro2.DX_Engine.TreeClasses
                     _shader.SetParameter("worldMatrix", Matrix.Identity);
                     _shader.SetParameter("viewMatrix", camera.ViewMatrix);
                     _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
-                    _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
+                    _shader.SetParameter("wvp", Matrix.Identity * camera.ViewMatrix * camera.ProjMatrix);
 
                     EffectPass usePass = technique.GetPassByIndex(0);
                     usePass.Apply(DXContext);
                     DXContext.DrawIndexed(IndexCount2[i], 0, 0);
                     usePass.Dispose();
-
+                    
                     usePass = technique.GetPassByIndex(1);
                     usePass.Apply(DXContext);
                     DXContext.DrawIndexed(IndexCount2[i], 0, 0);
                     usePass.Dispose();
+                     
+
                 }
             }
             technique.Dispose();        
@@ -118,7 +120,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         private void InitShaders()
         {
-            _shader = new DXShader("SolidWireframe");
+            _shader = Program.DXShaderManager.MakeShader("SolidWireframe");
 
             // Create the InputElement
             _inputElements = new InputElement[]

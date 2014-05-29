@@ -17,6 +17,7 @@ namespace Arbaro2
         public static DXRendererClass Renderer;
         public static DXConfigClass DXConfig;
         public static DXSceneOptions DXSceneOptions = new DXSceneOptions();
+        public static DXShaderManager DXShaderManager;
 
         /// <summary>
         /// Point d'entrée principal de l'application.
@@ -43,6 +44,7 @@ namespace Arbaro2
                 resize = true;
             };
 
+            DXShaderManager = new DXShaderManager();
 
             CS_PreciseTimer preciseTimer = new CS_PreciseTimer(10);
             DateTime tStart = preciseTimer.Now;

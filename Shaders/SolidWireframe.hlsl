@@ -12,7 +12,7 @@ DepthStencilState DSSDepthLessEqual
 	DepthWriteMask = 0x00;
 	DepthFunc = Less_Equal;
 };
-
+    
 DepthStencilState DSSDepthWriteLess
 {
 	DepthEnable = true;

@@ -1,4 +1,5 @@
 ﻿using Arbaro2.DX_Engine.DXControls;
+using Arbaro2.DX_Engine.DXStdElements;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace Arbaro2.DX_Engine
        
         public void RenderScene() 
         {
+            Program.DXShaderManager.Refresh();
+
             _D3D.SetBackBufferRenderTarget();
             foreach (DXRenderable r in RenderableList.Values)
                 r.Render(Camera);
@@ -42,6 +45,11 @@ namespace Arbaro2.DX_Engine
             Camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
             CameraControler = new DXOrbitControls(Camera, (form as ArbaroMainForm).renderCtrl);
             //CameraControler = new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl);
+
+            if (true /*CameraControler is DXArcBallControls*/) { 
+                // Add an arcball viewer
+                RenderableList.Add("ArcballViewer", new DXArcBallViewer());
+            }
         }
 
         public void Resize(int viewWidth, int viewHeight, DXConfigClass DXConfig)

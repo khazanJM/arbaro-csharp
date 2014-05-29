@@ -147,6 +147,7 @@
     </Compile>
     <Compile Include="DX_Engine\DXSceneOptions.cs" />
     <Compile Include="DX_Engine\DXShader.cs" />
+    <Compile Include="DX_Engine\DXStdElements\DXArcBallViewer.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXLeafMeshHelper.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeSkeleton.cs" />
@@ -187,6 +188,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Shaders\ArcballViewer.hlsl" />
     <Content Include="Shaders\SolidWireframe.hlsl" />
     <Content Include="Shaders\TreeMesh.hlsl" />
     <Content Include="Shaders\TreeSkeleton.hlsl" />

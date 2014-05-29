@@ -74,11 +74,9 @@ namespace Arbaro2.DX_Engine.DXControls
                 float angle = (float)Math.Acos(Vector3.Dot(s0, s) / (s0.Length() * s.Length()));
                 Vector3 axis = Vector3.Cross(s0, s) / (s0.Length() * s.Length());              
 
-                Matrix m = Matrix.RotationAxis(axis, angle);
-                Vector4 v4 = Vector3.Transform(_cameraPos-_camera.Target, m);
-                _camera.Position = new Vector3(v4.X, v4.Y, v4.Z)+ _camera.Target;
-                Vector4 up4 = Vector3.Transform(new Vector3(0, 1, 0), m);
-                _camera.Up = new Vector3(up4.X, up4.Y, up4.Z);
+                Matrix m = Matrix.RotationAxis(axis, angle);          
+     
+
 
             }
             else if (e.Button == MouseButtons.Right)
@@ -94,7 +92,6 @@ namespace Arbaro2.DX_Engine.DXControls
 
                 _camera.Position += delta3 - _camera.Target;
                 _camera.Target = delta3;
-
                
             }
 

@@ -87,10 +87,10 @@ namespace Arbaro2.DX_Engine
         }
 
         public Matrix ViewMatrix { get { return _viewMatrix; } }
-        public Matrix ProjMatrix { get { return _projMatrix; } }
+        public Matrix ProjMatrix { get { return _projMatrix; } }        
 
         private DXCamera(float a, float b, float c, float d, bool persp)
-        {
+        {           
             if (persp)
             {
                 _fov = a;

@@ -15,8 +15,9 @@ namespace Arbaro2.DX_Engine
     {
         public Effect DXEffect = null;
         public string ShaderFullFilename = "";
+        public bool Dirty = true;
 
-        protected bool _isValid = true;
+        protected bool _isValid = true;      
 
         public DXShader(string shaderFilename) 
         {
@@ -29,8 +30,12 @@ namespace Arbaro2.DX_Engine
                 }
             }
 
-            if (exists) Init();
-            else {
+            if (exists)
+            {
+                Init();              
+            }
+            else
+            {
                 string text = "Unable to find shader file: " + ShaderFullFilename + "\n";
                 MessageBox.Show(text, "Shader compiler error !", MessageBoxButtons.OK);
             }
@@ -58,8 +63,10 @@ namespace Arbaro2.DX_Engine
             }
         }
 
-        private void Init()
+        public void Init()
         {
+            if (DXEffect != null) DXEffect.Dispose();
+
             CompilationResult cr = null;
 
             EffectFlags EFFECT_FLAGS = EffectFlags.None;
@@ -73,7 +80,8 @@ namespace Arbaro2.DX_Engine
                 _isValid = true;
                 cr = ShaderBytecode.CompileFromFile(ShaderFullFilename, "fx_5_0", SHADER_FLAGS, EFFECT_FLAGS, null, new IncludeFX(Program.DXConfig.ShadersIncludePath));
                 DXEffect = new Effect(Program.Renderer.DXDevice, cr.Bytecode);
-                cr.Bytecode.Dispose();               
+                cr.Bytecode.Dispose();
+                Dirty = false;
             }
             catch (Exception e)
             {
@@ -150,6 +158,55 @@ namespace Arbaro2.DX_Engine
             }
 
             return null;
+        }
+    }
+
+
+    //
+    //  ShaderManager
+    //
+
+    public class DXShaderManager 
+    {
+        private List<FileSystemWatcher> _fswl = new List<FileSystemWatcher>();
+        private Dictionary<string, DXShader> _filename_shader_dico = new Dictionary<string, DXShader>();
+
+        public DXShaderManager() 
+        {
+            foreach (string path in Program.DXConfig.ShadersIncludePath)
+            {               
+                FileSystemWatcher fsw = new FileSystemWatcher();
+                _fswl.Add(fsw);
+                fsw.Filter = "*.hlsl";
+                fsw.Path = Path.GetFullPath(path);
+                fsw.SynchronizingObject = Program.form;
+                fsw.EnableRaisingEvents = true;
+                fsw.Changed += new System.IO.FileSystemEventHandler(this.fileSystemWatcher_Shaders_Changed);
+            }
+        }
+
+        public DXShader MakeShader(string shaderFilename)
+        {
+            DXShader shader = new DXShader(shaderFilename);
+            _filename_shader_dico.Add(Path.GetFullPath(shader.ShaderFullFilename), shader);
+            return shader;
+        }
+
+        private void fileSystemWatcher_Shaders_Changed(object sender, System.IO.FileSystemEventArgs e)
+        {
+            if (_filename_shader_dico.ContainsKey(e.FullPath)) {
+                DXShader shader = _filename_shader_dico[e.FullPath];
+                shader.Dirty = true;
+            }
+        }
+
+        public void Refresh()
+        {
+            foreach (DXShader shader in _filename_shader_dico.Values) {
+                if (shader.Dirty) {
+                    shader.Init();
+                }
+            }
         }
     }
 

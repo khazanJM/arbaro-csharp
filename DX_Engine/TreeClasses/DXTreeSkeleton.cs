@@ -123,7 +123,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
 
         private void InitShaders()
         {
-            _shader = new DXShader("TreeSkeleton");
+            _shader = Program.DXShaderManager.MakeShader("TreeSkeleton");
 
             // Create the InputElement
             _inputElements = new InputElement[]
