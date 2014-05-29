@@ -10,6 +10,9 @@ namespace Arbaro2.DX_Engine.DXControls
 {
     class DXArcBallControls : DXBaseControls
     {
+        private Vector3 s0 = Vector3.Zero;
+        private Vector3 _cameraPos;             
+
         // ctrl is the control hooked for events (mouse & keyboard)
         public DXArcBallControls(DXCamera camera, Control ctrl)
             : base(camera, ctrl)
@@ -32,7 +35,23 @@ namespace Arbaro2.DX_Engine.DXControls
         {
             _MouseX = 0;
             _MouseY = 0;
-            _MouseDown = false;
+            _MouseDown = false;         
+        }
+
+        private Vector3 ArcballPos(int X, int Y)
+        {
+            Vector3 s = Vector3.Zero;
+
+            // arcball sphere screen diameter
+            float screenDiameter = Math.Min(_Ctrl.ClientSize.Width, _Ctrl.ClientSize.Height);
+
+            // x& y position of the mouse on the sphere
+            s.X = 3*(X - screenDiameter / 2f) / screenDiameter;
+            s.Y = -3*(Y - screenDiameter / 2f) / screenDiameter;
+            float n = s.LengthSquared();
+            if (n < 1f) s.Z = (float)Math.Sqrt(1 - n);                    
+
+            return s;
         }
 
         protected override void ctrl_MouseMove(object sender, MouseEventArgs e)
@@ -40,14 +59,27 @@ namespace Arbaro2.DX_Engine.DXControls
             if (!_MouseDown) return;
 
             float DX = (e.X - _MouseX) / _Ctrl.ClientSize.Width;
-            float DY = (e.Y - _MouseY) / _Ctrl.ClientSize.Height;
-            _MouseX = e.X;
-            _MouseY = e.Y;
+            float DY = (e.Y - _MouseY) / _Ctrl.ClientSize.Height;           
 
             if (e.Button == MouseButtons.Left)
             {
+                //
                 // Rotate
-                
+                //    
+                                        
+                // Current mouse position on the unit sphere
+                Vector3 s = ArcballPos(e.X, e.Y);              
+
+                // make rotation
+                float angle = (float)Math.Acos(Vector3.Dot(s0, s) / (s0.Length() * s.Length()));
+                Vector3 axis = Vector3.Cross(s0, s) / (s0.Length() * s.Length());              
+
+                Matrix m = Matrix.RotationAxis(axis, angle);
+                Vector4 v4 = Vector3.Transform(_cameraPos-_camera.Target, m);
+                _camera.Position = new Vector3(v4.X, v4.Y, v4.Z)+ _camera.Target;
+                Vector4 up4 = Vector3.Transform(new Vector3(0, 1, 0), m);
+                _camera.Up = new Vector3(up4.X, up4.Y, up4.Z);
+
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -62,7 +94,12 @@ namespace Arbaro2.DX_Engine.DXControls
 
                 _camera.Position += delta3 - _camera.Target;
                 _camera.Target = delta3;
+
+               
             }
+
+            _MouseX = e.X;
+            _MouseY = e.Y;
         }
 
         protected override void ctrl_MouseDown(object sender, MouseEventArgs e)
@@ -70,6 +107,13 @@ namespace Arbaro2.DX_Engine.DXControls
             _MouseX = e.X;
             _MouseY = e.Y;
             _MouseDown = true;
+
+            // for intial quaternion
+            // Mouse down position on the unit sphere
+            s0 = ArcballPos(e.X, e.Y);
+
+            // Camera initial position
+            _cameraPos = _camera.Position;     
         }
 
         public override void LookAt(BoundingBox BBox)
@@ -86,7 +130,7 @@ namespace Arbaro2.DX_Engine.DXControls
             Vector3 position = p; position.Z -= distance;
 
             _camera.Position = position;
-            _camera.Target = p;
+            _camera.Target = p;           
         }
 
         private void Reset()

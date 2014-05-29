@@ -56,6 +56,9 @@ namespace Arbaro2.DX_Engine
                 u = Vector4.Transform(u, _viewMatrix);
                 return new Vector3(u.X, u.Y, u.Z);
             }
+            set {
+                _up = value;
+            }
         }
 
         public Vector3 Left
@@ -79,7 +82,6 @@ namespace Arbaro2.DX_Engine
         public float Height { get { return _height; } set { _height = value; UpdateMatrices(); } }
 
         // Look at changes the focal point
-        // and in fact is not that easy... todo
         public void LookAt(Vector3 lookAt) {
             throw new Exception("DXCamera.LookAt not implemented");
         }
