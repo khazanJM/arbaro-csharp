@@ -311,7 +311,8 @@ namespace Arbaro2.Arbaro.Tree
 		if (false /*rad<-0.00001*/) {
             points = new Vector3[1];
             points[0] = trf.apply(new Vector3(0, 0, 0));
-		} else { //create pt_cnt points
+		} 
+        else { //create pt_cnt points
             points = new Vector3[pt_cnt];
 			//stem.DBG("MESH+LOBES: lobes: %d, depth: %f\n"%(self.tree.Lobes, self.tree.LobeDepth))
 			

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Arbaro2.DX_Engine.DXMesh;
 
 using Buffer = SharpDX.Direct3D11.Buffer;
+using Arbaro2.DX_Engine.DXControls;
 
 namespace Arbaro2.DX_Engine.DXStdElements
 {
@@ -29,39 +30,47 @@ namespace Arbaro2.DX_Engine.DXStdElements
         private InputElement[] _inputElements;
         private InputLayout _inputLayout;
 
-        public DXArcBallViewer()
+        private DXArcBallControls _controler;
+
+        public DXArcBallViewer(DXArcBallControls ctrl)
             : base()
         {
+            _controler = ctrl;
             InitGeometry();
             InitShaders();
         }
 
+        static float rot = 0;
         protected override void _Render(DXCamera camera)
         {
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
             EffectPass usePass = technique.GetPassByIndex(0);
 
-            for (int i = 0; i < 5; i++)
+            if (_vertexBuffer != null)
             {
-                if (_vertexBuffer != null)
-                {
-                    DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXAV)), 0));
-                    DXContext.InputAssembler.SetIndexBuffer(_indexBuffer, Format.R32_UInt, 0);
-                    DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
-                    DXContext.InputAssembler.InputLayout = _inputLayout;
+                DXContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, Marshal.SizeOf(typeof(DXAV)), 0));
+                DXContext.InputAssembler.SetIndexBuffer(_indexBuffer, Format.R32_UInt, 0);
+                DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
+                DXContext.InputAssembler.InputLayout = _inputLayout;
 
-                    _shader.SetParameter("worldMatrix", Matrix.Identity);
-                    _shader.SetParameter("viewMatrix", camera.ViewMatrix);
-                    _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
-                    _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
-                    _shader.SetParameter("target", new Vector4(camera.Target,0));
+                Matrix ProjMatrix = Matrix.OrthoLH(camera.AspectRatio * 3, 3, camera.ZNear, camera.ZFar);
+                Matrix ViewMatrix = camera.ViewMatrix;                
 
+                _shader.SetParameter("worldMatrix", Matrix.Identity);
+                _shader.SetParameter("viewMatrix", ViewMatrix);
+                _shader.SetParameter("projectionMatrix", ProjMatrix);
+                _shader.SetParameter("wvp", ViewMatrix * ProjMatrix);
 
-                    usePass.Apply(DXContext);
+                rot += 0.0001f;
+                Matrix rotation = Matrix.RotationX(rot);
+                Matrix translation = Matrix.Translation(camera.Target);
+                _shader.SetParameter("rotation", _controler.M * translation);
 
-                    DXContext.DrawIndexed(IndexCount, 0, 0);
-                }
+                usePass.Apply(DXContext);
+
+                DXContext.DrawIndexed(IndexCount, 0, 0);
             }
+
 
             technique.Dispose();
             usePass.Dispose();
@@ -69,7 +78,7 @@ namespace Arbaro2.DX_Engine.DXStdElements
 
         private void InitShaders()
         {
-            _shader =  Program.DXShaderManager.MakeShader("ArcballViewer");
+            _shader = Program.DXShaderManager.MakeShader("ArcballViewer");
 
             // Create the InputElement
             _inputElements = new InputElement[]
@@ -94,15 +103,15 @@ namespace Arbaro2.DX_Engine.DXStdElements
 
             float angle = (float)(2 * Math.PI / (float)VCount);
 
-            for (int i = 0; i < VCount; i++) 
+            for (int i = 0; i < VCount; i++)
             {
                 DXAV v = new DXAV();
-                v.P = new Vector4((float)Math.Cos(i*angle), (float)Math.Sin(i*angle), 0, 1);
-                v.C = new Vector4(1,0,0,1);              
+                v.P = new Vector4((float)Math.Cos(i * angle), (float)Math.Sin(i * angle), 0, 1);
+                v.C = new Vector4(1, 0, 0, 1);
                 vertices.Add(v);
 
                 v = new DXAV();
-                v.P = new Vector4((float)Math.Cos((i+1) * angle), (float)Math.Sin((i+1) * angle), 0, 1);
+                v.P = new Vector4((float)Math.Cos((i + 1) * angle), (float)Math.Sin((i + 1) * angle), 0, 1);
                 v.C = new Vector4(1, 0, 0, 1);
                 vertices.Add(v);
             }
@@ -114,7 +123,7 @@ namespace Arbaro2.DX_Engine.DXStdElements
                 vertices.Add(v);
 
                 v = new DXAV();
-                v.P = new Vector4((float)Math.Cos((i+1) * angle), 0, (float)Math.Sin((i+1) * angle), 1);
+                v.P = new Vector4((float)Math.Cos((i + 1) * angle), 0, (float)Math.Sin((i + 1) * angle), 1);
                 v.C = new Vector4(0, 1, 0, 1);
                 vertices.Add(v);
             }
@@ -126,10 +135,10 @@ namespace Arbaro2.DX_Engine.DXStdElements
                 vertices.Add(v);
 
                 v = new DXAV();
-                v.P = new Vector4(0, (float)Math.Cos((i+1) * angle), (float)Math.Sin((i+1) * angle), 1);
+                v.P = new Vector4(0, (float)Math.Cos((i + 1) * angle), (float)Math.Sin((i + 1) * angle), 1);
                 v.C = new Vector4(0, 0, 1, 1);
                 vertices.Add(v);
-            }           
+            }
 
             var stream = new DataStream(vertices.Count * Marshal.SizeOf(typeof(DXAV)), true, true);
 

@@ -32,11 +32,14 @@ PixelInputType VS(VertexInputType input)
 {
 	PixelInputType output;
 
-	output.position = mul(input.position, wvp);
-	output.position = input.position;
+	output.position = mul(input.position, rotation);
+	output.position = mul(output.position, wvp);
+
+	float4 threshold = mul(float4(0, 0, 0, 1), wvp);
 	output.color = input.color;
 
-	//output.color = float4(1,1,1,1);
+	if (output.position.z < threshold.z) output.color.xyz *= 0.5;
+
 	return output;
 } 
   

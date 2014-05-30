@@ -11,7 +11,10 @@ namespace Arbaro2.DX_Engine.DXControls
     class DXArcBallControls : DXBaseControls
     {
         private Vector3 s0 = Vector3.Zero;
-        private Vector3 _cameraPos;             
+        private Vector3 _cameraPos;
+
+        public Matrix M0 = Matrix.Identity;
+        public Matrix M = Matrix.Identity;
 
         // ctrl is the control hooked for events (mouse & keyboard)
         public DXArcBallControls(DXCamera camera, Control ctrl)
@@ -35,7 +38,8 @@ namespace Arbaro2.DX_Engine.DXControls
         {
             _MouseX = 0;
             _MouseY = 0;
-            _MouseDown = false;         
+            _MouseDown = false;
+            M0 = M;
         }
 
         private Vector3 ArcballPos(int X, int Y)
@@ -72,12 +76,8 @@ namespace Arbaro2.DX_Engine.DXControls
 
                 // make rotation
                 float angle = (float)Math.Acos(Vector3.Dot(s0, s) / (s0.Length() * s.Length()));
-                Vector3 axis = Vector3.Cross(s0, s) / (s0.Length() * s.Length());              
-
-                Matrix m = Matrix.RotationAxis(axis, angle);          
-     
-
-
+                Vector3 axis = Vector3.Cross(s0, s); axis.Normalize();
+                M = M0*Matrix.RotationAxis(axis, angle);          
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -92,7 +92,6 @@ namespace Arbaro2.DX_Engine.DXControls
 
                 _camera.Position += delta3 - _camera.Target;
                 _camera.Target = delta3;
-               
             }
 
             _MouseX = e.X;

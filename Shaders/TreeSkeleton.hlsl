@@ -22,7 +22,7 @@ PixelInputType VS(VertexInputType input)
 {
 	PixelInputType output;
 
-	output.position = mul(float4(input.position, 1), wvp);
+	output.position = mul(float4(input.position,1),  wvp);
 	output.color = input.color;
 	return output;
 }
@@ -32,7 +32,7 @@ float4 PS(PixelInputType input) : SV_TARGET
 	return float4(input.color, 1);
 }
 
-RasterizerState rsStandard { FillMode = Solid; CullMode = Back; AntialiasedLineEnable = true; MultisampleEnable = true; };
+RasterizerState rsStandard { FillMode = Solid; CullMode = None; AntialiasedLineEnable = true; MultisampleEnable = true; };
 
 
 technique10 ShaderStd

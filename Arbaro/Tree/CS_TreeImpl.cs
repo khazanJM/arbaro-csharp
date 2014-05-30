@@ -259,7 +259,7 @@ namespace Arbaro2.Arbaro.Tree
          * Sets (i.e. calcs) the progress for the process of making the tree
          * object.
          */
-        long genProgress;
+        //long genProgress;
 
         // TODO ! synchronized
         //public synchronized void updateGenProgress() {

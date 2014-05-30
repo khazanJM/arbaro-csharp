@@ -89,6 +89,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
             }
         }
 
+        private static float rot = 0;
         protected override void _Render(DXCamera camera)
         {
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
@@ -106,8 +107,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                     _shader.SetParameter("worldMatrix", Matrix.Identity);
                     _shader.SetParameter("viewMatrix", camera.ViewMatrix);
                     _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
-                    _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);
-
+                    _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);                   
 
                     usePass.Apply(DXContext);
 

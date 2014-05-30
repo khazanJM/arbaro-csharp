@@ -46,10 +46,12 @@ namespace Arbaro2.DX_Engine
             CameraControler = new DXOrbitControls(Camera, (form as ArbaroMainForm).renderCtrl);
             //CameraControler = new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl);
 
-            if (true /*CameraControler is DXArcBallControls*/) { 
+            if (CameraControler is DXArcBallControls) { 
                 // Add an arcball viewer
-                RenderableList.Add("ArcballViewer", new DXArcBallViewer());
+                RenderableList.Add("ArcballViewer", new DXArcBallViewer(CameraControler as DXArcBallControls));
             }
+            else
+                RenderableList.Add("ArcballViewer", new DXArcBallViewer(new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl)));
         }
 
         public void Resize(int viewWidth, int viewHeight, DXConfigClass DXConfig)
