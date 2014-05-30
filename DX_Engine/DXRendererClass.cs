@@ -1,5 +1,5 @@
-﻿using Arbaro2.DX_Engine.DXControls;
-using Arbaro2.DX_Engine.DXStdElements;
+﻿
+using Arbaro2.DX_Engine.DXControls;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Arbaro2.DX_Engine.DXCameras;
 
 namespace Arbaro2.DX_Engine
 {
@@ -16,7 +17,7 @@ namespace Arbaro2.DX_Engine
         private D3DClass _D3D = null;
         
         public DXCamera Camera= null;
-        public DXBaseControls CameraControler = null;
+        public DXBaseCameraControler CameraControler = null;
 
         public Dictionary<string, DXRenderable> RenderableList = new Dictionary<string, DXRenderable>();
 
@@ -42,16 +43,8 @@ namespace Arbaro2.DX_Engine
 
             _D3D = new D3DClass();
             _D3D.Initialize(viewWidth, viewHeight, handle, form, DXConfig);
-            Camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
-            //CameraControler = new DXOrbitControls(Camera, (form as ArbaroMainForm).renderCtrl);
-            CameraControler = new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl);
-
-            if (CameraControler is DXArcBallControls) { 
-                // Add an arcball viewer
-                RenderableList.Add("ArcballViewer", new DXArcBallViewer(CameraControler as DXArcBallControls));
-            }
-            else
-                RenderableList.Add("ArcballViewer", new DXArcBallViewer(new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl)));
+            Camera = new DXPerspectiveCamera(_config.FOV, (float)viewWidth, (float)viewHeight, _config.ScreenNear, _config.ScreenDepth);                       
+            CameraControler = new DXOrbitControler(Camera, (form as ArbaroMainForm).renderCtrl);                  
         }
 
         public void Resize(int viewWidth, int viewHeight, DXConfigClass DXConfig)
@@ -97,7 +90,7 @@ namespace Arbaro2.DX_Engine
 
         private void CameraReset(DX_AXIS axis)
         {
-
+            throw new NotImplementedException();
         }       
 
         //

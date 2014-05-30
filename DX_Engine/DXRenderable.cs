@@ -1,10 +1,12 @@
-﻿using SharpDX;
+﻿using Arbaro2.DX_Engine.DXShaders;
+using SharpDX;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Arbaro2.DX_Engine.DXCameras;
 
 namespace Arbaro2.DX_Engine
 {

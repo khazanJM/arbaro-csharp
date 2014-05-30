@@ -4,6 +4,8 @@
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix wvp;
+	
+	matrix rotation;
 };
   
 struct VertexInputType
@@ -20,7 +22,8 @@ PixelInputType VS(VertexInputType input)
 {
 	PixelInputType output;
 
-	output.position = mul(float4(input.position, 1), wvp);
+	output.position = mul(float4(input.position, 1), rotation);
+	output.position = mul(output.position, wvp);
 	return output;
 }    
 

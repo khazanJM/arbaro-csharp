@@ -3,7 +3,7 @@
 	matrix worldMatrix;
 	matrix viewMatrix;
 	matrix projectionMatrix;
-	matrix wvp;
+	matrix vp;
 };
 
 struct VertexInputType
@@ -22,7 +22,8 @@ PixelInputType VS(VertexInputType input)
 {
 	PixelInputType output;
 
-	output.position = mul(float4(input.position,1),  wvp);
+	output.position = mul(float4(input.position, 1), worldMatrix);
+	output.position = mul(output.position, vp);
 	output.color = input.color;
 	return output;
 }

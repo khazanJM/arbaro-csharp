@@ -11,6 +11,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Arbaro2.DX_Engine.DXCameras;
+
 using Buffer = SharpDX.Direct3D11.Buffer;
 
 namespace Arbaro2.DX_Engine.TreeClasses
@@ -88,8 +90,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                 }
             }
         }
-
-        private static float rot = 0;
+      
         protected override void _Render(DXCamera camera)
         {
             EffectTechnique technique = _shader.DXEffect.GetTechniqueByIndex(0);
@@ -107,7 +108,7 @@ namespace Arbaro2.DX_Engine.TreeClasses
                     _shader.SetParameter("worldMatrix", Matrix.Identity);
                     _shader.SetParameter("viewMatrix", camera.ViewMatrix);
                     _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
-                    _shader.SetParameter("wvp", camera.ViewMatrix * camera.ProjMatrix);                   
+                    _shader.SetParameter("vp", camera.ViewMatrix * camera.ProjMatrix);                   
 
                     usePass.Apply(DXContext);
 

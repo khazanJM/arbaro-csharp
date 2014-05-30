@@ -1,4 +1,5 @@
-﻿using Arbaro2.Utilities;
+﻿using Arbaro2.DX_Engine.DXCameras;
+using Arbaro2.Utilities;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,10 @@ using System.Windows.Forms;
 
 namespace Arbaro2.DX_Engine.DXControls
 {
-    public class DXOrbitControls : DXBaseControls
-    {
+    public class DXOrbitControler : DXBaseCameraControler
+    {   
         // ctrl is the control hooked for events (mouse & keyboard)
-        public DXOrbitControls(DXCamera camera, Control ctrl)
+        public DXOrbitControler(DXCamera camera, Control ctrl)
             : base(camera, ctrl)
         {
         }
@@ -43,8 +44,8 @@ namespace Arbaro2.DX_Engine.DXControls
         protected override void ctrl_MouseWheel(object sender, MouseEventArgs e)
         {
             float zoom = e.Delta;
-            Vector3 rail = _camera.Target - _camera.Position;
-            UpdateCamera(0, 0, Math.Sign(zoom) * 0.1f * rail, Vector3.Zero);
+            //Vector3 rail = _camera.Target - _camera.Position;
+            //UpdateCamera(0, 0, Math.Sign(zoom) * 0.1f * rail, Vector3.Zero);
         }
 
         protected override void ctrl_MouseUp(object sender, MouseEventArgs e)
@@ -75,13 +76,13 @@ namespace Arbaro2.DX_Engine.DXControls
                 // Pan
                 //  The camera and the target are translated with the same
                 //  translation. 
-                Vector3 l = Vector3.Cross((_camera.Target - _camera.Position), new Vector3(0, 1, 0));
-                l.Normalize();
-                Vector3 u = Vector3.Cross((_camera.Target - _camera.Position), l);
-                u.Normalize();
+                //Vector3 l = Vector3.Cross((_camera.Target - _camera.Position), new Vector3(0, 1, 0));
+                //l.Normalize();
+                //Vector3 u = Vector3.Cross((_camera.Target - _camera.Position), l);
+                //u.Normalize();
 
-                Vector3 translation = 10 * (DX * l + -DY * u);
-                UpdateCamera(0, 0, translation, translation);
+               // Vector3 translation = 10 * (DX * l + -DY * u);
+               // UpdateCamera(0, 0, translation, translation);
             }
         }
 
@@ -92,7 +93,7 @@ namespace Arbaro2.DX_Engine.DXControls
             _MouseDown = true;
         }
 
-        public override void LookAt(BoundingBox BBox)
+        public void LookAt(BoundingBox BBox)
         {
             Reset();
 
@@ -105,18 +106,18 @@ namespace Arbaro2.DX_Engine.DXControls
 
             Vector3 position = p; position.Z -= distance;
 
-            _camera.Position = position;
-            _camera.Target = p;
+            //_camera.Position = position;
+            //_camera.Target = p;
         }
 
         private void UpdateCamera(float dYaw, float dPitch, Vector3 dPosition, Vector3 dTarget)
         {
-            _camera.Position += dPosition;
-            _camera.Target += dTarget;
+            //_camera.Position += dPosition;
+            //_camera.Target += dTarget;
 
             if (dYaw != 0 || dPitch != 0)
             {
-                Vector3 P = _camera.Position - _camera.Target;
+               /* Vector3 P = _camera.Position - _camera.Target;
                 float r = P.Length();
                 P /= r;
                 float a = (float)Math.Atan2(P.Z, P.X);
@@ -130,7 +131,7 @@ namespace Arbaro2.DX_Engine.DXControls
                 P.Z = (float)(Math.Cos(b) * Math.Sin(a));
                 P *= r;
                 P += _camera.Target;
-                _camera.Position = P;
+                _camera.Position = P;*/
             }
         }
     }

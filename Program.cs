@@ -1,6 +1,6 @@
 ﻿using Arbaro2.DX_Engine;
+using Arbaro2.DX_Engine.DXShaders;
 using Arbaro2.Utilities;
-
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Arbaro2
         public static DXRendererClass Renderer;
         public static DXConfigClass DXConfig;
         public static DXSceneOptions DXSceneOptions = new DXSceneOptions();
-        public static DXShaderManager DXShaderManager;
+        public static DXShadersManager DXShaderManager;
 
         /// <summary>
         /// Point d'entrée principal de l'application.
@@ -44,7 +44,7 @@ namespace Arbaro2
                 resize = true;
             };
 
-            DXShaderManager = new DXShaderManager();
+            DXShaderManager = new DXShadersManager();
 
             CS_PreciseTimer preciseTimer = new CS_PreciseTimer(10);
             DateTime tStart = preciseTimer.Now;

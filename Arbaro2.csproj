@@ -127,10 +127,10 @@
     <Compile Include="Arbaro\Tree\CS_TreeImpl.cs" />
     <Compile Include="Arbaro\Tree\CS_TreeTraversal.cs" />
     <Compile Include="DX_Engine\D3DClass.cs" />
-    <Compile Include="DX_Engine\DXCamera.cs" />
+    <Compile Include="DX_Engine\DXCameras\DXCamera.cs" />
     <Compile Include="DX_Engine\DXConfigClass.cs" />
-    <Compile Include="DX_Engine\DXControls\DXArcBallControls.cs" />
-    <Compile Include="DX_Engine\DXControls\DXBaseControls.cs" />
+    <Compile Include="DX_Engine\DXCameras\DXBaseCameraControler.cs" />
+    <Compile Include="DX_Engine\DXCameras\DXOrbitControler.cs" />
     <Compile Include="DX_Engine\DXMesh\DXBadTopologyException.cs" />
     <Compile Include="DX_Engine\DXMesh\DXBaseTraits.cs" />
     <Compile Include="DX_Engine\DXMesh\DXEdge.cs" />
@@ -139,15 +139,14 @@
     <Compile Include="DX_Engine\DXMesh\DXMesh.cs" />
     <Compile Include="DX_Engine\DXMesh\DXMeshCollections.cs" />
     <Compile Include="DX_Engine\DXMesh\DXVertex.cs" />
-    <Compile Include="DX_Engine\DXControls\DXOrbitControls.cs" />
     <Compile Include="DX_Engine\DXRenderable.cs" />
     <Compile Include="DX_Engine\DXRendererClass.cs" />
     <Compile Include="DX_Engine\DXRenderPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DX_Engine\DXSceneOptions.cs" />
-    <Compile Include="DX_Engine\DXShader.cs" />
-    <Compile Include="DX_Engine\DXStdElements\DXArcBallViewer.cs" />
+    <Compile Include="DX_Engine\DXShaders\DXShader.cs" />
+    <Compile Include="DX_Engine\DXShaders\DXShadersManager.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXLeafMeshHelper.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeSkeleton.cs" />
@@ -188,7 +187,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shaders\ArcballViewer.hlsl" />
     <Content Include="Shaders\SolidWireframe.hlsl" />
     <Content Include="Shaders\TreeMesh.hlsl" />
     <Content Include="Shaders\TreeSkeleton.hlsl" />
@@ -211,6 +209,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DX_Engine\DXStdElements\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

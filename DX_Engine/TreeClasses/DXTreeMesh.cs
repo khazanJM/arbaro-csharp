@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Arbaro2.DX_Engine.DXMesh;
+using Arbaro2.DX_Engine.DXCameras;
 
 using Buffer = SharpDX.Direct3D11.Buffer;
 using DXBaseTreeMesh = Arbaro2.DX_Engine.DXMesh.DXMesh<Arbaro2.DX_Engine.DXMesh.DXNullTrait, Arbaro2.DX_Engine.DXMesh.DXNullTrait, Arbaro2.DX_Engine.DXMesh.DXNullTrait, Arbaro2.DX_Engine.DXMesh.DXVertexBaseTrait>;
@@ -102,10 +103,12 @@ namespace Arbaro2.DX_Engine.TreeClasses
                     _shader.SetParameter("projectionMatrix", camera.ProjMatrix);
                     _shader.SetParameter("wvp", Matrix.Identity * camera.ViewMatrix * camera.ProjMatrix);
 
+                    
                     EffectPass usePass = technique.GetPassByIndex(0);
                     usePass.Apply(DXContext);
                     DXContext.DrawIndexed(IndexCount2[i], 0, 0);
                     usePass.Dispose();
+                    
                     
                     usePass = technique.GetPassByIndex(1);
                     usePass.Apply(DXContext);
