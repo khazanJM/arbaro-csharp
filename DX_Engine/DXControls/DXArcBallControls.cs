@@ -53,7 +53,9 @@ namespace Arbaro2.DX_Engine.DXControls
             s.X = 3*(X - screenDiameter / 2f) / screenDiameter;
             s.Y = -3*(Y - screenDiameter / 2f) / screenDiameter;
             float n = s.LengthSquared();
-            if (n < 1f) s.Z = (float)Math.Sqrt(1 - n);                    
+            if (n < 1f) s.Z = -(float)Math.Sqrt(1 - n);
+
+            s.Normalize();
 
             return s;
         }
@@ -74,8 +76,8 @@ namespace Arbaro2.DX_Engine.DXControls
                 // Current mouse position on the unit sphere
                 Vector3 s = ArcballPos(e.X, e.Y);              
 
-                // make rotation
-                float angle = (float)Math.Acos(Vector3.Dot(s0, s) / (s0.Length() * s.Length()));
+                // make rotation              
+                float angle = (float)Math.Acos(Vector3.Dot(s0, s));
                 Vector3 axis = Vector3.Cross(s0, s); axis.Normalize();
                 M = M0*Matrix.RotationAxis(axis, angle);          
             }
@@ -107,6 +109,8 @@ namespace Arbaro2.DX_Engine.DXControls
             // for intial quaternion
             // Mouse down position on the unit sphere
             s0 = ArcballPos(e.X, e.Y);
+
+            Console.WriteLine(s0);
 
             // Camera initial position
             _cameraPos = _camera.Position;     

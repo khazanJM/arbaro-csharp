@@ -39,7 +39,7 @@ namespace Arbaro2.DX_Engine.DXStdElements
             InitGeometry();
             InitShaders();
         }
-
+       
         static float rot = 0;
         protected override void _Render(DXCamera camera)
         {
@@ -53,17 +53,17 @@ namespace Arbaro2.DX_Engine.DXStdElements
                 DXContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.LineList;
                 DXContext.InputAssembler.InputLayout = _inputLayout;
 
-                Matrix ProjMatrix = Matrix.OrthoLH(camera.AspectRatio * 3, 3, camera.ZNear, camera.ZFar);
-                Matrix ViewMatrix = camera.ViewMatrix;                
+                Matrix ProjMatrix = Matrix.OrthoLH(camera.AspectRatio * 3, 3, camera.ZNear, camera.ZFar);                           
 
                 _shader.SetParameter("worldMatrix", Matrix.Identity);
-                _shader.SetParameter("viewMatrix", ViewMatrix);
+                _shader.SetParameter("viewMatrix", camera.ViewMatrix);
                 _shader.SetParameter("projectionMatrix", ProjMatrix);
-                _shader.SetParameter("wvp", ViewMatrix * ProjMatrix);
+                _shader.SetParameter("wvp", camera.ViewMatrix * ProjMatrix);
+                _shader.SetParameter("target", new Vector4(camera.Target.X, camera.Target.Y, camera.Target.Z, 1));
 
-                rot += 0.0001f;
-                Matrix rotation = Matrix.RotationX(rot);
                 Matrix translation = Matrix.Translation(camera.Target);
+                Vector3 axis = new Vector3(1, 1, 1); axis.Normalize();
+                Matrix rotation = Matrix.RotationAxis(axis, rot); rot += 0.0001f;
                 _shader.SetParameter("rotation", _controler.M * translation);
 
                 usePass.Apply(DXContext);

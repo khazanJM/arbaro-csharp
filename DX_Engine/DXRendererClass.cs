@@ -43,8 +43,8 @@ namespace Arbaro2.DX_Engine
             _D3D = new D3DClass();
             _D3D.Initialize(viewWidth, viewHeight, handle, form, DXConfig);
             Camera = DXCamera.DXCameraPerspective(_config.FOV, (float)viewWidth/(float)viewHeight, _config.ScreenNear, _config.ScreenDepth);
-            CameraControler = new DXOrbitControls(Camera, (form as ArbaroMainForm).renderCtrl);
-            //CameraControler = new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl);
+            //CameraControler = new DXOrbitControls(Camera, (form as ArbaroMainForm).renderCtrl);
+            CameraControler = new DXArcBallControls(Camera, (form as ArbaroMainForm).renderCtrl);
 
             if (CameraControler is DXArcBallControls) { 
                 // Add an arcball viewer

@@ -4,9 +4,10 @@
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix wvp;
-
+	
+	float4 target;
 	matrix rotation;
-};   
+};      
  
 DepthStencilState DSSDepthWriteLess
 {
@@ -14,31 +15,31 @@ DepthStencilState DSSDepthWriteLess
 	DepthWriteMask = All;
 	DepthFunc = Less;
 };  
-
+    
 struct VertexInputType
 {
 	float4 position : POSITION;
 	float4 color: COLOR;
 
 };
-           
+             
 struct PixelInputType
 {
 	float4 position : SV_POSITION;
 	float4 color: COLOR;
 }; 
-
+  
 PixelInputType VS(VertexInputType input)
 {
-	PixelInputType output;
+	PixelInputType output; 
 
 	output.position = mul(input.position, rotation);
 	output.position = mul(output.position, wvp);
 
-	float4 threshold = mul(float4(0, 0, 0, 1), wvp);
+	float4 threshold = mul(target, wvp);
 	output.color = input.color;
 
-	if (output.position.z < threshold.z) output.color.xyz *= 0.5;
+	if (output.position.z/output.position.w > threshold.z/threshold.w) output.color.xyz *= 0.5;
 
 	return output;
 } 

@@ -22,10 +22,7 @@ namespace Arbaro2.DX_Engine
         public DXShader(string shaderFullFilename)
         {
             ShaderFullFilename = shaderFullFilename;
-
-            
-                Init();
-           
+            Init();
         }
 
         public void SetParameter(string varName, object varValue)
@@ -60,7 +57,7 @@ namespace Arbaro2.DX_Engine
 #if DEBUG
             ShaderFlags SHADER_FLAGS = ShaderFlags.Debug;
 #else
-                        ShaderFlags SHADER_FLAGS = ShaderFlags.OptimizationLevel3;
+            ShaderFlags SHADER_FLAGS = ShaderFlags.OptimizationLevel3;
 #endif
             try
             {
@@ -173,19 +170,19 @@ namespace Arbaro2.DX_Engine
         }
 
         public string MakeShaderFullPath(string shaderFilename)
-        {            
+        {
             string shaderFullName = "";
 
             foreach (string prefix in Program.DXConfig.ShadersIncludePath)
             {
                 if (File.Exists(prefix + shaderFilename + ".hlsl"))
-                {                   
+                {
                     shaderFullName = prefix + shaderFilename + ".hlsl";
                     break;
                 }
             }
 
-            return shaderFullName;
+            return Path.GetFullPath(shaderFullName);
         }
 
         public DXShader MakeShader(string shaderFilename)

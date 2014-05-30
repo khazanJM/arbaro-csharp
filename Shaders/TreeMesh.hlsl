@@ -5,7 +5,7 @@
 	matrix projectionMatrix;
 	matrix wvp;
 };
-
+  
 struct VertexInputType
 {
 	float3 position : POSITION;
@@ -22,7 +22,7 @@ PixelInputType VS(VertexInputType input)
 
 	output.position = mul(float4(input.position, 1), wvp);
 	return output;
-}
+}    
 
 float4 PS(PixelInputType input) : SV_TARGET
 {
