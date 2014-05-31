@@ -8,26 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-//
-//  The controler should be provided with "something" to control
-//  the speed of the zoom and pan... TODO
-//
-
-//
-//  As the camera position & (mainly) look at can be changed
-//  without going through the controler...
-//  We need to add the yaw & pitch etc... based on the actual 
-//  camera position & yaw/pitch
-//
 
 namespace Arbaro2.DX_Engine.DXControls
 {
+    //
+    //  An orbit camera arbit around a given point in space
+    //  this point can be changed by panning the camera
+    // 
+    // 
+
     public class DXOrbitControler : DXBaseCameraControler
-    {   
+    {
+        private Matrix _cameraWorldTransform;
+        private Vector3 _center;
+
         // ctrl is the control hooked for events (mouse & keyboard)
         public DXOrbitControler(DXCamera camera, Control ctrl)
             : base(camera, ctrl)
         {
+
         }
 
         private void Reset()
@@ -43,9 +42,11 @@ namespace Arbaro2.DX_Engine.DXControls
 
         protected override void ctrl_MouseWheel(object sender, MouseEventArgs e)
         {
-            float zoom = e.Delta;
-            //Vector3 rail = _camera.Target - _camera.Position;
-            //UpdateCamera(0, 0, Math.Sign(zoom) * 0.1f * rail, Vector3.Zero);
+            // Delta absolute value is pretty unknown and depends on device driver
+            // the only thing we should use is it sign           
+            Vector3 translation = Math.Sign(e.Delta) * _camera.LookAt;
+            _cameraWorldTransform *= Matrix.Translation(translation);
+            _camera.WorldTransform = _cameraWorldTransform;
         }
 
         protected override void ctrl_MouseUp(object sender, MouseEventArgs e)
@@ -69,20 +70,45 @@ namespace Arbaro2.DX_Engine.DXControls
                 // Rotate
                 DX = (float)Math.PI * DX;
                 DY = (float)Math.PI * DY;
-                UpdateCamera(-DX, DY, Vector3.Zero, Vector3.Zero);
+
+                // DX generate a rotation around the camera Y axis
+                // DY around the camera X axis                                          
+                Vector4 xAxis = new Vector4(1, 0, 0, 0); xAxis = Vector4.Transform(xAxis, _cameraWorldTransform);
+
+                Matrix rotY = Matrix.RotationAxis(new Vector3(0, 1, 0), DX);
+                Matrix rotX = Matrix.RotationAxis(new Vector3(xAxis.X, xAxis.Y, xAxis.Z), -DY);
+                Matrix rot = rotY * rotX;
+
+                Matrix M = _cameraWorldTransform * Matrix.Translation(-_center) * rot * Matrix.Translation(_center);
+                _cameraWorldTransform = M;
+                
+                _camera.WorldTransform = _cameraWorldTransform;
             }
             else if (e.Button == MouseButtons.Right)
             {
                 // Pan
-                //  The camera and the target are translated with the same
-                //  translation. 
-                //Vector3 l = Vector3.Cross((_camera.Target - _camera.Position), new Vector3(0, 1, 0));
-                //l.Normalize();
-                //Vector3 u = Vector3.Cross((_camera.Target - _camera.Position), l);
-                //u.Normalize();
+                // we translate the camera   
+                // considering the object we are interested in is ~(_center) in world position
+                // in order to ensure the objects stays "under" the mouse when panning
 
-               // Vector3 translation = 10 * (DX * l + -DY * u);
-               // UpdateCamera(0, 0, translation, translation);
+                Matrix M = _camera.ViewMatrix * _camera.ProjMatrix;               
+                Vector4 center = Vector3.Transform(_center, M);
+
+                M.Invert();
+                Vector4 p = new Vector4(center.X + DX * center.W, center.Y - DY * center.W, center.Z, center.W);
+                Vector4 p4 = Vector4.Transform(p, M);
+                p4 = p4 / p4.W;
+
+                
+                Vector3 translation = 2*(_center - new Vector3(p4.X, p4.Y, p4.Z));
+                
+                // The center of the orbit is also moved
+                _center += translation;
+
+
+                _cameraWorldTransform = _cameraWorldTransform * Matrix.Translation(translation);
+                _camera.WorldTransform = _cameraWorldTransform;
+                 
             }
         }
 
@@ -93,46 +119,24 @@ namespace Arbaro2.DX_Engine.DXControls
             _MouseDown = true;
         }
 
-        public void LookAt(BoundingBox BBox)
-        {
-            Reset();
+        //
+        //  The camera is placed in such a way
+        //  it can display the content of the BBox 
+        //  In all regards, it is also placed along the negative Z axis
+        //  Looking towards the positive Z axis
+        //  with a (0,1,0) Up vector 
+        //
+        public override void LookAt(BoundingBox BBox)
+        {          
+            _center = (BBox.Maximum + BBox.Minimum) / 2;            
+            Vector3 LMax = BBox.Maximum - BBox.Minimum;
+            float lmax = Math.Max(LMax.Z, Math.Max(LMax.X, LMax.Y));
 
-            Vector3 lengths = BBox.Maximum - BBox.Minimum;
-            float maxLen = Math.Max(lengths.Z, Math.Max(lengths.X, lengths.Y));
-            maxLen = Math.Max(2 * _camera.ZNear, maxLen);
-
-            Vector3 p = (BBox.Maximum + BBox.Minimum) / 2.0f;
-            float distance = (1.05f * maxLen / 2.0f) / (float)Math.Tan(_camera.Fov / 2.0);
-
-            Vector3 position = p; position.Z -= distance;
-
-            //_camera.Position = position;
-            //_camera.Target = p;
-        }
-
-        private void UpdateCamera(float dYaw, float dPitch, Vector3 dPosition, Vector3 dTarget)
-        {
-            //_camera.Position += dPosition;
-            //_camera.Target += dTarget;
-
-            if (dYaw != 0 || dPitch != 0)
-            {
-               /* Vector3 P = _camera.Position - _camera.Target;
-                float r = P.Length();
-                P /= r;
-                float a = (float)Math.Atan2(P.Z, P.X);
-                float b = (float)Math.Asin(P.Y);
-
-                a += dYaw;
-                b += dPitch;
-
-                P.Y = (float)Math.Sin(b);
-                P.X = (float)(Math.Cos(b) * Math.Cos(a));
-                P.Z = (float)(Math.Cos(b) * Math.Sin(a));
-                P *= r;
-                P += _camera.Target;
-                _camera.Position = P;*/
-            }
+            Vector3 translation = _center; 
+            translation.Z = -(lmax/(float)Math.Tan(_camera.Fov) + lmax/2 + _center.Z);
+            
+            _cameraWorldTransform = Matrix.Translation(translation);
+            _camera.WorldTransform = _cameraWorldTransform;
         }
     }
 }

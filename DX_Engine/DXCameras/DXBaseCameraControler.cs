@@ -38,7 +38,9 @@ namespace Arbaro2.DX_Engine.DXControls
         protected abstract void ctrl_MouseWheel(object sender, MouseEventArgs e);
         protected abstract void ctrl_MouseUp(object sender, MouseEventArgs e);
         protected abstract void ctrl_MouseMove(object sender, MouseEventArgs e);
-        protected abstract void ctrl_MouseDown(object sender, MouseEventArgs e);               
+        protected abstract void ctrl_MouseDown(object sender, MouseEventArgs e);
+
+        public abstract void LookAt(BoundingBox BBox);
     }
 
 }

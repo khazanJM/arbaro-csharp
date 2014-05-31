@@ -160,7 +160,7 @@ namespace Arbaro2
             // only reset the view when a new tree is loaded
             if (!paramExists)
             {
-                //Program.Renderer.CameraControler.LookAt(me.BBox);
+                Program.Renderer.CameraControler.LookAt(me.BBox);
             }
 
             float elapsed = (float)(tEnd.Subtract(tStart)).TotalMilliseconds;
