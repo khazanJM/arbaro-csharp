@@ -132,7 +132,6 @@
     <Compile Include="DX_Engine\DXCameras\DXBaseCameraControler.cs" />
     <Compile Include="DX_Engine\DXCameras\DXOrbitControler.cs" />
     <Compile Include="DX_Engine\DXMesh\DXBadTopologyException.cs" />
-    <Compile Include="DX_Engine\DXMesh\DXBaseTraits.cs" />
     <Compile Include="DX_Engine\DXMesh\DXEdge.cs" />
     <Compile Include="DX_Engine\DXMesh\DXFace.cs" />
     <Compile Include="DX_Engine\DXMesh\DXHalfedge.cs" />
@@ -147,6 +146,8 @@
     <Compile Include="DX_Engine\DXSceneOptions.cs" />
     <Compile Include="DX_Engine\DXShaders\DXShader.cs" />
     <Compile Include="DX_Engine\DXShaders\DXShadersManager.cs" />
+    <Compile Include="DX_Engine\DXTreeMesh\DXArbaroTraits.cs" />
+    <Compile Include="DX_Engine\DXTreeMesh\DXArbaroTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXLeafMeshHelper.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXTreeSkeleton.cs" />

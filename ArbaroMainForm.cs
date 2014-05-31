@@ -2,6 +2,7 @@
 using Arbaro2.Arbaro.Params;
 using Arbaro2.Arbaro.Tree;
 using Arbaro2.DX_Engine;
+using Arbaro2.DX_Engine.DXTreeMesh;
 using Arbaro2.DX_Engine.TreeClasses;
 using Arbaro2.Utilities;
 using SharpDX.Windows;
@@ -156,6 +157,8 @@ namespace Arbaro2
             }
             DXTreeMesh me = new DXTreeMesh(tree, csParams);
             Program.Renderer.RenderableList.Add("TreeMesh", me);
+
+            DXArbaroTreeMesh test = new DXArbaroTreeMesh(tree, csParams);
 
             // only reset the view when a new tree is loaded
             if (!paramExists)

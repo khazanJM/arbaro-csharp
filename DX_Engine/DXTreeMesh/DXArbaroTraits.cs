@@ -6,19 +6,24 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Arbaro2.DX_Engine.DXMesh
+namespace Arbaro2.DX_Engine.DXTreeMesh
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct DXNullTrait
-    {  
+    public struct DXArbaroNullTrait
+    {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct DXVertexBaseTrait
+    public struct DXArbaroVertexTrait
     {
         public Vector3 Position;
+        public DXArbaroVertexTrait(Vector3 p) { Position = p; }
     }
 
-    // the current version of the TreeMesh is :
-    //using DXTreeMesh = DXMesh<DXNullTrait, DXNullTrait, DXNullTrait, DXVertexBaseTrait>;
+    [StructLayout(LayoutKind.Sequential)]
+    public struct DXArbaroHalfedgeTrait
+    {
+        public Vector2 UV;
+    }
+    
 }
