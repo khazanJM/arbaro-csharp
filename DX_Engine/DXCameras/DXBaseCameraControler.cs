@@ -11,6 +11,8 @@ namespace Arbaro2.DX_Engine.DXControls
 {
     public abstract class DXBaseCameraControler
     {
+        public enum LookAtDirection { POSITIVE_Z, NEGATIVE_Z, POSITIVE_X, NEGATIVE_X, POSITIVE_Y, NEGATIVE_Y };
+
         protected float _MouseX, _MouseY;
         protected bool _MouseDown = false;
         protected Control _Ctrl;
@@ -40,7 +42,7 @@ namespace Arbaro2.DX_Engine.DXControls
         protected abstract void ctrl_MouseMove(object sender, MouseEventArgs e);
         protected abstract void ctrl_MouseDown(object sender, MouseEventArgs e);
 
-        public abstract void LookAt(BoundingBox BBox);
+        public abstract void LookAt(BoundingBox BBox, LookAtDirection dir = LookAtDirection.POSITIVE_Z);
     }
 
 }

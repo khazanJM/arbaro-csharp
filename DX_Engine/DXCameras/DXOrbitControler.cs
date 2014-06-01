@@ -21,6 +21,7 @@ namespace Arbaro2.DX_Engine.DXControls
     {
         private Matrix _cameraWorldTransform;
         private Vector3 _center;
+        private BoundingBox _bbox;
 
         // ctrl is the control hooked for events (mouse & keyboard)
         public DXOrbitControler(DXCamera camera, Control ctrl)
@@ -37,6 +38,32 @@ namespace Arbaro2.DX_Engine.DXControls
 
         protected override void ctrl_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.X) {
+                if (e.Modifiers == Keys.Shift) {
+                    LookAt(_bbox, LookAtDirection.POSITIVE_X);
+                }
+                else {
+                    LookAt(_bbox, LookAtDirection.NEGATIVE_X);
+                }
+            }
+            if (e.KeyCode == Keys.Y)
+            {
+                if (e.Modifiers == Keys.Shift) {
+                    LookAt(_bbox, LookAtDirection.POSITIVE_Y);
+                }
+                else {
+                    LookAt(_bbox, LookAtDirection.NEGATIVE_Y);
+                }
+            }
+            if (e.KeyCode == Keys.Z)
+            {
+                if (e.Modifiers == Keys.Shift) {
+                    LookAt(_bbox, LookAtDirection.POSITIVE_Z);
+                }
+                else {
+                    LookAt(_bbox, LookAtDirection.NEGATIVE_Z);
+                }
+            }
         }
 
 
@@ -126,8 +153,13 @@ namespace Arbaro2.DX_Engine.DXControls
         //  Looking towards the positive Z axis
         //  with a (0,1,0) Up vector 
         //
-        public override void LookAt(BoundingBox BBox)
-        {          
+        
+        public override void LookAt(BoundingBox BBox, LookAtDirection dir = LookAtDirection.POSITIVE_Z)
+        {
+            Reset();
+
+            _bbox = BBox;
+
             _center = (BBox.Maximum + BBox.Minimum) / 2;            
             Vector3 LMax = BBox.Maximum - BBox.Minimum;
             float lmax = Math.Max(LMax.Z, Math.Max(LMax.X, LMax.Y));
@@ -136,6 +168,29 @@ namespace Arbaro2.DX_Engine.DXControls
             translation.Z = -(lmax/(float)Math.Tan(_camera.Fov) + lmax/2 + _center.Z);
             
             _cameraWorldTransform = Matrix.Translation(translation);
+            _camera.WorldTransform = _cameraWorldTransform;
+
+            Matrix r = Matrix.Identity;
+            if (dir == LookAtDirection.POSITIVE_Z) {
+                r = Matrix.Identity;
+            }
+            else if (dir == LookAtDirection.NEGATIVE_Z) {
+                r = Matrix.RotationY((float)Math.PI);
+            }
+            else if (dir == LookAtDirection.POSITIVE_X) {
+                r = Matrix.RotationY((float)Math.PI/2f);
+            }
+            else if (dir == LookAtDirection.NEGATIVE_X) {
+                r = Matrix.RotationY(-(float)Math.PI / 2f);
+            }
+            else if (dir == LookAtDirection.POSITIVE_Y) { 
+                r = Matrix.Translation(-_center) * Matrix.RotationX(-(float)Math.PI/2f) * Matrix.Translation(_center);
+            }
+            else if (dir == LookAtDirection.NEGATIVE_Y) {
+                r = Matrix.Translation(-_center) * Matrix.RotationX((float)Math.PI / 2f) * Matrix.Translation(_center);
+            }
+
+            _cameraWorldTransform = Matrix.Translation(translation) * r;
             _camera.WorldTransform = _cameraWorldTransform;
         }
     }

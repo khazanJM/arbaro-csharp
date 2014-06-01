@@ -64,6 +64,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                     var streamI = new DataStream(meshes[i].Faces.Count * 2 * sizeof(UInt32), true, true);
 
                     
+                    
                 }
             }
         }
