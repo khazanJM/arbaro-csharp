@@ -148,6 +148,8 @@ namespace Arbaro2
             DXTreeSkeleton sk = new DXTreeSkeleton(tree, csParams);
             sk.Visible = false;
             Program.Renderer.RenderableList.Add("Skeleton", sk);
+            if (skeletonToolStripMenuItem.Checked) sk.Visible = true;
+            else sk.Visible = false;
 
             if (Program.Renderer.RenderableList.ContainsKey("TreeMesh"))
             {
@@ -157,6 +159,8 @@ namespace Arbaro2
             }
             DXTreeMesh me = new DXTreeMesh(tree, csParams);
             Program.Renderer.RenderableList.Add("TreeMesh", me);
+            if (solidWireframeToolStripMenuItem.Checked) me.Visible = true;
+            else me.Visible = false;
 
             //DXArbaroTreeMesh me = new DXArbaroTreeMesh(tree, csParams);
             //Program.Renderer.RenderableList.Add("TreeMesh", me);
