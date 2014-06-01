@@ -158,7 +158,8 @@ namespace Arbaro2
             DXTreeMesh me = new DXTreeMesh(tree, csParams);
             Program.Renderer.RenderableList.Add("TreeMesh", me);
 
-            DXArbaroTreeMesh test = new DXArbaroTreeMesh(tree, csParams);
+            //DXArbaroTreeMesh me = new DXArbaroTreeMesh(tree, csParams);
+            //Program.Renderer.RenderableList.Add("TreeMesh", me);
 
             // only reset the view when a new tree is loaded
             if (!paramExists)

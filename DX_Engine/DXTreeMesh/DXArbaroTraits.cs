@@ -17,7 +17,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
     public struct DXArbaroVertexTrait
     {
         public Vector3 Position;
-        public DXArbaroVertexTrait(Vector3 p) { Position = p; }
+        public DXArbaroVertexTrait(Vector3 p) { Position = new Vector3(p.X, p.Z, p.Y); }
     }
 
     [StructLayout(LayoutKind.Sequential)]

@@ -25,7 +25,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
     [StructLayout(LayoutKind.Sequential)]
     public struct DXMEV
     {
-        public Vector4 P; // position     
+        public Vector4 P; // position          
     }
 
     //
@@ -61,10 +61,53 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                 if (meshes[i].Faces.Count != 0)
                 {
                     var streamV = new DataStream(meshes[i].Vertices.Count * Marshal.SizeOf(typeof(DXMEV)), true, true);
-                    var streamI = new DataStream(meshes[i].Faces.Count * 2 * sizeof(UInt32), true, true);
+                    var streamI = new DataStream(meshes[i].Faces.Count * 2 *3 * sizeof(UInt32), true, true);
 
-                    
-                    
+                    // Let's make it simple for now
+                    // We now we are dealing with a quad mesh
+                    // and we hope everything wii be OK
+                    foreach (DXBaseArbaroTreeMesh.DXVertex dxv in meshes[i].Vertices)
+                    { 
+                        Vector3 pos = dxv.Traits.Position;
+                        DXMEV dxmev = new DXMEV(); dxmev.P = new Vector4(pos.X, pos.Y, pos.Z,1);
+                        streamV.Write(dxmev);
+
+                        BBox.Minimum = Vector3.Min(BBox.Minimum, pos);
+                        BBox.Maximum = Vector3.Max(BBox.Maximum, pos);
+                    }
+                    streamV.Position = 0;
+                    _vertexBuffer2[i] = new Buffer(DXDevice, streamV, new BufferDescription()
+                    {
+                        BindFlags = BindFlags.VertexBuffer,
+                        CpuAccessFlags = CpuAccessFlags.None,
+                        OptionFlags = ResourceOptionFlags.None,
+                        SizeInBytes = meshes[i].Vertices.Count * Marshal.SizeOf(typeof(DXMEV)),
+                        Usage = ResourceUsage.Default
+                    });
+                    streamV.Dispose();
+
+
+                    foreach (DXBaseArbaroTreeMesh.DXFace dxf in meshes[i].Faces) {
+                        List<int> indices = new List<int>();
+                        foreach (DXBaseArbaroTreeMesh.DXVertex dxv in dxf.Vertices) indices.Add(dxv.Index);
+                        streamI.Write(indices[0]); streamI.Write(indices[1]); streamI.Write(indices[2]);
+                        streamI.Write(indices[0]); streamI.Write(indices[2]); streamI.Write(indices[3]);
+                    }
+
+                    streamI.Position = 0;
+
+                    _indexBuffer2[i] = new Buffer(DXDevice, streamI, new BufferDescription()
+                    {
+                        BindFlags = BindFlags.IndexBuffer,
+                        CpuAccessFlags = CpuAccessFlags.None,
+                        OptionFlags = ResourceOptionFlags.None,
+                        SizeInBytes = meshes[i].Faces.Count * 2 *3 *sizeof(UInt32),
+                        Usage = ResourceUsage.Default
+                    });
+                    streamI.Dispose();
+
+                    IndexCount2[i] = meshes[i].Faces.Count * 2;
+
                 }
             }
         }
@@ -142,10 +185,13 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
 
             public override bool enterStem(CS_Stem stem)
             {
+                if (stem.getLevel() > 0) return true;
+        
                 // 1. Create the first section                
                 Vector3[] section_base = stem.getSections()[0].getSectionPoints();
                 List<DXBaseArbaroTreeMesh.DXVertex> dxvv1 = new List<DXBaseArbaroTreeMesh.DXVertex>();
                 foreach(Vector3 v in section_base) {
+                   
                     DXBaseArbaroTreeMesh.DXVertex dxv = _meshes[stem.getLevel()].Vertices.Add(new DXArbaroVertexTrait(v));
                     dxvv1.Add(dxv);
                 }                                        
@@ -159,7 +205,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                     {
                         Vector3[] section_next = stem.getSections()[i + 1].getSectionPoints();
                         List<DXBaseArbaroTreeMesh.DXVertex> dxvv2 = new List<DXBaseArbaroTreeMesh.DXVertex>();
-                        foreach (Vector3 v in section_base)
+                        foreach (Vector3 v in section_next)
                         {
                             DXBaseArbaroTreeMesh.DXVertex dxv = _meshes[stem.getLevel()].Vertices.Add(new DXArbaroVertexTrait(v));
                             dxvv2.Add(dxv);
@@ -175,7 +221,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                             CS_SubsegmentImpl subseg = seg.subsegments[j];
                             Vector3[] section_next = subseg.getSectionPoints();
                             List<DXBaseArbaroTreeMesh.DXVertex> dxvv2 = new List<DXBaseArbaroTreeMesh.DXVertex>();
-                            foreach (Vector3 v in section_base)
+                            foreach (Vector3 v in section_next)
                             {
                                 DXBaseArbaroTreeMesh.DXVertex dxv = _meshes[stem.getLevel()].Vertices.Add(new DXArbaroVertexTrait(v));
                                 dxvv2.Add(dxv);
@@ -184,6 +230,20 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                             dxvv1 = dxvv2;
                         }
                     }
+                }
+
+                // 3. The last section I don't know how it gets calculated in initial Arbaro implementation :-(
+                //      So I modified getSectionPoints to retrieve explicitely this last section
+                if (stem.getSections()[stem.getSections().Count - 1].getSubsegmentCount() == 1)
+                {
+                    Vector3[] section_last = stem.getSections()[stem.getSections().Count - 1].getSectionPoints(false);
+                    List<DXBaseArbaroTreeMesh.DXVertex> dxvv2 = new List<DXBaseArbaroTreeMesh.DXVertex>();
+                    foreach (Vector3 v in section_last)
+                    {
+                        DXBaseArbaroTreeMesh.DXVertex dxv = _meshes[stem.getLevel()].Vertices.Add(new DXArbaroVertexTrait(v));
+                        dxvv2.Add(dxv);
+                    }
+                    AddRangeVertex(_meshes[stem.getLevel()], dxvv1, dxvv2);
                 }
 
                 return true;
