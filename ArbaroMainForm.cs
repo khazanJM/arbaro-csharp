@@ -157,13 +157,14 @@ namespace Arbaro2
                 Program.Renderer.RenderableList.Remove("TreeMesh");
                 s.Dispose();
             }
-            DXTreeMesh me = new DXTreeMesh(tree, csParams);
-            Program.Renderer.RenderableList.Add("TreeMesh", me);
-            if (solidWireframeToolStripMenuItem.Checked) me.Visible = true;
-            else me.Visible = false;
-
-            //DXArbaroTreeMesh me = new DXArbaroTreeMesh(tree, csParams);
+            
+            //DXTreeMesh me = new DXTreeMesh(tree, csParams);
             //Program.Renderer.RenderableList.Add("TreeMesh", me);
+            DXArbaroTreeMesh me = new DXArbaroTreeMesh(tree, csParams);
+            Program.Renderer.RenderableList.Add("TreeMesh", me);
+
+            if (solidWireframeToolStripMenuItem.Checked) me.Visible = true;
+            else me.Visible = false;         
 
             // only reset the view when a new tree is loaded
             if (!paramExists)

@@ -106,7 +106,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                     });
                     streamI.Dispose();
 
-                    IndexCount2[i] = meshes[i].Faces.Count * 2;
+                    IndexCount2[i] = meshes[i].Faces.Count * 2*3;
 
                 }
             }
@@ -185,8 +185,6 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
 
             public override bool enterStem(CS_Stem stem)
             {
-                if (stem.getLevel() > 0) return true;
-        
                 // 1. Create the first section                
                 Vector3[] section_base = stem.getSections()[0].getSectionPoints();
                 List<DXBaseArbaroTreeMesh.DXVertex> dxvv1 = new List<DXBaseArbaroTreeMesh.DXVertex>();
