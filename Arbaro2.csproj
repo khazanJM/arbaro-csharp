@@ -127,6 +127,7 @@
     <Compile Include="Arbaro\Tree\CS_TreeImpl.cs" />
     <Compile Include="Arbaro\Tree\CS_TreeTraversal.cs" />
     <Compile Include="DX_Engine\D3DClass.cs" />
+    <Compile Include="DX_Engine\DXCameras\DXArcballControler.cs" />
     <Compile Include="DX_Engine\DXCameras\DXCamera.cs" />
     <Compile Include="DX_Engine\DXConfigClass.cs" />
     <Compile Include="DX_Engine\DXCameras\DXBaseCameraControler.cs" />
