@@ -5,24 +5,24 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Arbaro C# &#8211; Arbaro C#</title>
-<meta name="description" content="What is it about ?">
+<title>06-07-2014 &#8211; Arbaro C#</title>
+<meta name="description" content="Moving forward ...">
 <meta name="keywords" content="arbaro, dev-update">
 
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Arbaro C#">
-<meta property="og:description" content="What is it about ?">
-<meta property="og:url" content="http://khazanjm.github.io/arbaro-csharp/sample-post-images/">
+<meta property="og:title" content="06-07-2014">
+<meta property="og:description" content="Moving forward ...">
+<meta property="og:url" content="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_4/">
 <meta property="og:site_name" content="Arbaro C#">
 
 
 
 
 
-<link rel="canonical" href="http://khazanjm.github.io/arbaro-csharp/sample-post-images/">
+<link rel="canonical" href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_4/">
 <link href="http://khazanjm.github.io/arbaro-csharp/feed.xml" type="application/atom+xml" rel="alternate" title="Arbaro C# Feed">
 
 
@@ -110,33 +110,28 @@
   <article>
     <div class="headline-wrap">
       
-        <h1><a href="http://khazanjm.github.io/arbaro-csharp/sample-post-images/" rel="bookmark" title="Arbaro C#">Arbaro C#</a></h1>
+        <h1><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_4/" rel="bookmark" title="06-07-2014">06-07-2014</a></h1>
       
     </div><!--/ .headline-wrap -->
     <div class="article-wrap">
-      <p>Arbaro C# is a project to port Arbaro to C#.
-Arbaro is a cool, though pretty old, tree generator developed using Java.
-It implements ideas developed by Weber &amp; Penn in a somewhat famous paper.
-The original Arbaro implementation can be found <a href="http://arbaro.sourceforge.net">here</a>. The Weber &amp; Penn paper: <em>Creation and rendering of realistic tree</em> can be found <a href="https://www.cs.duke.edu/courses/fall02/cps124/resources/p119-weber.pdf">here</a></p>
+      <h3 id="status-as-of-june-7-2014">Status as of June 7, 2014</h3>
 
-<h3 id="status-as-of-may-11-2014">Status as of May 11, 2014</h3>
+<h4 id="changes">Changes</h4>
 
-<h4 id="a-screen-shot">A screen-shot</h4>
+<ul>
+  <li>Mesh is fully generated with half-edge library</li>
+  <li>it is not that great for generating leaf mesh though…</li>
+  <li>OBJ export is working as intended.</li>
+</ul>
 
-<figure>
-	<a href="http://khazanjm.github.io/arbaro-csharp/images/screen_2014_05_09.jpg"><img src="http://khazanjm.github.io/arbaro-csharp//images/screen_2014_05_09.jpg" /></a>
-	<figcaption>How Arbaro C# does look at the time of this post.</figcaption>
-</figure>
+<h4 id="next-step">Next step:</h4>
 
-<p>The current implementation is able to calculate a tree and display its skeleton (skipping subsegments).
-Basically it is still extremely early stages… A lot of work still needed to have something even remotely useful.</p>
-
-<p>All loaded tree parameters are displayed in the tree view on the left. Though it’s not obvious when looking at the screenshot.</p>
-
-<p>A basic Orbite controler is implemented on the 3D view. 
-It allows Zoom (whith mouse wheel), Pan (Right mouse button) and rotation around the tree (Left mouse button).</p>
-
-<p>Currently it takes quite long to calculate any of the sample trees (around 500ms to 1s). Which can possibly be due to all linear algebra calculation being done without any acceleration. My current goal is to remove the CS_Vector, CS_Matrix and CS_Transformation classes and remplace them with the DirectX Vector &amp; Matrix implementations. I guess it can help a bit as Arbaro is doing some intensive linear algebra calculations.</p>
+<ul>
+  <li>UV are still not handled</li>
+  <li>The mesh generation time is quite long (from 200ms to 500ms)</li>
+  <li>Leaves are not coorectly placed… there is a bug here</li>
+  <li>Saving parameters is now working properly</li>
+</ul>
 
 
       <hr />
@@ -161,7 +156,7 @@ It allows Zoom (whith mouse wheel), Pan (Right mouse button) and rotation around
 
 
         </div>
-        <p class="byline"><strong>Arbaro C#</strong> was published on <time datetime="2014-05-09T00:00:00-04:00">May 09, 2014</time> by <a href="http://khazanjm.github.io/arbaro-csharp/about" title="About KhazanJM">KhazanJM</a>.</p>
+        <p class="byline"><strong>06-07-2014</strong> was published on <time datetime="2014-06-07T00:00:00-04:00">June 07, 2014</time> by <a href="http://khazanjm.github.io/arbaro-csharp/about" title="About KhazanJM">KhazanJM</a>.</p>
       </footer>
     </div><!-- /.article-wrap -->
   
@@ -173,11 +168,11 @@ It allows Zoom (whith mouse wheel), Pan (Right mouse button) and rotation around
   <h4>You might also enjoy <small class="pull-right">(<a href="http://khazanjm.github.io/arbaro-csharp/posts/">View all posts</a>)</small></h4>
     <ul>
     
-      <li><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_4/" title="06-07-2014">06-07-2014</a></li>
-    
       <li><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_3/" title="05-31-2014">05-31-2014</a></li>
     
       <li><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_2/" title="05-23-2014">05-23-2014</a></li>
+    
+      <li><a href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_1/" title="05-17-2014">05-17-2014</a></li>
     
     </ul>
     <hr />
