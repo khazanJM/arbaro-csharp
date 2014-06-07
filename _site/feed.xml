@@ -4,13 +4,51 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://khazanjm.github.io/arbaro-csharp/feed.xml" />
 <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp" />
-<updated>2014-05-31T10:00:24-04:00</updated>
+<updated>2014-06-07T10:14:28-04:00</updated>
 <id>http://khazanjm.github.io/arbaro-csharp/</id>
 <author>
   <name>KhazanJM</name>
   <uri>http://khazanjm.github.io/arbaro-csharp/</uri>
   <email>khazanJM@gmail.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[05-31-2014]]></title>
+  <link rel="alternate" type="text/html" href="http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_3/" />
+  <id>http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_3</id>
+  <published>2014-05-31T00:00:00-04:00</published>
+  <updated>2014-05-31T00:00:00-04:00</updated>
+  <author>
+    <name>KhazanJM</name>
+    <uri>http://khazanjm.github.io/arbaro-csharp</uri>
+    <email>khazanJM@gmail.com</email>
+  </author>
+  <content type="html">&lt;h3 id=&quot;status-as-of-may-31-2014&quot;&gt;Status as of May 31, 2014&lt;/h3&gt;
+
+&lt;h4 id=&quot;changes&quot;&gt;Changes&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Not that much visible changes&lt;/li&gt;
+  &lt;li&gt;The orbiting camera is now orbiting without gimbal lock&lt;/li&gt;
+  &lt;li&gt;Editing a shader (outside Visual Studio) and saving it while the program is running will reload it without reloading the program (convenient to debug shaders).&lt;/li&gt;
+  &lt;li&gt;Visibility of levels can now be triggered through a menu (for both wire and solid wireframe display)&lt;/li&gt;
+  &lt;li&gt;Added an half-edfe mesh representation. Not used right now… but that will come soon. The implementation comes from Alexander Kolliopoulos&lt;a href=&quot;http://www.dgp.toronto.edu/~alexk/halfedge.pdf&quot;&gt;Alexander Kolliopoulos&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;next-step&quot;&gt;Next step:&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Move the mesh generation to the half edge data structure&lt;/li&gt;
+  &lt;li&gt;Create a quad mesh (?) and display it properly (showing quads)&lt;/li&gt;
+  &lt;li&gt;Generates UV and normals + smooth shading&lt;/li&gt;
+  &lt;li&gt;OBJ export&lt;/li&gt;
+  &lt;li&gt;Review all parameters&lt;/li&gt;
+&lt;/ul&gt;
+
+
+  &lt;p&gt;&lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp/Update-of-the-day_3/&quot;&gt;05-31-2014&lt;/a&gt; was originally published by KhazanJM at &lt;a href=&quot;http://khazanjm.github.io/arbaro-csharp&quot;&gt;Arbaro C#&lt;/a&gt; on May 31, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>

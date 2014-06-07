@@ -26,7 +26,6 @@ comments: true
 * Review all parameters
 
 
-#### A screen-shot
 
 
 
