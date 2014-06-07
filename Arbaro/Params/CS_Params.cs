@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -201,7 +202,10 @@ namespace Arbaro2.Arbaro.Params
 
         private void writeParamXML(StreamWriter w, String name, double value)
         {
-            w.WriteLine("    <param name='" + name + "' value='" + value + "'/>");
+            string uiSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+            string v = "" + value;
+            v = v.Replace(uiSep, ".");
+            w.WriteLine("    <param name='" + name + "' value='" + v + "'/>");
         }
 
         private void writeParamXML(StreamWriter w, String name, String value)
