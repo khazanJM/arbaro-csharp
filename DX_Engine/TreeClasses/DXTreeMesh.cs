@@ -291,10 +291,6 @@ namespace Arbaro2.DX_Engine.TreeClasses
         {            
             DX_Transformation transf = leaf.getTransformation();
 
-            //
-            //  Call a leaf mesh factory here... 
-            //  feeding it with _csParams should do the trick 
-            //
             List<DXMEV> mev = new List<DXMEV>();
             foreach(DXMEV m in V) {
                 DXMEV mp = new DXMEV();

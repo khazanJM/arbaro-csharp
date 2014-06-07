@@ -63,8 +63,9 @@ namespace Arbaro2.DX_Engine.DXMesh
         /// <summary>
         /// Initializes a new, empty mesh.
         /// </summary>
-        public DXMesh()
+        public DXMesh(bool TrianglesOnly = false)
         {
+            trianglesOnly = TrianglesOnly;
             Edges = new DXEdgeCollection(this);
             Faces = new DXFaceCollection(this);
             Halfedges = new DXHalfedgeCollection(this);

@@ -147,6 +147,7 @@
     <Compile Include="DX_Engine\DXSceneOptions.cs" />
     <Compile Include="DX_Engine\DXShaders\DXShader.cs" />
     <Compile Include="DX_Engine\DXShaders\DXShadersManager.cs" />
+    <Compile Include="DX_Engine\DXTreeMesh\DXArbaroLeafMeshHelper.cs" />
     <Compile Include="DX_Engine\DXTreeMesh\DXArbaroTraits.cs" />
     <Compile Include="DX_Engine\DXTreeMesh\DXArbaroTreeMesh.cs" />
     <Compile Include="DX_Engine\TreeClasses\DXLeafMeshHelper.cs" />

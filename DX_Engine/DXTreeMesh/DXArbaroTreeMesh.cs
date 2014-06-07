@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using Arbaro2.DX_Engine.DXCameras;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
+using Arbaro2.Arbaro.Transformation;
 
 namespace Arbaro2.DX_Engine.DXTreeMesh
 {
@@ -36,7 +37,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
 
     public class DXArbaroTreeMesh :DXRenderable
     {
-        private DXBaseArbaroTreeMesh[] meshes = { new DXBaseArbaroTreeMesh(), new DXBaseArbaroTreeMesh(), new DXBaseArbaroTreeMesh(), new DXBaseArbaroTreeMesh(), new DXBaseArbaroTreeMesh() };
+        private DXBaseArbaroTreeMesh[] meshes = { new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true) };
 
         private Buffer[] _vertexBuffer2 = { null, null, null, null, null }, _indexBuffer2 = { null, null, null, null, null };
         private int[] IndexCount2 = { 0, 0, 0, 0, 0 };
@@ -45,7 +46,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
 
         public DXArbaroTreeMesh(CS_Tree tree, CS_Params csParams)
             : base()
-        {
+        {            
             DXTreeMesh_TreeTraversal traversal = new DXTreeMesh_TreeTraversal(meshes, csParams);
             tree.traverseTree(traversal);
 
@@ -61,7 +62,8 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                 if (meshes[i].Faces.Count != 0)
                 {
                     var streamV = new DataStream(meshes[i].Vertices.Count * Marshal.SizeOf(typeof(DXMEV)), true, true);
-                    var streamI = new DataStream(meshes[i].Faces.Count * 2 *3 * sizeof(UInt32), true, true);
+
+                    DataStream streamI = new DataStream(meshes[i].Faces.Count * 3 * sizeof(UInt32), true, true);                   
 
                     // Let's make it simple for now
                     // We now we are dealing with a quad mesh
@@ -90,8 +92,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                     foreach (DXBaseArbaroTreeMesh.DXFace dxf in meshes[i].Faces) {
                         List<int> indices = new List<int>();
                         foreach (DXBaseArbaroTreeMesh.DXVertex dxv in dxf.Vertices) indices.Add(dxv.Index);
-                        streamI.Write(indices[0]); streamI.Write(indices[1]); streamI.Write(indices[2]);
-                        streamI.Write(indices[0]); streamI.Write(indices[2]); streamI.Write(indices[3]);
+                        streamI.Write(indices[0]); streamI.Write(indices[1]); streamI.Write(indices[2]);                        
                     }
 
                     streamI.Position = 0;
@@ -101,12 +102,12 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                         BindFlags = BindFlags.IndexBuffer,
                         CpuAccessFlags = CpuAccessFlags.None,
                         OptionFlags = ResourceOptionFlags.None,
-                        SizeInBytes = meshes[i].Faces.Count * 2 *3 *sizeof(UInt32),
+                        SizeInBytes = meshes[i].Faces.Count *3 *sizeof(UInt32),
                         Usage = ResourceUsage.Default
                     });
                     streamI.Dispose();
 
-                    IndexCount2[i] = meshes[i].Faces.Count * 2*3;
+                    IndexCount2[i] = meshes[i].Faces.Count*3;
 
                 }
             }
@@ -173,18 +174,21 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
 
         // Tree traversal
         public class DXTreeMesh_TreeTraversal : CS_TreeTraversal
-        {          
+        {
+            private int LEAFLEVEL = 4;
             private CS_Params _csParams;
             private DXBaseArbaroTreeMesh[] _meshes;
+            private DXArbaroLeafMeshHelper _lmh;
 
             public DXTreeMesh_TreeTraversal(DXBaseArbaroTreeMesh[] me, CS_Params csParams)
             {
                 _csParams = csParams;
                 _meshes = me;
+                _lmh = new DXArbaroLeafMeshHelper(csParams.LeafScale, csParams.LeafScale * _csParams.LeafScaleX, _csParams.LeafScale * _csParams.LeafStemLen, csParams.LeafShape, _meshes[LEAFLEVEL]);
             }
 
             public override bool enterStem(CS_Stem stem)
-            {
+            {             
                 // 1. Create the first section                
                 Vector3[] section_base = stem.getSections()[0].getSectionPoints();
                 List<DXBaseArbaroTreeMesh.DXVertex> dxvv1 = new List<DXBaseArbaroTreeMesh.DXVertex>();
@@ -264,6 +268,10 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
 
             public override bool visitLeaf(CS_Leaf leaf)
             {
+                DX_Transformation transf = leaf.getTransformation();
+
+                _lmh.AddLeaf(transf);
+
                 return true;
             }
 
@@ -275,6 +283,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                     mesh.Faces.Add(v1[i], v2[i], v2[j], v1[j]);
                 }
             }
+           
         }
     }
 }
