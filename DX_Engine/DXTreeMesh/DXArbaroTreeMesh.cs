@@ -11,15 +11,16 @@ using SharpDX.Direct3D11;
 
 using Buffer = SharpDX.Direct3D11.Buffer;
 
-using DXBaseArbaroTreeMesh = Arbaro2.DX_Engine.DXMesh.DXMesh<Arbaro2.DX_Engine.DXTreeMesh.DXArbaroNullTrait, 
-                                                             Arbaro2.DX_Engine.DXTreeMesh.DXArbaroNullTrait, 
-                                                             Arbaro2.DX_Engine.DXTreeMesh.DXArbaroHalfedgeTrait, 
+using DXBaseArbaroTreeMesh = Arbaro2.DX_Engine.DXMesh.DXMesh<Arbaro2.DX_Engine.DXTreeMesh.DXArbaroNullTrait,
+                                                             Arbaro2.DX_Engine.DXTreeMesh.DXArbaroNullTrait,
+                                                             Arbaro2.DX_Engine.DXTreeMesh.DXArbaroHalfedgeTrait,
                                                              Arbaro2.DX_Engine.DXTreeMesh.DXArbaroVertexTrait>;
 using System.Runtime.InteropServices;
 using Arbaro2.DX_Engine.DXCameras;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
 using Arbaro2.Arbaro.Transformation;
+using System.IO;
 
 namespace Arbaro2.DX_Engine.DXTreeMesh
 {
@@ -35,7 +36,7 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
     //      generating a DXMesh
     //
 
-    public class DXArbaroTreeMesh :DXRenderable
+    public class DXArbaroTreeMesh : DXRenderable
     {
         private DXBaseArbaroTreeMesh[] meshes = { new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true), new DXBaseArbaroTreeMesh(true) };
 
@@ -43,10 +44,12 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
         private int[] IndexCount2 = { 0, 0, 0, 0, 0 };
         private InputElement[] _inputElements;
         private InputLayout _inputLayout;
+        private CS_Params _csParams;
 
         public DXArbaroTreeMesh(CS_Tree tree, CS_Params csParams)
             : base()
-        {            
+        {
+            _csParams = csParams;
             DXTreeMesh_TreeTraversal traversal = new DXTreeMesh_TreeTraversal(meshes, csParams);
             tree.traverseTree(traversal);
 
@@ -63,15 +66,15 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                 {
                     var streamV = new DataStream(meshes[i].Vertices.Count * Marshal.SizeOf(typeof(DXMEV)), true, true);
 
-                    DataStream streamI = new DataStream(meshes[i].Faces.Count * 3 * sizeof(UInt32), true, true);                   
+                    DataStream streamI = new DataStream(meshes[i].Faces.Count * 3 * sizeof(UInt32), true, true);
 
                     // Let's make it simple for now
                     // We now we are dealing with a quad mesh
                     // and we hope everything wii be OK
                     foreach (DXBaseArbaroTreeMesh.DXVertex dxv in meshes[i].Vertices)
-                    { 
+                    {
                         Vector3 pos = dxv.Traits.Position;
-                        DXMEV dxmev = new DXMEV(); dxmev.P = new Vector4(pos.X, pos.Y, pos.Z,1);
+                        DXMEV dxmev = new DXMEV(); dxmev.P = new Vector4(pos.X, pos.Y, pos.Z, 1);
                         streamV.Write(dxmev);
 
                         BBox.Minimum = Vector3.Min(BBox.Minimum, pos);
@@ -89,10 +92,11 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                     streamV.Dispose();
 
 
-                    foreach (DXBaseArbaroTreeMesh.DXFace dxf in meshes[i].Faces) {
+                    foreach (DXBaseArbaroTreeMesh.DXFace dxf in meshes[i].Faces)
+                    {
                         List<int> indices = new List<int>();
                         foreach (DXBaseArbaroTreeMesh.DXVertex dxv in dxf.Vertices) indices.Add(dxv.Index);
-                        streamI.Write(indices[0]); streamI.Write(indices[1]); streamI.Write(indices[2]);                        
+                        streamI.Write(indices[0]); streamI.Write(indices[1]); streamI.Write(indices[2]);
                     }
 
                     streamI.Position = 0;
@@ -102,12 +106,12 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                         BindFlags = BindFlags.IndexBuffer,
                         CpuAccessFlags = CpuAccessFlags.None,
                         OptionFlags = ResourceOptionFlags.None,
-                        SizeInBytes = meshes[i].Faces.Count *3 *sizeof(UInt32),
+                        SizeInBytes = meshes[i].Faces.Count * 3 * sizeof(UInt32),
                         Usage = ResourceUsage.Default
                     });
                     streamI.Dispose();
 
-                    IndexCount2[i] = meshes[i].Faces.Count*3;
+                    IndexCount2[i] = meshes[i].Faces.Count * 3;
 
                 }
             }
@@ -172,6 +176,58 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
         }
 
 
+        public void saveAsObjFile(string filename)
+        {
+            StreamWriter file = new System.IO.StreamWriter(filename);
+
+            file.WriteLine("# ");
+            file.WriteLine("# Arbaro C# tree as .obj file");
+            file.WriteLine("# Species: " + _csParams.Species);
+            file.WriteLine("# ");
+            file.WriteLine("\n\n");
+
+            int i = 0;
+            int globalVertexIndex = 0;
+
+            foreach (DXBaseArbaroTreeMesh m in meshes)
+            {
+                if (m.Faces.Count > 0)
+                {
+                    string label = i == 4 ? "Leaves" : "Level_" + i;
+                    i++;
+
+                    file.WriteLine("o " + label);
+
+                    foreach (DXBaseArbaroTreeMesh.DXVertex v in m.Vertices)
+                    {
+                        file.WriteLine("v " + v.Traits.Position.X + " " + v.Traits.Position.Y + " " + v.Traits.Position.Z);
+                    }
+                    file.WriteLine("");
+
+                    foreach (DXBaseArbaroTreeMesh.DXFace f in m.Faces)
+                    {
+                        List<int> indices = new List<int>();
+                        foreach (DXBaseArbaroTreeMesh.DXVertex v in f.Vertices)
+                        {
+                            indices.Add(globalVertexIndex + v.Index);
+                        }
+
+                        file.Write("f ");
+                        foreach (int index in indices) file.Write((index+1) + "// ");
+                        file.WriteLine();
+                    }
+
+
+                    file.WriteLine("");
+                    file.WriteLine("");
+                    globalVertexIndex += m.Vertices.Count;
+                }
+            }
+
+            file.Close();
+        }
+
+
         // Tree traversal
         public class DXTreeMesh_TreeTraversal : CS_TreeTraversal
         {
@@ -188,15 +244,16 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
             }
 
             public override bool enterStem(CS_Stem stem)
-            {             
+            {
                 // 1. Create the first section                
                 Vector3[] section_base = stem.getSections()[0].getSectionPoints();
                 List<DXBaseArbaroTreeMesh.DXVertex> dxvv1 = new List<DXBaseArbaroTreeMesh.DXVertex>();
-                foreach(Vector3 v in section_base) {
-                   
+                foreach (Vector3 v in section_base)
+                {
+
                     DXBaseArbaroTreeMesh.DXVertex dxv = _meshes[stem.getLevel()].Vertices.Add(new DXArbaroVertexTrait(v));
                     dxvv1.Add(dxv);
-                }                                        
+                }
 
                 // 2. for each section but the last one - generate the upper part of the section
                 //      and connect it with triangles to the previous section
@@ -275,15 +332,16 @@ namespace Arbaro2.DX_Engine.DXTreeMesh
                 return true;
             }
 
-            private void AddRangeVertex(DXBaseArbaroTreeMesh mesh, List<DXBaseArbaroTreeMesh.DXVertex> v1, List<DXBaseArbaroTreeMesh.DXVertex> v2) 
+            private void AddRangeVertex(DXBaseArbaroTreeMesh mesh, List<DXBaseArbaroTreeMesh.DXVertex> v1, List<DXBaseArbaroTreeMesh.DXVertex> v2)
             {
                 // Create triangles between both vertices list
-                for (int i = 0; i < v1.Count; i++) {
+                for (int i = 0; i < v1.Count; i++)
+                {
                     int j = i + 1; if (j == v1.Count) j = 0;
                     mesh.Faces.Add(v1[i], v2[i], v2[j], v1[j]);
                 }
             }
-           
+
         }
     }
 }

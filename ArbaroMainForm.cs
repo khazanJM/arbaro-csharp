@@ -257,11 +257,11 @@ namespace Arbaro2
 
         private void exportAsOBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Program.Renderer.RenderableList.ContainsKey("Mesh")) {
+            if (Program.Renderer.RenderableList.ContainsKey("TreeMesh")) {
                 mainSaveFileDialog.Filter = "obj files (*.obj)|*.obj";
                 if (mainSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    //Program.Renderer.RenderableList["Mesh"].ExportAsObj(mainSaveFileDialog.FileName);
+                    (Program.Renderer.RenderableList["TreeMesh"] as DXArbaroTreeMesh).saveAsObjFile(mainSaveFileDialog.FileName);
                 }
             }
         }
